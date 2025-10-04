@@ -1,178 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musical Library</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musical Library</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 </head>
 
 <body>
-    <div class="app-container">
-        <!-- Header with navigation -->
-        <header class="app-header">
-            <nav class="header-nav">
-                <div class="logo-section">
-                    <h1 class="logo">Examples/Library-Web</h1>
-                    <span class="url">www.url.com</span>
-                </div>
-            </nav>
-        </header>
+  <div class="app-container">
+    <!-- Header with navigation -->
+    <header class="app-header">
+      <nav class="header-nav">
+        <div class="logo-section">
+          <h1 class="logo">Examples/Library-Web</h1>
+          <span class="url">www.url.com</span>
+        </div>
+      </nav>
+    </header>
 
-        <!-- Principal Layout -->
-        <main class="main-layout">
-            <!--  Left Sidebar -->
-            <aside class="sidebar">
-                <section class="user-section">
-                    <div class="profile-picture">
-                        <img src="/images/ProfilePicture.jpg" alt="Profile" height="50">
-                    </div>
-                </section>
+    <!-- Principal Layout -->
+    <main class="main-layout">
+      <!--  Left Sidebar -->
+      <aside class="sidebar">
+        <section class="user-section">
+          <div class="profile-picture">
+            <img src="/images/ProfilePicture.jpg" alt="Profile" height="50">
+          </div>
+        </section>
 
-                <section class="search-section">
-                    <form class="search-form" action="action_page.js" method="get">
-                        <div class="search-container">
-                            <input class="search-input" type="search" name="searchbar" placeholder="What do you want to listen to?" required>
-                            <span class="material-symbols-outlined search-icon">search</span>
-                        </div>
-                    </form>  
-                </section>
-
-                <nav class="main-nav">
-                    <ul class="nav-menu">
-                        <li><a href="#" class="nav-link">Label</a></li>
-                        <li><a href="#" class="nav-link">Label</a></li>
-                        <li><a href="#" class="nav-link">Label</a></li>
-                        <li><a href="#" class="nav-link">Label</a></li>
-                        <li><a href="#" class="nav-link">Label</a></li>
-                        <li><a href="#" class="nav-link">Label</a></li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <!-- Principal Content -->
-            <div class="content-area">
-                <!-- Placeholders -->
-                <section class="cards-section">
-                    <div class="cards-grid">
-                        <article class="card">
-                            <header class="card-header">
-                                <h2 class="card-title">Placeholder</h2>
-                                <button class="card-close" aria-label="Close">
-                                    <span class="material-symbols-outlined">cancel</span>
-                                </button>
-                            </header>
-                            <p class="card-label">Label</p>
-                        </article>
-                        
-                        <article class="card">
-                            <header class="card-header">
-                                <h2 class="card-title">Placeholder</h2>
-                                <button class="card-close" aria-label="Close">
-                                    <span class="material-symbols-outlined">cancel</span>
-                                </button>
-                            </header>
-                            <p class="card-label">Label</p>
-                        </article>
-                        
-                        <article class="card">
-                            <header class="card-header">
-                                <h2 class="card-title">Placeholder</h2>
-                                <button class="card-close" aria-label="Close">
-                                    <span class="material-symbols-outlined">cancel</span>
-                                </button>
-                            </header>
-                            <p class="card-label">Label</p>
-                        </article>
-                    </div>
-                </section>
-
-                <!-- Tabs and List Section -->
-                <section class="content-section">
-                    <nav class="tabs-nav">
-                        <ul class="tabs-list">
-                            <li class="tab-item">
-                                <button class="tab-button">
-                                    <span class="tab-text">Label</span>
-                                    <span class="material-symbols-outlined">stars</span>
-                                </button>
-                            </li>
-                            <li class="tab-item">
-                                <button class="tab-button">
-                                    <span class="tab-text">Label</span>
-                                    <span class="material-symbols-outlined">stars</span>
-                                </button>
-                            </li>
-                            <li class="tab-item">
-                                <button class="tab-button">
-                                    <span class="tab-text">Label</span>
-                                    <span class="material-symbols-outlined">stars</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    <!-- Lista de items -->
-                    <div class="items-list">
-                        <article class="list-item">
-                            <span class="material-symbols-outlined item-icon">info</span>
-                            <span class="item-text">Menu item</span>
-                        </article>
-                        <article class="list-item">
-                            <span class="material-symbols-outlined item-icon">info</span>
-                            <span class="item-text">Menu item</span>
-                        </article>
-                        <article class="list-item">
-                            <span class="material-symbols-outlined item-icon">info</span>
-                            <span class="item-text">Menu item</span>
-                        </article>
-                        <article class="list-item">
-                            <span class="material-symbols-outlined item-icon">info</span>
-                            <span class="item-text">Menu item</span>
-                        </article>
-                        <article class="list-item">
-                            <span class="material-symbols-outlined item-icon">info</span>
-                            <span class="item-text">Menu item</span>
-                        </article>
-                    </div>
-                </section>
+        <section class="search-section">
+          <form class="search-form" action="action_page.js" method="get">
+            <div class="search-container">
+              <input class="search-input" type="search" name="searchbar" placeholder="What do you want to listen to?"
+                required>
+              <span class="material-symbols-outlined search-icon">search</span>
             </div>
-        </main>
+          </form>
+        </section>
 
-        <!-- Bottom Music Player -->
-        <footer class="music-player">
-            <div class="player-controls">
-                <button class="control-btn" aria-label="Previous">
-                    <span class="material-symbols-outlined">skip_previous</span>
-                </button>
-                <button class="control-btn play-btn" aria-label="Play">
-                    <span class="material-symbols-outlined">play_arrow</span>
-                </button>
-                <button class="control-btn" aria-label="Next">
-                    <span class="material-symbols-outlined">skip_next</span>
-                </button>
-            </div>
-            
-            <div class="progress-section">
-                <span class="time-current">0:00</span>
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-                <span class="time-total">3:45</span>
-            </div>
-            
-            <div class="volume-section">
-                <button class="volume-btn" aria-label="Volume">
-                    <span class="material-symbols-outlined">volume_up</span>
-                </button>
-                <div class="volume-bar">
-                    <div class="volume-fill"></div>
-                </div>
-            </div>
-        </footer>
-    </div>
+        <nav class="main-nav">
+          <ul class="nav-menu">
+            <li><a href="#" class="nav-link">Label</a></li>
+            <li><a href="#" class="nav-link">Label</a></li>
+            <li><a href="#" class="nav-link">Label</a></li>
+            <li><a href="#" class="nav-link">Label</a></li>
+            <li><a href="#" class="nav-link">Label</a></li>
+            <li><a href="#" class="nav-link">Label</a></li>
+          </ul>
+        </nav>
+      </aside>
 
-     <script src="main.js"></script>
+      <!-- Principal Content -->
+      <div class="content-area">
+        <!-- Placeholders -->
+        <section class="cards-section">
+          <div class="cards-grid">
+            <article class="card">
+              <header class="card-header">
+                <h2 class="card-title">Playlist 1</h2>
+                <button class="card-close" aria-label="Close">
+                  <span class="material-symbols-outlined">cancel</span>
+                </button>
+              </header>
+              <p class="card-label">Number of songs</p>
+            </article>
+
+            <article class="card">
+              <header class="card-header">
+                <h2 class="card-title">Playlist 2</h2>
+                <button class="card-close" aria-label="Close">
+                  <span class="material-symbols-outlined">cancel</span>
+                </button>
+              </header>
+              <p class="card-label">Number of songs</p>
+            </article>
+
+            <article class="card">
+              <header class="card-header">
+                <h2 class="card-title">Playlist 3</h2>
+                <button class="card-close" aria-label="Close">
+                  <span class="material-symbols-outlined">cancel</span>
+                </button>
+              </header>
+              <p class="card-label">Number of songs</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Tabs and List Section -->
+        <nav class="tabs-nav">
+          <ul class="tabs-list">
+
+            <li class="tab-item"><span class="tab-text">Title</span></li>
+            <li class="tab-item"><span class="tab-text">Artist</span></li>
+            <li class="tab-item"><span class="tab-text">Album</span></li>
+            <li class="tab-item"><span class="tab-text">Genre</span></li>
+            <li class="tab-item"><span class="tab-text">Duration</span></li>
+          </ul>
+        </nav>
+
+        <!-- Lista de items -->
+        <div class="items-list">
+          <div class="songs-list"></div>
+
+        </div>
+        </section>
+        <section class="library"></section>
+      </div>
+    </main>
+
+    <!-- Bottom Music Player -->
+    <footer class="music-player">
+      <div class="player-controls">
+        <button class="control-btn" aria-label="Previous">
+          <span class="material-symbols-outlined">skip_previous</span>
+        </button>
+        <button class="control-btn play-btn" aria-label="Play">
+          <span class="material-symbols-outlined">play_arrow</span>
+        </button>
+        <button class="control-btn" aria-label="Next">
+          <span class="material-symbols-outlined">skip_next</span>
+        </button>
+      </div>
+
+      <div class="progress-section">
+        <span class="time-current">0:00</span>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <span class="time-total">3:45</span>
+      </div>
+
+      <div class="volume-section">
+        <button class="volume-btn" aria-label="Volume">
+          <span class="material-symbols-outlined">volume_up</span>
+        </button>
+        <div class="volume-bar">
+          <div class="volume-fill"></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
 </body>
+
 </html>
