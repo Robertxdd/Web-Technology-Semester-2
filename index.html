@@ -24,7 +24,7 @@
       <aside class="sidebar">
         <section class="user-section">
           <div class="profile-picture">
-            <img src="/images/ProfilePicture.jpg" alt="Profile" height="50">
+            <img src="images/ProfilePicture.jpg" alt="Profile" height="50"> <!--- Put abstract path to work on every device--->
           </div>
         </section>
 
@@ -40,12 +40,10 @@
 
         <nav class="main-nav">
           <ul class="nav-menu">
-            <li><a href="#" class="nav-link">Label</a></li>
-            <li><a href="#" class="nav-link">Label</a></li>
-            <li><a href="#" class="nav-link">Label</a></li>
-            <li><a href="#" class="nav-link">Label</a></li>
-            <li><a href="#" class="nav-link">Label</a></li>
-            <li><a href="#" class="nav-link">Label</a></li>
+            <li><a href="#" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">Playlists</a></li>
+            <li><a href="#" class="nav-link">Genres</a></li>
+            <li><a href="#" class="nav-link">Favorites</a></li>
           </ul>
         </nav>
       </aside>
@@ -95,16 +93,16 @@
           </ul>
         </nav>
 
-        <div class="items-list">
-          <div class="songs-list"></div>
-        </div>
-
-        <!-- Simple add song form -->
+        <!-- Add Song section (moved here) -->
         <section class="add-song-section">
           <input type="text" id="songInput" placeholder="Enter song name">
           <button id="addSongBtn">➕ Add Song</button>
           <ul id="playlist"></ul>
         </section>
+
+        <div class="items-list">
+          <div class="songs-list"></div>
+        </div>
       </div>
     </main>
 

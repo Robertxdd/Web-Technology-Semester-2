@@ -273,3 +273,45 @@ body {
   font-size: 15px;
 }
 
+.add-song-section {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 20px 0;
+}
+
+#songInput {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--panel);
+}
+
+#addSongBtn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#addSongBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+#addSongBtn:active {
+  transform: translateY(0);
+}
+.tabs-nav {
+  margin-bottom: 6px; /* tighter spacing under Title/Artist/Album header */
+}
+
+.add-song-section {
+  margin-top: 0;
+}

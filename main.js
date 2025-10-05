@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const songList = document.querySelector('.songs-list');
   const playBtn = document.querySelector('.play-btn');
-  const addSongBtn = document.getElementById('addSongBtn');
+  const progressFill = document.querySelector('.progress-fill');
+  const timeCurrent = document.querySelector('.time-current');
+  const timeTotal = document.querySelector('.time-total');
   const songInput = document.getElementById('songInput');
+  const addSongBtn = document.getElementById('addSongBtn');
 
   let songs = [
     { title: "Smells Like Teen Spirit", artist: "Nirvana", album: "Nevermind", genre: "Grunge", duration: "5:01" },
@@ -29,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <span>${s.duration}</span>
         <button class="remove material-symbols-outlined">close</button>
       `;
-
       songList.appendChild(song);
 
       song.addEventListener('click', () => selectSong(index));
@@ -58,31 +60,52 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startProgress() {
-    // just a placeholder for progress simulation
+    let elapsed = 0;
+    const currentSong = songs[currentSongIndex];
+    const durationParts = currentSong.duration.split(':');
+    const totalSeconds = parseInt(durationParts[0]) * 60 + parseInt(durationParts[1]);
+
+    timeTotal.textContent = currentSong.duration;
+    progressFill.style.width = "0%";
+    timeCurrent.textContent = "0:00";
+
     progressInterval = setInterval(() => {
-      console.log("Playing:", songs[currentSongIndex].title);
+      elapsed++;
+      const percent = (elapsed / totalSeconds) * 100;
+      progressFill.style.width = `${percent}%`;
+      const min = Math.floor(elapsed / 60);
+      const sec = (elapsed % 60).toString().padStart(2, '0');
+      timeCurrent.textContent = `${min}:${sec}`;
+
+      if (elapsed >= totalSeconds) {
+        clearInterval(progressInterval);
+        nextSong();
+      }
     }, 1000);
   }
 
-  function addSong() {
-    const title = songInput.value.trim();
-    if (title === "") return;
-
-    songs.push({
-      title: title,
-      artist: "Unknown Artist",
-      album: "Unknown Album",
-      genre: "Unknown Genre",
-      duration: "--:--"
-    });
-
-    songInput.value = "";
-    renderSongs();
+  function nextSong() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    selectSong(currentSongIndex);
+    togglePlay(); // restart playback
   }
 
-  addSongBtn.addEventListener('click', addSong);
-  songInput.addEventListener('keypress', (e) => {
-    if (e.key === "Enter") addSong();
+  // Added validation
+  addSongBtn.addEventListener('click', () => {
+    const value = songInput.value.trim();
+    if (value === "") {
+      alert("Please enter a song name.");
+      return;
+    }
+    songs.push({
+      title: value,
+      artist: "Unknown",
+      album: "Unknown",
+      genre: "Unknown",
+      duration: "3:00"
+    });
+    songInput.value = "";
+    renderSongs();
   });
 
   playBtn.addEventListener('click', togglePlay);
