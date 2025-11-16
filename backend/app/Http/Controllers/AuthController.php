@@ -22,6 +22,7 @@ class AuthController extends Controller
         if (!$user || !Hash::check($req->password, $user->password)) {
             return response(['error' => 'Invalid credentials'], 401);
         }
+        session(['user' => $user]); // simple authorization
 
         return $user;
     }
