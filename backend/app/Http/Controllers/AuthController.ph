@@ -25,7 +25,7 @@ class AuthController extends Controller
     
     session(['user' => $user]);
     
-    // Redirect to frontend
-    return redirect('/index.html');
-}
+    // Redirect to your frontend
+    return redirect('http://localhost:3000'); // Or whatever your frontend URL is
+    }
 }
