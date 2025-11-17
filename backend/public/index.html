@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musical Library</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <nav class="header-nav">
+        <div class="logo-section">
+          <h1 class="logo">Examples/Library-Web</h1>
+          <span class="url">www.url.com</span>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-layout">
+      <aside class="sidebar">
+        <section class="user-section">
+          <div class="profile-picture">
+            <img src="images/ProfilePicture.jpg" alt="Profile" height="50"> <!--- Put abstract path to work on every device--->
+          </div>
+        </section>
+
+        <section class="search-section">
+          <form class="search-form" action="action_page.js" method="get">
+            <div class="search-container">
+              <input class="search-input" type="search" name="searchbar" placeholder="What do you want to listen to?"
+                required>
+              <span class="material-symbols-outlined search-icon">search</span>
+            </div>
+          </form>
+        </section>
+
+        <nav class="main-nav">
+          <ul class="nav-menu">
+            <li><a href="#" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">Playlists</a></li>
+            <li><a href="#" class="nav-link">Genres</a></li>
+            <li><a href="#" class="nav-link">Favorites</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <div class="content-area">
+        <section class="cards-section">
+          <div class="cards-grid">
+            <article class="card">
+              <header class="card-header">
+                <h2 class="card-title">Playlist 1</h2>
+                <button class="card-close" aria-label="Close">
+                  <span class="material-symbols-outlined">cancel</span>
+                </button>
+              </header>
+              <p class="card-label">Number of songs</p>
+            </article>
+
+            <article class="card">
+              <header class="card-header">
+                <h2 class="card-title">Playlist 2</h2>
+                <button class="card-close" aria-label="Close">
+                  <span class="material-symbols-outlined">cancel</span>
+                </button>
+              </header>
+              <p class="card-label">Number of songs</p>
+            </article>
+
+            <article class="card">
+              <header class="card-header">
+                <h2 class="card-title">Playlist 3</h2>
+                <button class="card-close" aria-label="Close">
+                  <span class="material-symbols-outlined">cancel</span>
+                </button>
+              </header>
+              <p class="card-label">Number of songs</p>
+            </article>
+          </div>
+        </section>
+
+        <nav class="tabs-nav">
+          <ul class="tabs-list">
+            <li class="tab-item"><span class="tab-text">Title</span></li>
+            <li class="tab-item"><span class="tab-text">Artist</span></li>
+            <li class="tab-item"><span class="tab-text">Album</span></li>
+            <li class="tab-item"><span class="tab-text">Genre</span></li>
+            <li class="tab-item"><span class="tab-text">Duration</span></li>
+          </ul>
+        </nav>
+
+        <!-- Add Song section (moved here) -->
+        <section class="add-song-section">
+          <input type="text" id="songInput" placeholder="Enter song name">
+          <button id="addSongBtn">➕ Add Song</button>
+          <ul id="playlist"></ul>
+        </section>
+
+        <div class="items-list">
+          <div class="songs-list"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="music-player">
+      <div class="player-controls">
+        <button class="control-btn" aria-label="Previous">
+          <span class="material-symbols-outlined">skip_previous</span>
+        </button>
+        <button class="control-btn play-btn" aria-label="Play">
+          <span class="material-symbols-outlined">play_arrow</span>
+        </button>
+        <button class="control-btn" aria-label="Next">
+          <span class="material-symbols-outlined">skip_next</span>
+        </button>
+      </div>
+
+      <div class="progress-section">
+        <span class="time-current">0:00</span>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <span class="time-total">3:45</span>
+      </div>
+
+      <div class="volume-section">
+        <button class="volume-btn" aria-label="Volume">
+          <span class="material-symbols-outlined">volume_up</span>
+        </button>
+        <div class="volume-bar">
+          <div class="volume-fill"></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+
+</html>

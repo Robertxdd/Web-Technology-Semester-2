@@ -2,30 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Song;
 use Illuminate\Http\Request;
+use App\Models\Song;
 
 class SongController extends Controller
 {
-    public function index() {  // normal user
+    public function __construct()
+    {
+        // Protect admin-only routes
+        $this->middleware('admin')->only(['store', 'update', 'destroy']);
+    }
+
+    // Normal users can access
+    public function index()
+    {
         return Song::all();
     }
 
-    public function store(Request $req) { // admin user 
-        return Song::create($req->all());
+    // Admin only
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'artist' => 'required|string|max:255',
+            // Add your other fields here
+        ]);
+
+        return Song::create($validated);
     }
 
-    public function show($id) { // normal user
+    // Normal users can access
+    public function show($id)
+    {
         return Song::findOrFail($id);
     }
 
-    public function update(Request $req, $id) { // admin user  
+    // Admin only
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title' => 'sometimes|string|max:255',
+            'artist' => 'sometimes|string|max:255',
+            // Add your other fields here
+        ]);
+
         $song = Song::findOrFail($id);
-        $song->update($req->all());
+        $song->update($validated);
         return $song;
     }
 
-    public function destroy($id) { // admin user 
+    // Admin only
+    public function destroy($id)
+    {
         Song::destroy($id);
         return response()->noContent();
     }
