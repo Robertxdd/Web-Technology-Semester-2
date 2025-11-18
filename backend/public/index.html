@@ -24,7 +24,8 @@
       <aside class="sidebar">
         <section class="user-section">
           <div class="profile-picture">
-            <img src="images/ProfilePicture.jpg" alt="Profile" height="50"> <!--- Put abstract path to work on every device--->
+            <img src="images/ProfilePicture.jpg" alt="Profile" height="50">
+            <!--- Put abstract path to work on every device--->
           </div>
         </section>
 
@@ -87,7 +88,7 @@
           <ul class="tabs-list">
             <li class="tab-item"><span class="tab-text">Title</span></li>
             <li class="tab-item"><span class="tab-text">Artist</span></li>
-            <li class="tab-item"><span class="tab-text">Album</span></li>
+            <li class="tab-item"><span class="tab-text">Year</span></li>
             <li class="tab-item"><span class="tab-text">Genre</span></li>
             <li class="tab-item"><span class="tab-text">Duration</span></li>
           </ul>
@@ -95,9 +96,36 @@
 
         <!-- Add Song section (moved here) -->
         <section class="add-song-section">
-          <input type="text" id="songInput" placeholder="Enter song name">
-          <button id="addSongBtn">➕ Add Song</button>
-          <ul id="playlist"></ul>
+          <h2 class="section-title">Add a new song</h2>
+          <form id="songForm" class="song-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="titleInput">Title</label>
+                <input type="text" id="titleInput" name="title" required>
+              </div>
+              <div class="form-field">
+                <label for="artistInput">Artist</label>
+                <input type="text" id="artistInput" name="artist" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="genreInput">Genre</label>
+                <input type="text" id="genreInput" name="genre">
+              </div>
+              <div class="form-field">
+                <label for="yearInput">Year</label>
+                <input type="number" id="yearInput" name="year" min="1900" max="2100">
+              </div>
+              <div class="form-field">
+                <label for="durationInput">Duration (seconds)</label>
+                <input type="number" id="durationInput" name="duration" min="0">
+              </div>
+            </div>
+
+            <button type="submit" id="addSongBtn">➕ Add Song</button>
+          </form>
         </section>
 
         <div class="items-list">
