@@ -14,8 +14,13 @@
     <header class="app-header">
       <nav class="header-nav">
         <div class="logo-section">
-          <h1 class="logo">Examples/Library-Web</h1>
-          <span class="url">www.url.com</span>
+          <h1 class="logo">MuSix</h1>
+          <span class="url">www.musix.com</span>
+        </div>
+
+        <div class="header-actions">
+          <!-- Botón que abre el modal de Add Song -->
+          <a href="#addSongModal" class="primary-btn">+ Add Song</a>
         </div>
       </nav>
     </header>
@@ -32,8 +37,8 @@
         <section class="search-section">
           <form class="search-form" action="action_page.js" method="get">
             <div class="search-container">
-              <input id="searchInput" class="search-input" type="search" name="searchbar" placeholder="What do you want to listen to?">
-
+              <input id="searchInput" class="search-input" type="search" name="searchbar"
+                placeholder="What do you want to listen to?">
               <span class="material-symbols-outlined search-icon">search</span>
             </div>
           </form>
@@ -41,61 +46,240 @@
 
         <nav class="main-nav">
           <ul class="nav-menu">
-            <li><a href="#" class="nav-link">Home</a></li>  
+            <li><a href="#" class="nav-link" id="homeTab">Home</a></li>
             <li><a href="#" class="nav-link" id="favoritesTab">Favorites</a></li>
-            <li><a href="#" class="nav-link" id="playlistsTab">Playlists</a></li> 
+            <li><a href="#" class="nav-link" id="playlistsTab">Playlists</a></li>
+            <li><a href="#" class="nav-link" id="queueTab">Queue</a></li>
+          </ul>
+
+          <ul class="nav-menu nav-secondary">
+            <li><a href="#" class="nav-link" id="statsTab">Stats</a></li>
+            <li><a href="#" class="nav-link" id="settingsTab">Settings</a></li>
           </ul>
         </nav>
+
       </aside>
 
       <div class="content-area">
+        <!-- Tarjetas de playlists -->
         <section class="cards-section">
           <div class="cards-grid">
-            <article class="card">
+            <!-- Total de canciones -->
+            <article class="card stat-card">
               <header class="card-header">
-                <h2 class="card-title">Playlist 1</h2>
-                <button class="card-close" aria-label="Close">
-                  <span class="material-symbols-outlined">cancel</span>
-                </button>
+                <h2 class="card-title">Total songs</h2>
               </header>
-              <p class="card-label">Number of songs</p>
+              <p class="card-value" id="totalSongsCount">0</p>
+              <p class="card-label">Songs in your library</p>
             </article>
 
-            <article class="card">
+            <!-- Duración total -->
+            <article class="card stat-card">
               <header class="card-header">
-                <h2 class="card-title">Playlist 2</h2>
-                <button class="card-close" aria-label="Close">
-                  <span class="material-symbols-outlined">cancel</span>
-                </button>
+                <h2 class="card-title">Total duration</h2>
               </header>
-              <p class="card-label">Number of songs</p>
+              <p class="card-value" id="totalDuration">0 min</p>
+              <p class="card-label">Combined playback time</p>
             </article>
 
-            <article class="card">
+            <!-- Canciones favoritas -->
+            <article class="card stat-card">
               <header class="card-header">
-                <h2 class="card-title">Playlist 3</h2>
-                <button class="card-close" aria-label="Close">
-                  <span class="material-symbols-outlined">cancel</span>
-                </button>
+                <h2 class="card-title">Favorite songs</h2>
               </header>
-              <p class="card-label">Number of songs</p>
+              <p class="card-value" id="favoriteSongsCount">0</p>
+              <p class="card-label">Marked as favorites</p>
             </article>
           </div>
         </section>
+        <!-- Vista de Playlists (se mostrará al hacer clic en la pestaña Playlists) -->
+        <section class="playlists-view hidden" id="playlistsView">
+          <header class="playlists-header">
+            <div>
+              <h2>Your playlists</h2>
+              <p class="playlists-subtitle">
+                Create custom playlists combining your favorite songs.
+              </p>
+            </div>
 
-        <nav class="tabs-nav">
-          <ul class="tabs-list">
-            <li class="tab-item"><span class="tab-text">Title</span></li>
-            <li class="tab-item"><span class="tab-text">Artist</span></li>
-            <li class="tab-item"><span class="tab-text">Year</span></li>
-            <li class="tab-item"><span class="tab-text">Genre</span></li>
-            <li class="tab-item"><span class="tab-text">Duration</span></li>
-          </ul>
-        </nav>
+            <button class="primary-btn secondary" id="openCreatePlaylistBtn" type="button">
+              + New playlist
+            </button>
+          </header>
 
-        <!-- Add Song section (moved here) -->
+          <div class="playlists-layout">
+            <!-- Lista de playlists -->
+            <div class="playlists-list" id="playlistsList">
+              <p class="empty-playlists-message">
+                You haven’t created any playlists yet.
+              </p>
+
+              <!-- Ejemplos estáticos opcionales (luego los sustituiremos por JS)
+              <article class="playlist-card">
+                <h3>Chill Vibes</h3>
+                <p class="playlist-meta">8 songs · 26 min</p>
+              </article>
+
+              <article class="playlist-card">
+                <h3>Workout Mix</h3>
+                <p class="playlist-meta">12 songs · 45 min</p>
+              </article>
+              -->
+            </div>
+
+            <!-- Detalle de la playlist seleccionada -->
+            <div class="playlist-detail" id="playlistDetail">
+              <h3 class="playlist-detail-title">Select a playlist</h3>
+              <p class="playlist-detail-text">
+                Choose one of your playlists on the left to see its songs here.
+              </p>
+
+              <div class="playlist-songs-list" id="playlistSongsList">
+                <!-- Aquí listaremos las canciones de la playlist seleccionada -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats view -->
+        <section class="stats-view hidden" id="statsView">
+          <header class="stats-header">
+            <div>
+              <h2>Library stats</h2>
+              <p class="stats-subtitle">
+                Overview of your songs, favorites, genres and artists.
+              </p>
+            </div>
+          </header>
+
+          <div class="stats-grid">
+            <article class="stat-box">
+              <h3>Total songs</h3>
+              <p class="stat-number" id="statsTotalSongs">0</p>
+            </article>
+            <article class="stat-box">
+              <h3>Favorite songs</h3>
+              <p class="stat-number" id="statsFavoriteSongs">0</p>
+            </article>
+            <article class="stat-box">
+              <h3>Total duration</h3>
+              <p class="stat-number" id="statsTotalDuration">0 min</p>
+            </article>
+          </div>
+
+          <div class="stats-rows">
+            <section class="stats-column">
+              <h3>By genre</h3>
+              <ul class="stats-list" id="statsGenresList"></ul>
+            </section>
+            <section class="stats-column">
+              <h3>Top artists</h3>
+              <ul class="stats-list" id="statsArtistsList"></ul>
+            </section>
+          </div>
+        </section>
+
+        <!-- Queue / Now playing view -->
+        <section class="queue-view hidden" id="queueView">
+          <header class="queue-header">
+            <div>
+              <h2>Now playing & queue</h2>
+              <p class="queue-subtitle">
+                See the current song and what will play next.
+              </p>
+            </div>
+          </header>
+
+          <div class="queue-layout">
+            <article class="now-playing-card" id="nowPlayingCard">
+              <p class="now-playing-label">Now playing</p>
+              <h3 id="nowPlayingTitle">No song selected</h3>
+              <p class="now-playing-artist" id="nowPlayingArtist"></p>
+              <p class="now-playing-meta" id="nowPlayingMeta"></p>
+            </article>
+
+            <section class="up-next">
+              <h3>Up next</h3>
+              <div class="up-next-list" id="upNextList">
+                <!-- Up next songs will be injected here -->
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- Settings view -->
+        <section class="settings-view hidden" id="settingsView">
+          <header class="settings-header">
+            <div>
+              <h2>Settings</h2>
+              <p class="settings-subtitle">
+                Customize how your music library looks and behaves.
+              </p>
+            </div>
+          </header>
+
+          <div class="settings-group">
+            <h3>Display</h3>
+
+            <label class="settings-toggle">
+              <input type="checkbox" id="toggleCompactList">
+              <span class="toggle-switch"></span>
+              <span class="toggle-label">Compact song list</span>
+            </label>
+
+            <label class="settings-toggle">
+              <input type="checkbox" id="toggleMetadata" checked>
+              <span class="toggle-switch"></span>
+              <span class="toggle-label">Show year &amp; genre columns</span>
+            </label>
+          </div>
+
+          <div class="settings-group">
+            <h3>Theme</h3>
+
+            <label class="settings-toggle">
+              <input type="checkbox" id="toggleLightTheme">
+              <span class="toggle-switch"></span>
+              <span class="toggle-label">Light mode</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Zona central: cabecera tipo tabla + lista de canciones -->
+        <div class="content-columns">
+          <section class="songs-panel">
+            <nav class="tabs-nav">
+              <ul class="tabs-list">
+                <li class="tab-item"><span class="tab-text">Title</span></li>
+                <li class="tab-item"><span class="tab-text">Artist</span></li>
+                <li class="tab-item"><span class="tab-text">Year</span></li>
+                <li class="tab-item"><span class="tab-text">Genre</span></li>
+                <li class="tab-item"><span class="tab-text">Duration</span></li>
+              </ul>
+            </nav>
+
+            <div class="items-list">
+              <div class="songs-list"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Add Song -->
+    <div id="addSongModal" class="modal">
+      <div class="modal-overlay"></div>
+
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h2>Add a new song</h2>
+          <!-- Cerrar modal volviendo al hash vacío -->
+          <a href="#" class="modal-close" aria-label="Close">
+            <span class="material-symbols-outlined">close</span>
+          </a>
+        </header>
+
         <section class="add-song-section">
-          <h2 class="section-title">Add a new song</h2>
           <form id="songForm" class="song-form">
             <div class="form-row">
               <div class="form-field">
@@ -123,15 +307,11 @@
               </div>
             </div>
 
-            <button type="submit" id="addSongBtn">➕ Add Song</button>
+            <button type="submit" id="addSongBtn">Save song</button>
           </form>
         </section>
-
-        <div class="items-list">
-          <div class="songs-list"></div>
-        </div>
       </div>
-    </main>
+    </div>
 
     <footer class="music-player">
       <div class="player-controls">
