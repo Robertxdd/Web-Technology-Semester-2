@@ -9,6 +9,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const API_BASE = 'http://127.0.0.1:8000/api';
 
+  // ---------------- SEARCH FILTER ----------------
+  const searchInput = document.querySelector('.search-input');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', async () => {
+      const q = searchInput.value.trim();
+
+      const res = await fetch(`${API_BASE}/songs?q=${encodeURIComponent(q)}`, {
+        credentials: 'include'
+      });
+
+      songs = await res.json();
+      renderSongs();
+    });
+  }
+  
+
   let songs = [];
   let currentSongIndex = 0;
   let isPlaying = false;

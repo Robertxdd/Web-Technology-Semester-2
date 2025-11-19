@@ -8,10 +8,20 @@ use App\Models\Song;
 class SongController extends Controller
 {
     // Public
-    public function index()
-    {
-        return Song::all();
+   public function index(Request $request)
+{
+    $q = $request->query('q');
+
+    $songs = Song::query();
+
+    if ($q) {
+        $songs->where('title', 'like', "%$q%")
+              ->orWhere('artist', 'like', "%$q%");
     }
+
+    return $songs->get();
+}
+
 
     // Public
     public function show($id)
