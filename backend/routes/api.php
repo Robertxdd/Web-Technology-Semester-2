@@ -7,3 +7,5 @@ Route::get('/songs', [SongController::class, 'index']);
 Route::post('/songs', [SongController::class, 'store']);
 Route::put('/songs/{id}', [SongController::class, 'update']);
 Route::delete('/songs/{id}', [SongController::class, 'destroy']);
+
+Route::put('/songs/{id}/favorite', [SongController::class, 'toggleFavorite']);

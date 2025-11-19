@@ -32,8 +32,8 @@
         <section class="search-section">
           <form class="search-form" action="action_page.js" method="get">
             <div class="search-container">
-              <input class="search-input" type="search" name="searchbar" placeholder="What do you want to listen to?"
-                required>
+              <input id="searchInput" class="search-input" type="search" name="searchbar" placeholder="What do you want to listen to?">
+
               <span class="material-symbols-outlined search-icon">search</span>
             </div>
           </form>
@@ -42,9 +42,9 @@
         <nav class="main-nav">
           <ul class="nav-menu">
             <li><a href="#" class="nav-link">Home</a></li>
-            <li><a href="#" class="nav-link">Playlists</a></li>
             <li><a href="#" class="nav-link">Genres</a></li>
-            <li><a href="#" class="nav-link">Favorites</a></li>
+            <li><a href="#" class="nav-link" id="favoritesTab">Favorites</a></li>
+            <li><a href="#" class="nav-link" id="playlistsTab">Playlists</a></li> 
           </ul>
         </nav>
       </aside>

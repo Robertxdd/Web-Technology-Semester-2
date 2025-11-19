@@ -606,7 +606,7 @@ body {
 .song {
   position: relative;
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1.5fr 1fr;
+  grid-template-columns: 2fr 2fr 2fr 1.5fr 1fr 40px 40px;
   align-items: center;
   text-align: center;
   background: var(--panel);
@@ -657,7 +657,7 @@ body {
 /* Header Row */
 .tabs-list {
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1.5fr 1fr;
+  grid-template-columns: 2fr 2fr 2fr 1.5fr 1fr 40px 40px;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px 12px 0 0;
@@ -777,3 +777,47 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Remove button icon */
+.remove-btn {
+  font-family: 'Material Symbols Outlined';
+  font-size: 22px;
+  color: var(--muted);
+}
+
+.remove-btn:hover {
+  background: var(--panel-tint);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.remove-btn:active {
+  transform: scale(0.95);
+}
+
+
+/* Remove ugly box around the favorite button */
+.song .fav {
+  all: unset;
+  font-family: 'Material Symbols Outlined';
+  font-size: 22px;
+  cursor: pointer;
+  color: #d46a87; /* default heart color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Red heart when favorited */
+.song.favorite .fav {
+  color: #e63946;
+}
+
+/* Hover aesthetic */
+.song .fav:hover {
+  transform: scale(1.2);
+  transition: 0.15s ease;
+}
+

@@ -9,28 +9,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const API_BASE = 'http://127.0.0.1:8000/api';
 
-  // ---------------- SEARCH FILTER ----------------
-  const searchInput = document.querySelector('.search-input');
-
-  if (searchInput) {
-    searchInput.addEventListener('input', async () => {
-      const q = searchInput.value.trim();
-
-      const res = await fetch(`${API_BASE}/songs?q=${encodeURIComponent(q)}`, {
-        credentials: 'include'
-      });
-
-      songs = await res.json();
-      renderSongs();
-    });
-  }
-  
-
   let songs = [];
   let currentSongIndex = 0;
   let isPlaying = false;
   let progressInterval = null;
 
+const homeTab = document.querySelector('.nav-link'); // first nav item "Home"
+
+homeTab.addEventListener("click", (e) => {
+  e.preventDefault();
+  renderSongs(songs);
+});
+
+
+  // FAVORITES TAB
+favoritesTab.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const favs = songs.filter(s =>
+    s.favorite === true ||
+    s.favorite === 1 ||
+    s.favorite === "1"
+  );
+
+  renderSongs(favs);
+});
+
+  // -------------------------------------------------
+  // SEARCH FILTER
+  // -------------------------------------------------
+  const searchInput = document.querySelector('.search-input');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+
+      if (q === '') {
+        renderSongs();
+        return;
+      }
+
+      const filtered = songs.filter(s =>
+        s.title.toLowerCase().includes(q) ||
+        s.artist.toLowerCase().includes(q) ||
+        (s.genre && s.genre.toLowerCase().includes(q))
+      );
+
+      renderSongs(filtered);
+    });
+  }
+
+  // -------------------------------------------------
+  // LOAD SONGS
+  // -------------------------------------------------
   async function loadSongs() {
     const res = await fetch(`${API_BASE}/songs`, {
       credentials: 'include'
@@ -47,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (songs.length > 0) selectSong(0, false);
   }
 
+  // -------------------------------------------------
+  // CREATE SONG
+  // -------------------------------------------------
   async function createSong(data) {
     const res = await fetch(`${API_BASE}/songs`, {
       method: 'POST',
@@ -59,6 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return res.json();
   }
 
+  // -------------------------------------------------
+  // DELETE SONG
+  // -------------------------------------------------
   async function deleteSong(id) {
     const res = await fetch(`${API_BASE}/songs/${id}`, {
       method: 'DELETE',
@@ -68,17 +105,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!res.ok) throw new Error();
   }
 
-  function renderSongs() {
+  // -------------------------------------------------
+  // TOGGLE FAVORITE
+  // -------------------------------------------------
+  async function toggleFavorite(id) {
+    await fetch(`${API_BASE}/songs/${id}/favorite`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  // -------------------------------------------------
+  // RENDER SONG LIST
+  // -------------------------------------------------
+  function renderSongs(list = songs) {
     songList.innerHTML = '';
 
-    songs.forEach((s, index) => {
-      const durationSeconds = typeof s.duration === 'number'
-        ? s.duration
-        : parseDurationToSeconds(s.duration);
+    list.forEach((s, index) => {
+      const durationSeconds =
+        typeof s.duration === 'number'
+          ? s.duration
+          : parseDurationToSeconds(s.duration);
 
       const row = document.createElement('div');
       row.classList.add('song');
-      if (index === currentSongIndex) row.classList.add('active');
+
+      if (songs.indexOf(s) === currentSongIndex) {
+        row.classList.add('active');
+      }
+
+      if (s.favorite) row.classList.add('favorite');
 
       row.innerHTML = `
         <span>${s.title}</span>
@@ -86,17 +143,33 @@ document.addEventListener('DOMContentLoaded', () => {
         <span>${s.year ?? ''}</span>
         <span>${s.genre ?? ''}</span>
         <span>${formatDuration(durationSeconds)}</span>
+
+   <button class="fav material-symbols-outlined">
+  ${s.favorite ? 'favorite' : 'favorite_border'}
+</button>
+
+
         <button class="remove material-symbols-outlined">close</button>
       `;
 
+      // Select song
       row.addEventListener('click', (e) => {
         if (e.target.closest('.remove')) return;
-        selectSong(index);
+        if (e.target.closest('.fav')) return;
+        selectSong(songs.indexOf(s));
       });
 
+      // Remove song
       row.querySelector('.remove').addEventListener('click', async (e) => {
         e.stopPropagation();
         await deleteSong(s.id);
+        await loadSongs();
+      });
+
+      // FAVORITE BUTTON
+      row.querySelector('.fav').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await toggleFavorite(s.id);
         await loadSongs();
       });
 
@@ -104,6 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // -------------------------------------------------
+  // SELECT SONG
+  // -------------------------------------------------
   function selectSong(index, autoPlay = true) {
     currentSongIndex = index;
 
@@ -112,9 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const s = songs[index];
-    const dur = typeof s.duration === 'number'
-      ? s.duration
-      : parseDurationToSeconds(s.duration);
+    const dur =
+      typeof s.duration === 'number'
+        ? s.duration
+        : parseDurationToSeconds(s.duration);
 
     timeTotal.textContent = formatDuration(dur || 0);
     timeCurrent.textContent = '0:00';
@@ -126,6 +203,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // -------------------------------------------------
+  // PLAYER
+  // -------------------------------------------------
   function togglePlay() {
     isPlaying = !isPlaying;
     playBtn.textContent = isPlaying ? 'pause' : 'play_arrow';
@@ -136,9 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
     stopPlayback();
 
     const s = songs[currentSongIndex];
-    let total = typeof s.duration === 'number'
-      ? s.duration
-      : parseDurationToSeconds(s.duration);
+    let total =
+      typeof s.duration === 'number'
+        ? s.duration
+        : parseDurationToSeconds(s.duration);
 
     if (!total) total = 180;
 
@@ -165,6 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
     selectSong(currentSongIndex);
   }
 
+  // -------------------------------------------------
+  // HELPERS
+  // -------------------------------------------------
   function formatDuration(sec) {
     const m = Math.floor(sec / 60);
     const s = (sec % 60).toString().padStart(2, '0');
@@ -177,6 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return (parseInt(p[0], 10) || 0) * 60 + (parseInt(p[1], 10) || 0);
   }
 
+  // -------------------------------------------------
+  // ADD SONG FORM
+  // -------------------------------------------------
   if (songForm) {
     songForm.addEventListener('submit', async (e) => {
       e.preventDefault();
