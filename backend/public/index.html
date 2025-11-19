@@ -92,6 +92,7 @@
             </article>
           </div>
         </section>
+
         <!-- Vista de Playlists (se mostrará al hacer clic en la pestaña Playlists) -->
         <section class="playlists-view hidden" id="playlistsView">
           <header class="playlists-header">
@@ -113,18 +114,6 @@
               <p class="empty-playlists-message">
                 You haven’t created any playlists yet.
               </p>
-
-              <!-- Ejemplos estáticos opcionales (luego los sustituiremos por JS)
-              <article class="playlist-card">
-                <h3>Chill Vibes</h3>
-                <p class="playlist-meta">8 songs · 26 min</p>
-              </article>
-
-              <article class="playlist-card">
-                <h3>Workout Mix</h3>
-                <p class="playlist-meta">12 songs · 45 min</p>
-              </article>
-              -->
             </div>
 
             <!-- Detalle de la playlist seleccionada -->
@@ -268,11 +257,12 @@
 
     <!-- Modal Add Song -->
     <div id="addSongModal" class="modal">
-      <div class="modal-overlay"></div>
+      <!-- overlay clicable para cerrar -->
+      <a href="#" class="modal-overlay" aria-hidden="true"></a>
 
       <div class="modal-dialog">
         <header class="modal-header">
-          <h2>Add a new song</h2>
+          <h2 class="modal-title">Add a new song</h2>
           <!-- Cerrar modal volviendo al hash vacío -->
           <a href="#" class="modal-close" aria-label="Close">
             <span class="material-symbols-outlined">close</span>
