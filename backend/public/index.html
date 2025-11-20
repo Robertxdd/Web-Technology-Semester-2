@@ -239,21 +239,35 @@
             </div>
           </header>
 
-          <div class="stats-grid">
-            <article class="stat-box">
-              <h3>Total songs</h3>
-              <p class="stat-number" id="statsTotalSongs">0</p>
+          <!-- TARJETAS PRINCIPALES -->
+          <!-- NUEVAS STATS EXTRA -->
+          <div class="stats-grid stats-grid-extra">
+
+            <article class="stats-card">
+              <span class="stats-icon material-symbols-outlined">music_note</span>
+              <h3 class="stats-title">Most common genre</h3>
+              <p class="stats-number" id="statsTopGenre">—</p>
+              <p class="stats-caption">Your most frequent music style</p>
             </article>
-            <article class="stat-box">
-              <h3>Favorite songs</h3>
-              <p class="stat-number" id="statsFavoriteSongs">0</p>
+
+            <article class="stats-card">
+              <span class="stats-icon material-symbols-outlined">timelapse</span>
+              <h3 class="stats-title">Average song length</h3>
+              <p class="stats-number" id="statsAvgDuration">0:00</p>
+              <p class="stats-caption">Across all your library</p>
             </article>
-            <article class="stat-box">
-              <h3>Total duration</h3>
-              <p class="stat-number" id="statsTotalDuration">0 min</p>
+
+            <article class="stats-card">
+              <span class="stats-icon material-symbols-outlined">group</span>
+              <h3 class="stats-title">Total artists</h3>
+              <p class="stats-number" id="statsTotalArtists">0</p>
+              <p class="stats-caption">Unique artists in your songs</p>
             </article>
+
           </div>
 
+
+          <!-- BLOQUES INFERIORES (géneros / artistas) -->
           <div class="stats-rows">
             <section class="stats-column">
               <h3>By genre</h3>
@@ -265,6 +279,7 @@
             </section>
           </div>
         </section>
+
 
         <section class="queue-view hidden" id="queueView">
 
@@ -342,7 +357,6 @@
         </section>
 
 
-        <!-- Settings view -->
         <section class="settings-view hidden" id="settingsView">
           <header class="settings-header">
             <div>
@@ -353,32 +367,72 @@
             </div>
           </header>
 
-          <div class="settings-group">
-            <h3>Display</h3>
+          <!-- DISPLAY SECTION -->
+          <div class="settings-section">
+            <div class="settings-section-title">
+              <span class="section-icon material-symbols-outlined">monitor</span>
+              <div class="section-title-text">
+                <h3>Display</h3>
+                <p>Customize how items look</p>
+              </div>
+            </div>
 
-            <label class="settings-toggle">
-              <input type="checkbox" id="toggleCompactList">
-              <span class="toggle-switch"></span>
-              <span class="toggle-label">Compact song list</span>
-            </label>
+            <div class="settings-options-grid">
+              <!-- Compact list -->
+              <div class="settings-option-card">
+                <div class="settings-option-info">
+                  <h4>Compact song list</h4>
+                  <p>Makes rows smaller in your library.</p>
+                </div>
 
-            <label class="settings-toggle">
-              <input type="checkbox" id="toggleMetadata" checked>
-              <span class="toggle-switch"></span>
-              <span class="toggle-label">Show year &amp; genre columns</span>
-            </label>
+                <label class="settings-toggle">
+                  <input type="checkbox" id="toggleCompactList">
+                  <span class="toggle-switch"></span>
+                </label>
+              </div>
+
+              <!-- Metadata -->
+              <div class="settings-option-card">
+                <div class="settings-option-info">
+                  <h4>Show year &amp; genre</h4>
+                  <p>Show extra columns with year and genre.</p>
+                </div>
+
+                <label class="settings-toggle">
+                  <input type="checkbox" id="toggleMetadata" checked>
+                  <span class="toggle-switch"></span>
+                </label>
+              </div>
+            </div>
           </div>
 
-          <div class="settings-group">
-            <h3>Theme</h3>
+          <!-- THEME SECTION -->
+          <div class="settings-section">
+            <div class="settings-section-title">
+              <span class="section-icon material-symbols-outlined">palette</span>
+              <div class="section-title-text">
+                <h3>Theme</h3>
+                <p>Choose how your app looks</p>
+              </div>
+            </div>
 
-            <label class="settings-toggle">
-              <input type="checkbox" id="toggleLightTheme">
-              <span class="toggle-switch"></span>
-              <span class="toggle-label">Light mode</span>
-            </label>
+            <div class="settings-options-grid">
+              <!-- Light mode -->
+              <div class="settings-option-card">
+                <div class="settings-option-info">
+                  <h4>Light mode</h4>
+                  <p>Use a brighter look for MuSix.</p>
+                </div>
+
+                <label class="settings-toggle">
+                  <input type="checkbox" id="toggleLightTheme">
+                  <span class="toggle-switch"></span>
+                </label>
+              </div>
+            </div>
           </div>
         </section>
+
 
         <!-- Zona central: cabecera tipo tabla + lista de canciones -->
         <div class="content-columns">
