@@ -194,37 +194,63 @@
         <!-- Vista de Playlists (se mostrará al hacer clic en la pestaña Playlists) -->
         <section class="playlists-view hidden" id="playlistsView">
           <header class="playlists-header">
-            <div>
+            <div class="playlists-heading">
+              <span class="playlists-badge">Playlists</span>
               <h2>Your playlists</h2>
               <p class="playlists-subtitle">
-                Create custom playlists combining your favorite songs.
+                Create custom playlists and group your favourite tracks by mood, activity or genre.
               </p>
             </div>
 
             <button class="primary-btn secondary" id="openCreatePlaylistBtn" type="button">
-              + New playlist
+              <span class="material-symbols-outlined">queue_music</span>
+              <span>New playlist</span>
             </button>
           </header>
 
           <div class="playlists-layout">
-            <!-- Lista de playlists -->
-            <div class="playlists-list" id="playlistsList">
-              <p class="empty-playlists-message">
-                You haven’t created any playlists yet.
-              </p>
-            </div>
-
-            <!-- Detalle de la playlist seleccionada -->
-            <div class="playlist-detail" id="playlistDetail">
-              <h3 class="playlist-detail-title">Select a playlist</h3>
-              <p class="playlist-detail-text">
-                Choose one of your playlists on the left to see its songs here.
-              </p>
-
-              <div class="playlist-songs-list" id="playlistSongsList">
-                <!-- Aquí listaremos las canciones de la playlist seleccionada -->
+            <!-- Columna izquierda: lista de playlists -->
+            <aside class="playlists-column playlists-column--list">
+              <div class="playlists-column-header">
+                <h3 class="playlists-column-title">Collections</h3>
+                <p class="playlists-column-caption">Choose a playlist to see its songs.</p>
               </div>
-            </div>
+
+              <div class="playlists-list-container">
+                <div class="playlists-list" id="playlistsList">
+                  <p class="empty-playlists-message">
+                    You haven’t created any playlists yet.
+                  </p>
+                </div>
+              </div>
+            </aside>
+
+            <!-- Columna derecha: detalle de playlist -->
+            <section class="playlists-column playlists-column--detail" id="playlistDetail">
+              <div class="playlist-detail-header">
+                <div class="playlist-detail-chip">
+                  <span class="material-symbols-outlined">library_music</span>
+                </div>
+                <div class="playlist-detail-texts">
+                  <h3 class="playlist-detail-title">Select a playlist</h3>
+                  <p class="playlist-detail-text">
+                    Choose one of your playlists on the left to see its songs here.
+                  </p>
+                </div>
+              </div>
+
+              <div class="playlist-detail-meta">
+                <!-- Aquí podríamos mostrar en el futuro nº de canciones y duración total -->
+                <span class="playlist-detail-pill">0 songs</span>
+                <span class="playlist-detail-pill playlist-detail-pill--muted">No duration</span>
+              </div>
+
+              <div class="playlist-songs-wrapper">
+                <div class="playlist-songs-list" id="playlistSongsList">
+                  <!-- JS will inject songs here -->
+                </div>
+              </div>
+            </section>
           </div>
         </section>
 
@@ -459,6 +485,98 @@
             <button type="submit" id="addSongBtn">Save song</button>
           </form>
         </section>
+      </div>
+    </div>
+    <!-- Modal Add Song -->
+    <div id="addSongModal" class="modal">
+      <!-- overlay clicable para cerrar -->
+      <a href="#" class="modal-overlay" aria-hidden="true"></a>
+
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h2 class="modal-title">Add a new song</h2>
+          <!-- Cerrar modal volviendo al hash vacío -->
+          <a href="#" class="modal-close" aria-label="Close">
+            <span class="material-symbols-outlined">close</span>
+          </a>
+        </header>
+
+        <section class="add-song-section">
+          <form id="songForm" class="song-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="titleInput">Title</label>
+                <input type="text" id="titleInput" name="title" required>
+              </div>
+              <div class="form-field">
+                <label for="artistInput">Artist</label>
+                <input type="text" id="artistInput" name="artist" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="genreInput">Genre</label>
+                <input type="text" id="genreInput" name="genre">
+              </div>
+              <div class="form-field">
+                <label for="yearInput">Year</label>
+                <input type="number" id="yearInput" name="year" min="1900" max="2100">
+              </div>
+              <div class="form-field">
+                <label for="durationInput">Duration (seconds)</label>
+                <input type="number" id="durationInput" name="duration" min="0">
+              </div>
+            </div>
+
+            <button type="submit" id="addSongBtn" class="primary-btn">Save song</button>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <!-- Modal: Create Playlist -->
+    <div id="createPlaylistModal" class="modal">
+      <a href="#" class="modal-overlay" aria-hidden="true"></a>
+
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h2 class="modal-title">New playlist</h2>
+          <a href="#" class="modal-close" aria-label="Close">
+            <span class="material-symbols-outlined">close</span>
+          </a>
+        </header>
+
+        <form id="createPlaylistForm" class="song-form">
+          <div class="form-field">
+            <label for="playlistNameInput">Name</label>
+            <input type="text" id="playlistNameInput" name="name" required>
+          </div>
+          <div class="form-field">
+            <label for="playlistDescriptionInput">Description</label>
+            <input type="text" id="playlistDescriptionInput" name="description" placeholder="Optional">
+          </div>
+
+          <button type="submit" class="primary-btn">Create playlist</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Add song to playlist -->
+    <div id="addToPlaylistModal" class="modal">
+      <a href="#" class="modal-overlay" aria-hidden="true"></a>
+
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h2 class="modal-title">Add to playlist</h2>
+          <a href="#" class="modal-close" aria-label="Close">
+            <span class="material-symbols-outlined">close</span>
+          </a>
+        </header>
+
+        <div id="playlistSelectList" class="playlists-list">
+          <!-- Playlist options are injected here by JS -->
+        </div>
       </div>
     </div>
 
