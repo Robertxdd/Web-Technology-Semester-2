@@ -14,26 +14,26 @@ document.addEventListener('DOMContentLoaded', () => {
   let isPlaying = false;
   let progressInterval = null;
 
-const homeTab = document.querySelector('.nav-link'); // first nav item "Home"
+  const homeTab = document.querySelector('.nav-link'); // first nav item "Home"
 
-homeTab.addEventListener("click", (e) => {
-  e.preventDefault();
-  renderSongs(songs);
-});
+  homeTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    renderSongs(songs);
+  });
 
 
   // FAVORITES TAB
-favoritesTab.addEventListener("click", (e) => {
-  e.preventDefault();
+  favoritesTab.addEventListener("click", (e) => {
+    e.preventDefault();
 
-  const favs = songs.filter(s =>
-    s.favorite === true ||
-    s.favorite === 1 ||
-    s.favorite === "1"
-  );
+    const favs = songs.filter(s =>
+      s.favorite === true ||
+      s.favorite === 1 ||
+      s.favorite === "1"
+    );
 
-  renderSongs(favs);
-});
+    renderSongs(favs);
+  });
 
   // -------------------------------------------------
   // SEARCH FILTER
@@ -183,11 +183,18 @@ favoritesTab.addEventListener("click", (e) => {
   function selectSong(index, autoPlay = true) {
     currentSongIndex = index;
 
+    // highlight selected row
     document.querySelectorAll('.song').forEach((el, i) => {
       el.classList.toggle('active', i === index);
     });
 
     const s = songs[index];
+
+    // set audio file
+    const audio = document.getElementById('audioPlayer');
+    audio.src = s.url;  // <-- THIS makes the real song load
+
+    // set duration display
     const dur =
       typeof s.duration === 'number'
         ? s.duration
@@ -197,54 +204,29 @@ favoritesTab.addEventListener("click", (e) => {
     timeCurrent.textContent = '0:00';
     progressFill.style.width = '0%';
 
+    // autoplay if needed
     if (autoPlay) {
-      if (isPlaying) stopPlayback();
-      togglePlay();
+      audio.play();
+      playBtn.textContent = 'pause';
     }
   }
+
 
   // -------------------------------------------------
   // PLAYER
   // -------------------------------------------------
-  function togglePlay() {
-    isPlaying = !isPlaying;
-    playBtn.textContent = isPlaying ? 'pause' : 'play_arrow';
-    isPlaying ? startProgress() : stopPlayback();
+ function togglePlay() {
+  const audio = document.getElementById('audioPlayer');
+
+  if (audio.paused) {
+    audio.play();
+    playBtn.textContent = 'pause';
+  } else {
+    audio.pause();
+    playBtn.textContent = 'play_arrow';
   }
+}
 
-  function startProgress() {
-    stopPlayback();
-
-    const s = songs[currentSongIndex];
-    let total =
-      typeof s.duration === 'number'
-        ? s.duration
-        : parseDurationToSeconds(s.duration);
-
-    if (!total) total = 180;
-
-    let elapsed = 0;
-
-    progressInterval = setInterval(() => {
-      elapsed++;
-      if (elapsed > total) {
-        nextSong();
-        return;
-      }
-      progressFill.style.width = `${(elapsed / total) * 100}%`;
-      timeCurrent.textContent = formatDuration(elapsed);
-    }, 1000);
-  }
-
-  function stopPlayback() {
-    clearInterval(progressInterval);
-    progressInterval = null;
-  }
-
-  function nextSong() {
-    currentSongIndex = (currentSongIndex + 1) % songs.length;
-    selectSong(currentSongIndex);
-  }
 
   // -------------------------------------------------
   // HELPERS
@@ -275,6 +257,8 @@ favoritesTab.addEventListener("click", (e) => {
         genre: f.get('genre')?.trim() || null,
         year: f.get('year') ? Number(f.get('year')) : null,
         duration: f.get('duration') ? Number(f.get('duration')) : null,
+        url: f.get('url')?.trim(),
+
       };
 
       if (!data.title || !data.artist) {
@@ -299,22 +283,22 @@ favoritesTab.addEventListener("click", (e) => {
 // ============= SPA NAVIGATION (Home / Favorites / Playlists / Queue / Stats / Settings) =============
 
 // Tabs (sidebar)
-const homeTab       = document.getElementById("homeTab");
-const favoritesTab  = document.getElementById("favoritesTab");
-const playlistsTab  = document.getElementById("playlistsTab");
-const queueTab      = document.getElementById("queueTab");
-const statsTab      = document.getElementById("statsTab");
-const settingsTab   = document.getElementById("settingsTab");
+const homeTab = document.getElementById("homeTab");
+const favoritesTab = document.getElementById("favoritesTab");
+const playlistsTab = document.getElementById("playlistsTab");
+const queueTab = document.getElementById("queueTab");
+const statsTab = document.getElementById("statsTab");
+const settingsTab = document.getElementById("settingsTab");
 
 // Views (pantallas dentro del content-area)
-const cardsSection   = document.querySelector(".cards-section");      // Home stats
+const cardsSection = document.querySelector(".cards-section");      // Home stats
 const mainSongsPanel = document.querySelector(".content-columns");   // Home song list
 
-const favoritesView  = document.getElementById("favoritesView");
-const playlistsView  = document.getElementById("playlistsView");
-const queueView      = document.getElementById("queueView");
-const statsView      = document.getElementById("statsView");
-const settingsView   = document.getElementById("settingsView");
+const favoritesView = document.getElementById("favoritesView");
+const playlistsView = document.getElementById("playlistsView");
+const queueView = document.getElementById("queueView");
+const statsView = document.getElementById("statsView");
+const settingsView = document.getElementById("settingsView");
 
 // Botón "Go to library" del estado vacío de favorites (si existe)
 const goToLibraryBtn = document.getElementById("goToLibraryBtn");
@@ -327,22 +311,22 @@ function clearActiveTabs() {
 
 // Ocultar TODAS las vistas excepto el header/player
 function hideAllViews() {
-  if (cardsSection)    cardsSection.classList.add("hidden");
-  if (mainSongsPanel)  mainSongsPanel.classList.add("hidden");
-  if (favoritesView)   favoritesView.classList.add("hidden");
-  if (playlistsView)   playlistsView.classList.add("hidden");
-  if (queueView)       queueView.classList.add("hidden");
-  if (statsView)       statsView.classList.add("hidden");
-  if (settingsView)    settingsView.classList.add("hidden");
+  if (cardsSection) cardsSection.classList.add("hidden");
+  if (mainSongsPanel) mainSongsPanel.classList.add("hidden");
+  if (favoritesView) favoritesView.classList.add("hidden");
+  if (playlistsView) playlistsView.classList.add("hidden");
+  if (queueView) queueView.classList.add("hidden");
+  if (statsView) statsView.classList.add("hidden");
+  if (settingsView) settingsView.classList.add("hidden");
 }
 
 // Mostrar Home (vista principal: tarjetas + lista canciones)
 function showHomeView() {
   hideAllViews();
-  if (cardsSection)    cardsSection.classList.remove("hidden");
-  if (mainSongsPanel)  mainSongsPanel.classList.remove("hidden");
+  if (cardsSection) cardsSection.classList.remove("hidden");
+  if (mainSongsPanel) mainSongsPanel.classList.remove("hidden");
   clearActiveTabs();
-  if (homeTab)         homeTab.classList.add("active");
+  if (homeTab) homeTab.classList.add("active");
 }
 
 // Mostrar Favorites
@@ -441,3 +425,20 @@ if (goToLibraryBtn) {
 
 // Al cargar la página, mostramos Home por defecto
 showHomeView();
+
+const audioElem = document.getElementById('audioPlayer');
+
+audioElem.addEventListener('timeupdate', () => {
+  const total = audioElem.duration;
+  const current = audioElem.currentTime;
+
+  if (!isNaN(total)) {
+    progressFill.style.width = `${(current / total) * 100}%`;
+    timeCurrent.textContent = formatDuration(Math.floor(current));
+    timeTotal.textContent = formatDuration(Math.floor(total));
+  }
+});
+
+audioElem.addEventListener('ended', () => {
+  nextSong();
+});
