@@ -296,3 +296,148 @@ favoritesTab.addEventListener("click", (e) => {
 
   loadSongs();
 });
+// ============= SPA NAVIGATION (Home / Favorites / Playlists / Queue / Stats / Settings) =============
+
+// Tabs (sidebar)
+const homeTab       = document.getElementById("homeTab");
+const favoritesTab  = document.getElementById("favoritesTab");
+const playlistsTab  = document.getElementById("playlistsTab");
+const queueTab      = document.getElementById("queueTab");
+const statsTab      = document.getElementById("statsTab");
+const settingsTab   = document.getElementById("settingsTab");
+
+// Views (pantallas dentro del content-area)
+const cardsSection   = document.querySelector(".cards-section");      // Home stats
+const mainSongsPanel = document.querySelector(".content-columns");   // Home song list
+
+const favoritesView  = document.getElementById("favoritesView");
+const playlistsView  = document.getElementById("playlistsView");
+const queueView      = document.getElementById("queueView");
+const statsView      = document.getElementById("statsView");
+const settingsView   = document.getElementById("settingsView");
+
+// Botón "Go to library" del estado vacío de favorites (si existe)
+const goToLibraryBtn = document.getElementById("goToLibraryBtn");
+
+// Función para limpiar la pestaña activa del sidebar
+function clearActiveTabs() {
+  const links = document.querySelectorAll(".nav-link");
+  links.forEach(link => link.classList.remove("active"));
+}
+
+// Ocultar TODAS las vistas excepto el header/player
+function hideAllViews() {
+  if (cardsSection)    cardsSection.classList.add("hidden");
+  if (mainSongsPanel)  mainSongsPanel.classList.add("hidden");
+  if (favoritesView)   favoritesView.classList.add("hidden");
+  if (playlistsView)   playlistsView.classList.add("hidden");
+  if (queueView)       queueView.classList.add("hidden");
+  if (statsView)       statsView.classList.add("hidden");
+  if (settingsView)    settingsView.classList.add("hidden");
+}
+
+// Mostrar Home (vista principal: tarjetas + lista canciones)
+function showHomeView() {
+  hideAllViews();
+  if (cardsSection)    cardsSection.classList.remove("hidden");
+  if (mainSongsPanel)  mainSongsPanel.classList.remove("hidden");
+  clearActiveTabs();
+  if (homeTab)         homeTab.classList.add("active");
+}
+
+// Mostrar Favorites
+function showFavoritesView() {
+  hideAllViews();
+  if (favoritesView) favoritesView.classList.remove("hidden");
+  clearActiveTabs();
+  if (favoritesTab) favoritesTab.classList.add("active");
+
+  // Aquí luego puedes llamar a renderFavorites() si pintas solo las favoritas
+}
+
+// Mostrar Playlists
+function showPlaylistsView() {
+  hideAllViews();
+  if (playlistsView) playlistsView.classList.remove("hidden");
+  clearActiveTabs();
+  if (playlistsTab) playlistsTab.classList.add("active");
+}
+
+// Mostrar Queue
+function showQueueView() {
+  hideAllViews();
+  if (queueView) queueView.classList.remove("hidden");
+  clearActiveTabs();
+  if (queueTab) queueTab.classList.add("active");
+}
+
+// Mostrar Stats
+function showStatsView() {
+  hideAllViews();
+  if (statsView) statsView.classList.remove("hidden");
+  clearActiveTabs();
+  if (statsTab) statsTab.classList.add("active");
+}
+
+// Mostrar Settings
+function showSettingsView() {
+  hideAllViews();
+  if (settingsView) settingsView.classList.remove("hidden");
+  clearActiveTabs();
+  if (settingsTab) settingsTab.classList.add("active");
+}
+
+// ====== EVENTOS DE LOS TABS ======
+
+if (homeTab) {
+  homeTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showHomeView();
+  });
+}
+
+if (favoritesTab) {
+  favoritesTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showFavoritesView();
+  });
+}
+
+if (playlistsTab) {
+  playlistsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showPlaylistsView();
+  });
+}
+
+if (queueTab) {
+  queueTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showQueueView();
+  });
+}
+
+if (statsTab) {
+  statsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showStatsView();
+  });
+}
+
+if (settingsTab) {
+  settingsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showSettingsView();
+  });
+}
+
+// Botón "Go to library" dentro del empty state de favorites
+if (goToLibraryBtn) {
+  goToLibraryBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    showHomeView();
+  });
+}
+
+// Al cargar la página, mostramos Home por defecto
+showHomeView();

@@ -12,21 +12,21 @@
 <body>
   <div class="app-container">
     <header class="app-header">
-  <nav class="header-nav">
-    <div class="logo-section">
-      <h1 class="logo">MuSix</h1>
-      <span class="url">www.musix.com</span>
-    </div>
+      <nav class="header-nav">
+        <div class="logo-section">
+          <h1 class="logo">MuSix</h1>
+          <span class="url">Your Musix Library</span>
+        </div>
 
-    <div class="header-actions">
-      <!-- Botón que abre el modal de Add Song -->
-      <a href="#addSongModal" class="primary-btn">+ Add Song</a>
+        <div class="header-actions">
+          <!-- Botón que abre el modal de Add Song -->
+          <a href="#addSongModal" class="primary-btn">+ Add Song</a>
 
-      <!-- Nuevo botón Sign up / Login -->
-      <a href="#" class="primary-btn secondary auth-btn">Sign up / Login</a>
-    </div>
-  </nav>
-</header>
+          <!-- Nuevo botón Sign up / Login -->
+          <a href="#" class="primary-btn secondary auth-btn">Sign up / Login</a>
+        </div>
+      </nav>
+    </header>
 
     <main class="main-layout">
       <aside class="sidebar">
@@ -48,18 +48,53 @@
         </section>
 
         <nav class="main-nav">
+          <!-- Bloque principal -->
+          <p class="nav-section-label">LIBRARY</p>
           <ul class="nav-menu">
-            <li><a href="#" class="nav-link" id="homeTab">Home</a></li>
-            <li><a href="#" class="nav-link" id="favoritesTab">Favorites</a></li>
-            <li><a href="#" class="nav-link" id="playlistsTab">Playlists</a></li>
-            <li><a href="#" class="nav-link" id="queueTab">Queue</a></li>
+            <li>
+              <a href="#" class="nav-link active" id="homeTab">
+                <span class="nav-icon material-symbols-outlined">home</span>
+                <span class="nav-text">Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" id="favoritesTab">
+                <span class="nav-icon material-symbols-outlined">favorite</span>
+                <span class="nav-text">Favorites</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" id="playlistsTab">
+                <span class="nav-icon material-symbols-outlined">queue_music</span>
+                <span class="nav-text">Playlists</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" id="queueTab">
+                <span class="nav-icon material-symbols-outlined">playlist_play</span>
+                <span class="nav-text">Queue</span>
+              </a>
+            </li>
           </ul>
 
+          <!-- Bloque secundario -->
+          <p class="nav-section-label">ACCOUNT</p>
           <ul class="nav-menu nav-secondary">
-            <li><a href="#" class="nav-link" id="statsTab">Stats</a></li>
-            <li><a href="#" class="nav-link" id="settingsTab">Settings</a></li>
+            <li>
+              <a href="#" class="nav-link" id="statsTab">
+                <span class="nav-icon material-symbols-outlined">bar_chart_4_bars</span>
+                <span class="nav-text">Stats</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" id="settingsTab">
+                <span class="nav-icon material-symbols-outlined">settings</span>
+                <span class="nav-text">Settings</span>
+              </a>
+            </li>
           </ul>
         </nav>
+
 
       </aside>
 
@@ -94,6 +129,38 @@
               <p class="card-label">Marked as favorites</p>
             </article>
           </div>
+        </section>
+        <!-- FAVORITES VIEW (SPA) -->
+        <section class="favorites-view hidden" id="favoritesView">
+
+          <header class="favorites-header">
+            <h2>Favorite Songs</h2>
+            <p class="favorites-subtitle">Your most loved tracks in one place.</p>
+          </header>
+
+          <div class="favorites-content">
+            <div class="favorites-list" id="favoritesSongsList">
+
+              <!-- Empty state visual premium -->
+              <div class="empty-state favorites-empty" id="favoritesEmptyState">
+                <div class="favorites-empty-illustration">
+                  <div class="favorites-orbit">
+                    <span class="material-symbols-outlined favorites-heart">favorite</span>
+                  </div>
+                  <div class="favorites-glow"></div>
+                </div>
+
+                <h3 class="empty-title">No favorite songs yet</h3>
+                <p class="empty-text">
+                  Mark songs with the <strong>heart icon</strong> to save them here.
+                </p>
+
+                <a href="#" id="goToLibraryBtn" class="empty-cta">Go to library</a>
+              </div>
+
+            </div>
+          </div>
+
         </section>
 
         <!-- Vista de Playlists (se mostrará al hacer clic en la pestaña Playlists) -->
@@ -251,7 +318,20 @@
             </nav>
 
             <div class="items-list">
-              <div class="songs-list"></div>
+              <div class="songs-list">
+
+                <div class="empty-state" id="emptySongsState">
+                  <span class="empty-icon">🎧</span>
+                  <h3 class="empty-title">You don't have any songs yet</h3>
+                  <p class="empty-text">Press <strong>+ Add Song</strong> to start building your library.</p>
+
+                  <button class="secondary-btn import-btn" type="button">
+                    Import from folder
+                  </button>
+                </div>
+
+              </div>
+
             </div>
           </section>
         </div>
@@ -307,6 +387,17 @@
     </div>
 
     <footer class="music-player">
+      <!-- Nueva zona: cover + título + artista -->
+      <div class="player-now">
+        <div class="player-cover">
+          <img src="images/cacagorda.png" alt="Cover art" id="playerCover">
+        </div>
+        <div class="player-meta">
+          <div class="player-title is-empty" id="playerSongTitle">No song selected</div>
+          <div class="player-artist" id="playerSongArtist">—</div>
+        </div>
+      </div>
+
       <div class="player-controls">
         <button class="control-btn" aria-label="Previous">
           <span class="material-symbols-outlined">skip_previous</span>
@@ -321,10 +412,12 @@
 
       <div class="progress-section">
         <span class="time-current">0:00</span>
-        <div class="progress-bar">
+        <div class="progress-bar" id="progressBar">
           <div class="progress-fill"></div>
+          <!-- Tooltip dinámico -->
+          <div class="progress-tooltip" id="progressTooltip"></div>
         </div>
-        <span class="time-total">3:45</span>
+        <span class="time-total" id="timeTotal">3:45</span>
       </div>
 
       <div class="volume-section">
@@ -336,6 +429,8 @@
         </div>
       </div>
     </footer>
+
+
   </div>
 
   <script src="main.js"></script>
