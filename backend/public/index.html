@@ -134,12 +134,40 @@
         <section class="favorites-view hidden" id="favoritesView">
 
           <header class="favorites-header">
-            <h2>Favorite Songs</h2>
-            <p class="favorites-subtitle">Your most loved tracks in one place.</p>
+            <!-- Icono corazón hero (si ya lo tenías, lo mantenemos) -->
+            <span class="favorites-hero-icon material-symbols-outlined">favorite</span>
+
+            <div class="favorites-header-main">
+              <div class="favorites-title-block">
+                <h2>Favorite Songs</h2>
+                <p class="favorites-subtitle">Your most loved tracks in one place.</p>
+              </div>
+
+              <!-- Subheader funcional (solo UI, sin lógica) -->
+              <div class="favorites-subheader">
+                <div class="favorites-sort">
+                  <span class="favorites-sort-label">Sort by</span>
+                  <button class="favorites-chip active">Recently added</button>
+                  <button class="favorites-chip">Title</button>
+                  <button class="favorites-chip">Artist</button>
+                  <button class="favorites-chip">Year</button>
+                </div>
+
+                <div class="favorites-view-toggle" aria-label="View mode">
+                  <button class="view-toggle-btn active" type="button" aria-label="List view">
+                    <span class="material-symbols-outlined">view_list</span>
+                  </button>
+                  <button class="view-toggle-btn" type="button" aria-label="Grid view">
+                    <span class="material-symbols-outlined">grid_view</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </header>
 
           <div class="favorites-content">
             <div class="favorites-list" id="favoritesSongsList">
+
 
               <!-- Empty state visual premium -->
               <div class="empty-state favorites-empty" id="favoritesEmptyState">
@@ -238,33 +266,81 @@
           </div>
         </section>
 
-        <!-- Queue / Now playing view -->
         <section class="queue-view hidden" id="queueView">
+
           <header class="queue-header">
-            <div>
+            <div class="queue-header-text">
               <h2>Now playing & queue</h2>
-              <p class="queue-subtitle">
-                See the current song and what will play next.
-              </p>
+              <p class="queue-subtitle">See the current song and what will play next.</p>
             </div>
+
+            <button class="clear-queue-btn" type="button">
+              Clear queue
+            </button>
           </header>
 
-          <div class="queue-layout">
-            <article class="now-playing-card" id="nowPlayingCard">
-              <p class="now-playing-label">Now playing</p>
-              <h3 id="nowPlayingTitle">No song selected</h3>
-              <p class="now-playing-artist" id="nowPlayingArtist"></p>
-              <p class="now-playing-meta" id="nowPlayingMeta"></p>
-            </article>
+          <div class="queue-container">
 
-            <section class="up-next">
-              <h3>Up next</h3>
+            <!-- LEFT: NOW PLAYING -->
+            <div class="queue-column now-playing-column">
+              <h3 class="queue-col-title">Now Playing</h3>
+
+              <article class="now-playing-card" id="nowPlayingCard">
+
+                <!-- Cuando NO hay canción -->
+                <div class="now-empty" id="nowEmptyState">
+                  <span class="material-symbols-outlined now-empty-icon">music_note</span>
+                  <h3 class="now-empty-title">No song selected</h3>
+                  <p class="now-empty-text">Choose a song from your library to start playing.</p>
+
+                  <a href="#" class="now-empty-btn">Go to library</a>
+                </div>
+
+                <!-- Cuando SÍ hay canción (estático por ahora) -->
+                <div class="now-playing-info hidden" id="nowPlayingInfo">
+                  <img src="images/cacagorda.png" class="now-playing-cover" alt="Cover">
+
+                  <div class="now-meta">
+                    <h3 class="now-title">Song Title</h3>
+                    <p class="now-artist">Artist name</p>
+
+                    <div class="now-progress-bar">
+                      <div class="now-progress-fill"></div>
+                    </div>
+
+                    <div class="now-actions">
+                      <button class="now-btn"><span class="material-symbols-outlined">favorite</span></button>
+                      <button class="now-btn"><span class="material-symbols-outlined">playlist_add</span></button>
+                      <button class="now-btn"><span class="material-symbols-outlined">more_vert</span></button>
+                    </div>
+                  </div>
+                </div>
+
+              </article>
+
+            </div>
+
+            <!-- RIGHT: UP NEXT -->
+            <div class="queue-column up-next-column">
+              <h3 class="queue-col-title">Up Next</h3>
+
               <div class="up-next-list" id="upNextList">
-                <!-- Up next songs will be injected here -->
+                <!-- Estado vacío bonito -->
+                <div class="up-next-empty">
+                  <span class="material-symbols-outlined up-next-empty-icon">queue_music</span>
+                  <p class="up-next-empty-title">Your queue is empty</p>
+                  <p class="up-next-empty-text">
+                    Start playing a song and add tracks to the queue to see them here.
+                  </p>
+                </div>
               </div>
-            </section>
+            </div>
+
+
           </div>
+
         </section>
+
 
         <!-- Settings view -->
         <section class="settings-view hidden" id="settingsView">
