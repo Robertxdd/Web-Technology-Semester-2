@@ -561,7 +561,7 @@
 
   <!-- Modal Add Song -->
   <div id="addSongModal" class="modal">
-    <!-- overlay clicable para cerrar -->
+    <!-- overlay clickable para cerrar -->
     <a href="#" class="modal-overlay" aria-hidden="true"></a>
 
     <div class="modal-dialog">
@@ -599,57 +599,19 @@
               <label for="durationInput">Duration (seconds)</label>
               <input type="number" id="durationInput" name="duration" min="0">
             </div>
+          </div>
+
+          <div class="form-row mp3-row">
             <div class="form-field">
               <label for="urlInput">Song URL (MP3 link)</label>
-              <input type="text" id="urlInput" name="url" placeholder="https://example.com/song.mp3" required>
+              <input type="url" id="urlInput" name="url">
             </div>
 
-          </div>
-
-          <button type="submit" id="addSongBtn">Save song</button>
-        </form>
-      </section>
-    </div>
-  </div>
-  <!-- Modal Add Song -->
-  <div id="addSongModal" class="modal">
-    <!-- overlay clicable para cerrar -->
-    <a href="#" class="modal-overlay" aria-hidden="true"></a>
-
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h2 class="modal-title">Add a new song</h2>
-        <!-- Cerrar modal volviendo al hash vacío -->
-        <a href="#" class="modal-close" aria-label="Close">
-          <span class="material-symbols-outlined">close</span>
-        </a>
-      </header>
-
-      <section class="add-song-section">
-        <form id="songForm" class="song-form">
-          <div class="form-row">
-            <div class="form-field">
-              <label for="titleInput">Title</label>
-              <input type="text" id="titleInput" name="title" required>
-            </div>
-            <div class="form-field">
-              <label for="artistInput">Artist</label>
-              <input type="text" id="artistInput" name="artist" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label for="genreInput">Genre</label>
-              <input type="text" id="genreInput" name="genre">
-            </div>
-            <div class="form-field">
-              <label for="yearInput">Year</label>
-              <input type="number" id="yearInput" name="year" min="1900" max="2100">
-            </div>
-            <div class="form-field">
-              <label for="durationInput">Duration (seconds)</label>
-              <input type="number" id="durationInput" name="duration" min="0">
+            <div class="mp3-helper-box">
+              <p class="mp3-helper-text">
+                To find MP3 links click
+                <a href="https://cabalvilla.co.za/" target="_blank" class="mp3-link">here</a>.
+              </p>
             </div>
           </div>
 

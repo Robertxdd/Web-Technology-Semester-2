@@ -558,7 +558,8 @@ body::before {
 
 .song {
   display: grid;
-  grid-template-columns: auto 3fr 2fr 0.9fr 1.1fr auto auto;
+  /* Title | Artist | Year | Genre | Duration | Fav | AddToPlaylist | Remove */
+  grid-template-columns: auto 3fr 2fr 0.9fr 1.1fr auto auto auto;
   align-items: center;
   column-gap: 12px;
   padding: 8px 12px;
@@ -585,39 +586,6 @@ body::before {
 
 .song span:first-of-type {
   font-weight: 500;
-}
-
-/* icono play / equalizer */
-.song::before {
-  content: "play_arrow";
-  font-family: "Material Symbols Outlined";
-  font-size: 20px;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  background: transparent;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.09s ease;
-  margin-right: 2px;
-}
-
-.song:hover {
-  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.16), transparent 60%),
-    rgba(9, 12, 45, 0.96);
-  transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: var(--shadow-hover);
-}
-
-.song:hover::before {
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
 }
 
 /* activa */
@@ -2732,6 +2700,7 @@ body.hide-metadata .song {
   background: rgba(255, 110, 199, 0.2);
   box-shadow: 0 0 10px rgba(255, 110, 199, 0.4);
 }
+
 .queue-header {
   position: relative;
   overflow: hidden;
@@ -2739,18 +2708,21 @@ body.hide-metadata .song {
 
 .genre-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
+  background: linear-gradient(120deg,
+      transparent,
+      rgba(255, 255, 255, 0.15),
+      transparent);
   animation: headerShine 4.6s infinite ease-in-out;
 }
 
 @keyframes headerShine {
-  0% { left: -80%; }
-  100% { left: 130%; }
+  0% {
+    left: -80%;
+  }
+
+  100% {
+    left: 130%;
+  }
 }
 
 
@@ -3139,12 +3111,15 @@ body.hide-metadata .song {
   .playlists-column--detail {
     order: 1;
   }
-}/* ───────── LAYOUT A PANTALLA COMPLETA ───────── */
+}
+
+/* ───────── LAYOUT A PANTALLA COMPLETA ───────── */
 
 html,
 body {
   height: 100%;
-  overflow: hidden; /* que no salga scroll general */
+  overflow: hidden;
+  /* que no salga scroll general */
 }
 
 .app-container {
@@ -3156,16 +3131,20 @@ body {
 /* header arriba, footer abajo, main ocupando el centro */
 .main-layout {
   flex: 1;
-  min-height: 0; /* muy importante para que pueda encoger */
+  min-height: 0;
+  /* muy importante para que pueda encoger */
 }
 
 /* zona central (donde están cards, stats, favorites, etc.) */
 .content-area {
   flex: 1;
   min-height: 0;
-  overflow: hidden;        /* que esta zona no tenga scroll propio */
-  padding: 16px 20px;      /* un pelín menos de padding para que quepa todo */
-  gap: 16px;               /* menos espacio vertical entre bloques */
+  overflow: hidden;
+  /* que esta zona no tenga scroll propio */
+  padding: 16px 20px;
+  /* un pelín menos de padding para que quepa todo */
+  gap: 16px;
+  /* menos espacio vertical entre bloques */
 }
 
 /* columnas principales de contenido */
@@ -3198,6 +3177,7 @@ body {
   margin-top: 12px;
   margin-bottom: 0;
 }
+
 /* --- ARREGLAR QUE LA BARRA DE REPRODUCCIÓN DESAPARECIERA --- */
 
 /* El reproductor debe estar SIEMPRE visible */
@@ -3206,19 +3186,22 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 90px;        /* ajusta si la tuya mide distinto */
+  height: 90px;
+  /* ajusta si la tuya mide distinto */
   z-index: 999;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* La app debe dejar espacio para el reproductor */
 .app-container {
-  padding-bottom: 90px;  /* MISMA altura que el reproductor */
+  padding-bottom: 90px;
+  /* MISMA altura que el reproductor */
 }
 
 /* Permitimos scroll SOLO dentro del contenido */
 body {
-  overflow: hidden; /* evita scroll general */
+  overflow: hidden;
+  /* evita scroll general */
 }
 
 .main-layout {
@@ -3231,6 +3214,7 @@ body {
   overflow-y: auto;
   min-height: 0;
 }
+
 /* ───────── SETTINGS – LAYOUT GENERAL ───────── */
 
 .settings-view {
@@ -3388,11 +3372,11 @@ body {
   transition: transform 0.2s ease;
 }
 
-.settings-toggle input:checked + .toggle-switch {
+.settings-toggle input:checked+.toggle-switch {
   background: linear-gradient(135deg, #ff59d0, #a46bff);
 }
 
-.settings-toggle input:checked + .toggle-switch::before {
+.settings-toggle input:checked+.toggle-switch::before {
   transform: translateX(16px);
 }
 
@@ -3786,6 +3770,7 @@ body {
 /* Responsive */
 
 @media (max-width: 1100px) {
+
   .stats-kpi-row,
   .stats-detail-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3793,6 +3778,7 @@ body {
 }
 
 @media (max-width: 800px) {
+
   .stats-kpi-row,
   .stats-detail-row {
     grid-template-columns: 1fr;
@@ -3803,7 +3789,8 @@ body {
     align-items: flex-start;
   }
 }
-  .artists-row {
+
+.artists-row {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -3827,4 +3814,276 @@ body {
   font-weight: 500;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 999px;
+}
+
+.song.active {
+  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.26), transparent 60%),
+    linear-gradient(135deg, rgba(255, 107, 203, 0.82), rgba(123, 108, 255, 0.94));
+  border-color: transparent;
+}
+
+.song.active span {
+  color: #ffffff;
+}
+
+/* ───────── HOME / DASHBOARD HERO ───────── */
+
+.cards-section {
+  margin-top: 18px;
+}
+
+/* contenedor de las 3 stats arriba */
+.cards-grid {
+  gap: 18px;
+}
+
+/* Tarjetas principales de la home */
+.card.stat-card {
+  position: relative;
+  overflow: hidden;
+  padding: 18px 20px 18px 64px;
+  /* hueco para el icono */
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top left,
+      rgba(255, 120, 220, 0.25),
+      rgba(8, 8, 30, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+/* Glow sutil en el borde */
+.card.stat-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(circle at top left,
+      rgba(255, 120, 220, 0.25),
+      transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Iconos de las stats (music, timer, star) */
+.card.stat-card::before {
+  content: "music_note";
+  font-family: "Material Symbols Outlined";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  /* 📌 ANTES 30px → ahora 22px */
+  border-radius: 10px;
+  /* más compacto */
+  padding: 6px;
+  /* antes era 8px */
+  background: radial-gradient(circle at 30% 0%, #ff59d0, #a46bff);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* segunda tarjeta -> reloj */
+.cards-grid .card.stat-card:nth-child(2)::before {
+  content: "schedule";
+}
+
+/* tercera tarjeta -> estrella */
+.cards-grid .card.stat-card:nth-child(3)::before {
+  content: "star";
+}
+
+/* hover potente pero elegante */
+.card.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.9);
+  background:
+    radial-gradient(circle at top left,
+      rgba(255, 120, 220, 0.35),
+      rgba(10, 10, 40, 0.98));
+}
+
+.card.stat-card:hover::after {
+  opacity: 1;
+}
+
+/* tipografía dentro de las cards */
+.card.stat-card .card-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.card-value {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.card-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ───────── HEADER DE LA TABLA (TITLE / ARTIST / YEAR...) ───────── */
+
+.tabs-nav {
+  margin-top: 18px;
+}
+
+/* barra grande tipo “pestañas” Spotify */
+.tabs-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: linear-gradient(135deg,
+      rgba(10, 10, 35, 0.96),
+      rgba(35, 15, 80, 0.96));
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85);
+  padding: 10px 18px;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* separadores suaves entre columnas */
+.tab-item+.tab-item {
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* pequeño highlight en el primero (TITLE) */
+.tab-item:first-child {
+  color: #ffffff;
+}
+
+/* ───────── FONDO DEL PANEL CENTRAL CUANDO ESTÁ VACÍO ───────── */
+
+.songs-panel {
+  margin-top: 8px;
+  padding: 14px 10px 10px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top,
+      rgba(255, 120, 220, 0.12),
+      rgba(3, 3, 20, 0.95));
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.9);
+}
+
+/* centra mejor el empty-state de la lista */
+.songs-list {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state {
+  text-align: center;
+  max-width: 360px;
+  padding: 24px 26px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+}
+
+.empty-state .empty-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.empty-state .empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.empty-state .empty-text {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 14px;
+}
+
+.empty-state .import-btn {
+  margin-top: 4px;
+}
+
+/* responsive ajustes suaves */
+@media (max-width: 900px) {
+  .card.stat-card {
+    padding-left: 56px;
+  }
+
+  .card.stat-card::before {
+    left: 14px;
+    font-size: 26px;
+  }
+
+  .tabs-list {
+    font-size: 10px;
+    padding-inline: 12px;
+  }
+}
+
+.mp3-helper {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.mp3-helper-link {
+  color: #6fb6ff;
+  /* azul */
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.mp3-helper-link:hover {
+  color: #9fd0ff;
+}
+
+/* --- MP3 helper aligned next to URL input --- */
+.mp3-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.mp3-helper-box {
+  padding-top: 22px; /* Alinea perfectamente con el campo */
+}
+
+.mp3-helper-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+}
+
+.mp3-link {
+  color: #7ab8ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.mp3-link:hover {
+  text-decoration: underline;
+  color: #a7ccff;
 }
