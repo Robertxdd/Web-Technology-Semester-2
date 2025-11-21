@@ -11,8 +11,10 @@
   --text: #f7f3ff;
   --muted: #a2a0c5;
 
-  --accent: #ff6bcb;      /* rosa neón */
-  --accent-2: #7b6cff;    /* violeta neón */
+  --accent: #ff6bcb;
+  /* rosa neón */
+  --accent-2: #7b6cff;
+  /* violeta neón */
   --accent-soft: rgba(255, 107, 203, 0.16);
 
   --border: rgba(255, 255, 255, 0.12);
@@ -87,12 +89,9 @@ body::before {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
-  background: linear-gradient(
-      135deg,
+  background: linear-gradient(135deg,
       rgba(255, 107, 203, 0.14),
-      rgba(123, 108, 255, 0.18)
-    )
-    border-box;
+      rgba(123, 108, 255, 0.18)) border-box;
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
   z-index: 5;
 }
@@ -183,11 +182,9 @@ body::before {
 
 /* SIDEBAR */
 .sidebar {
-  background: linear-gradient(
-      180deg,
+  background: linear-gradient(180deg,
       rgba(9, 13, 45, 0.9),
-      rgba(10, 9, 33, 0.98)
-    );
+      rgba(10, 9, 33, 0.98));
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   padding: 22px 22px 20px;
   display: flex;
@@ -284,7 +281,8 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: flex-start; /* para que las píldoras no ocupen todo el ancho */
+  align-items: flex-start;
+  /* para que las píldoras no ocupen todo el ancho */
 }
 
 /* Píldoras redondas */
@@ -351,7 +349,8 @@ body::before {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 18px;
+  flex: 1;
 }
 
 /* Columnas internas */
@@ -473,7 +472,7 @@ body::before {
 /* ─────  FORMULARIO ADD SONG ─────────────────────── */
 
 /* título “Add a new song” que estaba fijo abajo → oculto */
-.songs-panel > .section-title {
+.songs-panel>.section-title {
   display: none;
 }
 
@@ -499,7 +498,7 @@ body::before {
 
 /* 👉 Ocultamos el formulario si está directamente dentro del panel
    (el que veías siempre abajo) */
-.songs-panel > .song-form {
+.songs-panel>.song-form {
   display: none;
 }
 
@@ -685,15 +684,25 @@ body::before {
 /* ─────  PLAYLISTS VIEW ─────────────────────────── */
 
 .playlists-view {
-  margin-top: 20px;
-  padding: 18px 18px 20px;
+  margin-top: 0;
+  /* opcional: quita margen arriba si molesta */
+  padding: 20px 22px 22px;
   border-radius: var(--r-lg);
-  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.12), transparent 60%),
-    var(--panel);
-  box-shadow: var(--shadow-soft);
+  background: linear-gradient(135deg,
+      rgba(59, 48, 119, 0.85),
+      rgba(11, 10, 32, 0.98));
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   gap: 18px;
+  position: relative;
+  overflow: hidden;
+
+  /* 👇 estas dos son las importantes */
+  flex: 1;
+  /* que ocupe todo el alto posible */
+  min-height: 0;
+  /* evita problemas con scroll interno */
 }
 
 .playlists-header {
@@ -717,9 +726,35 @@ body::before {
 
 .playlists-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr);
   gap: 18px;
-  align-items: flex-start;
+  align-items: stretch;
+  /* 👈 que ambas columnas se estiren */
+  flex: 1;
+  /* 👈 que el grid use todo el alto disponible */
+  min-height: 0;
+}
+
+.playlists-column {
+  border-radius: 16px;
+  background: rgba(8, 9, 35, 0.78);
+  padding: 12px 12px 10px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  /* importante para que el scroll interno funcione */
+}
+
+.playlists-list-container,
+.playlist-songs-wrapper {
+  max-height: none;
+  /* quitamos límite fijo */
+  flex: 1;
+  /* que ocupen el resto de la columna */
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .playlists-list {
@@ -957,11 +992,9 @@ body::before {
 .now-playing-card {
   border-radius: 16px;
   padding: 14px 16px;
-  background: linear-gradient(
-      135deg,
+  background: linear-gradient(135deg,
       rgba(255, 107, 203, 0.18),
-      rgba(123, 108, 255, 0.28)
-    );
+      rgba(123, 108, 255, 0.28));
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
@@ -1101,11 +1134,11 @@ body::before {
   transition: transform 0.18s ease;
 }
 
-.settings-toggle input:checked + .toggle-switch {
+.settings-toggle input:checked+.toggle-switch {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
 }
 
-.settings-toggle input:checked + .toggle-switch::before {
+.settings-toggle input:checked+.toggle-switch::before {
   transform: translateX(14px);
 }
 
@@ -1116,11 +1149,9 @@ body::before {
 /* ─────  MUSIC PLAYER ────────────────────────────── */
 
 .music-player {
-  background: linear-gradient(
-      135deg,
+  background: linear-gradient(135deg,
       rgba(6, 9, 36, 0.96),
-      rgba(8, 5, 26, 0.97)
-    );
+      rgba(8, 5, 26, 0.97));
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding: 14px 22px;
   display: flex;
@@ -1396,6 +1427,7 @@ body.hide-metadata .song {
 
 /* REDUCED MOTION */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -1405,9 +1437,11 @@ body.hide-metadata .song {
     scroll-behavior: auto !important;
   }
 }
+
 .card.stat-card {
   position: relative;
-  padding-left: 52px; /* espacio para icono */
+  padding-left: 52px;
+  /* espacio para icono */
   background: rgba(10, 10, 40, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -1417,6 +1451,7 @@ body.hide-metadata .song {
     box-shadow 0.2s ease,
     border-color 0.2s ease;
 }
+
 .card.stat-card::before {
   content: "🎵";
   position: absolute;
@@ -1434,11 +1469,13 @@ body.hide-metadata .song {
 .cards-grid .card.stat-card:nth-child(3)::before {
   content: "⭐";
 }
+
 .card.stat-card:hover {
   transform: translateY(-2px) scale(1.01);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
   border-color: rgba(255, 255, 255, 0.18);
 }
+
 /* ───── EMPTY STATE ───── */
 
 .empty-state {
@@ -1491,6 +1528,7 @@ body.hide-metadata .song {
   transform: translateY(-1px);
   box-shadow: var(--shadow-hover);
 }
+
 /* ───── SIDEBAR NAV ENHANCED ───── */
 
 /* Etiquetas LIBRARY / ACCOUNT */
@@ -1530,7 +1568,8 @@ body.hide-metadata .song {
 /* Mejor estado activo: pill + barra vertical */
 .nav-link.active {
   position: relative;
-  padding-left: 18px; /* deja sitio para la barra */
+  padding-left: 18px;
+  /* deja sitio para la barra */
 }
 
 /* Indicador vertical a la izquierda del activo */
@@ -1546,6 +1585,7 @@ body.hide-metadata .song {
   background: linear-gradient(180deg, var(--accent), var(--accent-2));
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 }
+
 /* ───── PLAYER BOTTOM — COVER + META ───── */
 
 .music-player {
@@ -1559,7 +1599,8 @@ body.hide-metadata .song {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 0; /* para que no rompa en responsive */
+  min-width: 0;
+  /* para que no rompa en responsive */
 }
 
 .player-cover img {
@@ -1582,15 +1623,17 @@ body.hide-metadata .song {
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
-  text-over
-.player-cover img {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  object-fit: cover;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+
+  text-over .player-cover img {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  }
 }
-}/* ───── MATCH PLAYER STYLE WITH MAIN THEME ───── */
+
+/* ───── MATCH PLAYER STYLE WITH MAIN THEME ───── */
 
 .music-player {
   background: linear-gradient(135deg, rgba(15, 10, 40, 0.9), rgba(25, 5, 60, 0.9));
@@ -1673,6 +1716,7 @@ body.hide-metadata .song {
 .volume-fill {
   background: var(--accent);
 }
+
 /* Asegura que el logo del header siempre tenga el tamaño correcto */
 .header-logo {
   width: 42px !important;
@@ -1680,6 +1724,7 @@ body.hide-metadata .song {
   object-fit: cover;
   border-radius: 8px;
 }
+
 /* ───── FAVORITES HERO HEADER ───── */
 
 .favorites-header {
@@ -1687,11 +1732,9 @@ body.hide-metadata .song {
   padding: 16px 20px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 105, 180, 0.2),
-    rgba(122, 90, 255, 0.15)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 105, 180, 0.2),
+      rgba(122, 90, 255, 0.15));
   background-size: 200% 200%;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -1725,13 +1768,16 @@ body.hide-metadata .song {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
+
 /* ───── FAVORITES EMPTY STATE (GLASS PREMIUM) ───── */
 
 .favorites-empty {
@@ -1754,6 +1800,7 @@ body.hide-metadata .song {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1777,8 +1824,15 @@ body.hide-metadata .song {
 
 /* Corazon flotando */
 @keyframes heartFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 /* Glow detrás del icono */
@@ -1823,6 +1877,7 @@ body.hide-metadata .song {
   transform: scale(1.06);
   box-shadow: 0 0 18px rgba(255, 120, 220, 0.4);
 }
+
 /* ───── SIDEBAR ACTIVE EFFECT (GLOW + GRADIENT BORDER) ───── */
 
 .nav-link.active {
@@ -1842,12 +1897,10 @@ body.hide-metadata .song {
   width: 4px;
   height: 100%;
   border-radius: 4px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 140, 220, 0.9),
-    rgba(200, 80, 255, 0.8),
-    rgba(255, 110, 210, 0.9)
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 140, 220, 0.9),
+      rgba(200, 80, 255, 0.8),
+      rgba(255, 110, 210, 0.9));
   filter: blur(2px);
   animation: sidebarGlow 3s ease-in-out infinite;
 }
@@ -1868,14 +1921,31 @@ body.hide-metadata .song {
 
 /* Animaciones */
 @keyframes sidebarGlow {
-  0%, 100% { opacity: 0.7; transform: scaleY(1); }
-  50%      { opacity: 1;   transform: scaleY(1.15); }
+
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scaleY(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1.15);
+  }
 }
 
 @keyframes sidebarGlowSoft {
-  0%, 100% { opacity: 0.25; }
-  50%      { opacity: 0.45; }
+
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
 }
+
 /* ───── FAVORITES HEADER LAYOUT ───── */
 
 .favorites-header {
@@ -1883,11 +1953,9 @@ body.hide-metadata .song {
   padding: 16px 20px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 105, 180, 0.2),
-    rgba(122, 90, 255, 0.15)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 105, 180, 0.2),
+      rgba(122, 90, 255, 0.15));
   background-size: 200% 200%;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -2015,9 +2083,17 @@ body.hide-metadata .song {
 
 /* Gradient shift del header (por si no lo tenías ya) */
 @keyframes favoritesGradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Responsive */
@@ -2031,6 +2107,7 @@ body.hide-metadata .song {
     align-self: flex-start;
   }
 }
+
 /* ───── RECOMMENDED TRACKS IN FAVORITES ───── */
 
 .favorites-recs {
@@ -2177,6 +2254,7 @@ body.hide-metadata .song {
   background: #ffffff;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.8);
 }
+
 .rec-cover-img {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -2184,6 +2262,7 @@ body.hide-metadata .song {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
 }
+
 /* ------- QUEUE VIEW PREMIUM ------- */
 
 .queue-container {
@@ -2194,10 +2273,10 @@ body.hide-metadata .song {
   padding: 20px;
   background: rgba(10, 10, 40, 0.55);
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .queue-column {
@@ -2208,7 +2287,7 @@ body.hide-metadata .song {
 
 .queue-col-title {
   font-size: 16px;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 600;
   margin-bottom: 6px;
 }
@@ -2216,23 +2295,24 @@ body.hide-metadata .song {
 /* CLEAR QUEUE BUTTON */
 .clear-queue-btn {
   padding: 8px 16px;
-  background: rgba(255,120,210,0.2);
-  border: 1px solid rgba(255,120,210,0.5);
-  color: rgba(255,120,210,1);
+  background: rgba(255, 120, 210, 0.2);
+  border: 1px solid rgba(255, 120, 210, 0.5);
+  color: rgba(255, 120, 210, 1);
   border-radius: 10px;
   cursor: pointer;
   transition: 0.2s;
 }
 
 .clear-queue-btn:hover {
-  background: rgba(255,120,210,0.35);
+  background: rgba(255, 120, 210, 0.35);
   transform: translateY(-2px);
 }
+
 .now-playing-card {
   padding: 18px;
   border-radius: 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -2241,15 +2321,17 @@ body.hide-metadata .song {
   font-size: 18px;
   font-weight: 700;
 }
+
 .up-next-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 10px;
   border-radius: 14px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
+
 /* --- Up Next list container (queue) --- */
 .up-next-list {
   display: flex;
@@ -2289,20 +2371,22 @@ body.hide-metadata .song {
   color: rgba(255, 255, 255, 0.65);
   margin: 0;
 }
+
 /* --- NOW PLAYING CARD (Premium) --- */
 
 .now-playing-card {
   padding: 22px;
   border-radius: 20px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .now-empty {
   text-align: center;
   padding: 20px 12px;
@@ -2314,7 +2398,7 @@ body.hide-metadata .song {
 
 .now-empty-icon {
   font-size: 48px;
-  color: rgba(255,120,220,0.9);
+  color: rgba(255, 120, 220, 0.9);
 }
 
 .now-empty-title {
@@ -2325,7 +2409,7 @@ body.hide-metadata .song {
 
 .now-empty-text {
   font-size: 14px;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255, 255, 255, 0.65);
   margin: 0;
 }
 
@@ -2333,18 +2417,19 @@ body.hide-metadata .song {
   margin-top: 10px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(255,120,210,0.25);
-  border: 1px solid rgba(255,120,210,0.6);
-  color: rgba(255,120,210,1);
+  background: rgba(255, 120, 210, 0.25);
+  border: 1px solid rgba(255, 120, 210, 0.6);
+  color: rgba(255, 120, 210, 1);
   font-size: 13px;
   text-decoration: none;
   transition: 0.2s;
 }
 
 .now-empty-btn:hover {
-  background: rgba(255,120,210,0.45);
+  background: rgba(255, 120, 210, 0.45);
   transform: translateY(-2px);
 }
+
 .now-playing-info {
   display: flex;
   gap: 18px;
@@ -2356,7 +2441,7 @@ body.hide-metadata .song {
   height: 110px;
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
 }
 
 .now-meta {
@@ -2375,13 +2460,14 @@ body.hide-metadata .song {
 .now-artist {
   font-size: 14px;
   margin: 0;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
+
 .now-progress-bar {
   width: 100%;
   height: 6px;
   border-radius: 12px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
   overflow: hidden;
 }
 
@@ -2391,14 +2477,15 @@ body.hide-metadata .song {
   background: linear-gradient(90deg, #ff74d8, #8a5bff);
   border-radius: 12px;
 }
+
 .now-actions {
   display: flex;
   gap: 8px;
 }
 
 .now-btn {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   cursor: pointer;
@@ -2408,8 +2495,9 @@ body.hide-metadata .song {
 
 .now-btn:hover {
   transform: translateY(-2px);
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 }
+
 /* ───── UP NEXT COLUMN (QUEUE) ───── */
 
 .queue-col-header {
@@ -2579,12 +2667,14 @@ body.hide-metadata .song {
     display: none;
   }
 }
+
 /* Animación cuando un item aparece en la cola */
 @keyframes queueItemAppear {
   0% {
     opacity: 0;
     transform: translateY(10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -2594,6 +2684,7 @@ body.hide-metadata .song {
 .queue-item {
   animation: queueItemAppear 0.45s ease forwards;
 }
+
 /* Glow animado del contenedor de queue */
 .queue-view {
   position: relative;
@@ -2608,297 +2699,444 @@ body.hide-metadata .song {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at center,
-    rgba(255, 120, 220, 0.06),
-    transparent 60%
-  );
+      rgba(255, 120, 220, 0.06),
+      transparent 60%);
   animation: queueGlow 9s infinite linear;
   pointer-events: none;
 }
 
 @keyframes queueGlow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 :root {
   --accent-gradient: linear-gradient(135deg, #ff6ec7, #9b6bff);
 }
+
 .queue-drag:hover {
   color: #ff90ea;
   text-shadow: 0 0 6px rgba(255, 110, 199, 0.8);
 }
+
 .queue-item:hover {
   border: 1px solid rgba(255, 110, 199, 0.25);
 }
+
 .queue-remove:hover {
   background: rgba(255, 110, 199, 0.2);
   box-shadow: 0 0 10px rgba(255, 110, 199, 0.4);
 }
-/* ───────────────────────────── */
-/*      STATS – Premium Cards    */
-/* ───────────────────────────── */
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-top: 18px;
-}
-
-.stats-card {
-  background: rgba(255,255,255,0.02);
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 22px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-  transition: 0.25s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.stats-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 50px rgba(0,0,0,0.55);
-  border-color: rgba(255,255,255,0.12);
-}
-
-.stats-icon {
-  font-size: 30px;
-  color: #ff58d1; /* rosa acorde con +Add Song */
-  opacity: 0.9;
-}
-
-.stats-title {
-  font-size: 15px;
-  opacity: 0.85;
-  margin: 4px 0 0 0;
-}
-
-.stats-number {
-  font-size: 30px;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 4px 0 0 0;
-}
-
-.stats-caption {
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  margin: 2px 0 0 0;
-}
-/* Segunda fila de stats: centro un poco más protagonista */
-.stats-grid-extra {
-  margin-top: 20px;
-  grid-template-columns: 1fr 1.2fr 1fr;  /* central un pelín más ancha */
-  gap: 22px;
-}
-
-/* Card central: degradado un poco más fuerte y leve zoom */
-.stats-grid-extra .stats-card:nth-child(2) {
-  background: radial-gradient(circle at top left,
-      rgba(255, 120, 220, 0.20),
-      rgba(10, 10, 40, 0.95)
-    );
-  border-color: rgba(255, 120, 220, 0.35);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65);
-  transform: translateY(-2px);
-}
-
-.stats-grid-extra .stats-card:nth-child(2):hover {
-  transform: translateY(-4px) scale(1.01);
-}
-/* ───────── MINI-GRÁFICAS EN STATS EXTRA ───────── */
-
-/* 1) Most common genre – barra de progreso */
-
-.genre-progress {
-  margin-top: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.genre-progress-track {
-  width: 100%;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.08);
+.queue-header {
+  position: relative;
   overflow: hidden;
 }
 
 .genre-progress-fill {
   height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg,#ff59d0,#a46bff);
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  animation: headerShine 4.6s infinite ease-in-out;
 }
 
-.genre-progress-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.65);
+@keyframes headerShine {
+  0% { left: -80%; }
+  100% { left: 130%; }
 }
 
 
-/* 2) Average song length – donut alrededor del número */
+/* ───── PLAYLIST SONGS (detalle) ─────────────────── */
 
-.avg-ring {
-  margin-top: 8px;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background:
-    conic-gradient(from 270deg,
-      rgba(255,89,208,0.9) 0 220deg,
-      rgba(255,255,255,0.12) 220deg 360deg);
+.playlist-song-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-}
-
-.avg-ring-inner {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  background: rgba(5,5,25,0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.avg-number {
-  margin: 0;
-}
-
-/* 3) Total artists – avatares ficticios */
-
-.artists-avatars {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.avatar-dot {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%,
-    rgba(255,255,255,0.9),
-    rgba(120,120,140,0.9));
-  opacity: 0.85;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
-}
-
-.avatar-dot-more {
-  width: auto;
-  padding: 0 8px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #fff;
-  background: rgba(255,255,255,0.08);
-  border-radius: 999px;
-}
-/* ───────── SETTINGS – OPTION CARDS ───────── */
-
-.settings-section {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 16px;
-  padding: 18px 22px;
-  margin: 24px 0;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: 0.2s ease;
-}
-
-.settings-section:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
-}
-
-.settings-section-title {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-
-.section-icon {
-  font-size: 28px;
-  background: linear-gradient(135deg, #ff59d0, #a46bff);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.section-title-text h3 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.section-title-text p {
-  margin: 2px 0 0;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(4, 5, 20, 0.92);
   font-size: 13px;
-  opacity: 0.7;
 }
 
-/* Grid de opciones dentro de cada sección */
-.settings-options-grid {
+.playlist-song-main {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2px;
 }
 
-/* Mini-card por ajuste */
-.settings-option-card {
-  background: rgba(255,255,255,0.03);
-  border-radius: 14px;
-  padding: 14px 18px;
-  border: 1px solid rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.playlist-song-title {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.playlist-song-artist,
+.playlist-song-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ───── Botones del modal "Add to playlist" ─────── */
+
+.playlist-select-btn {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(6, 9, 35, 0.92);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    transform 0.1s ease,
+    border-color 0.16s ease;
+}
+
+.playlist-select-btn:hover {
+  background: rgba(26, 32, 75, 0.98);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+/* ───── PLAYLISTS VIEW (refinado) ───────────────────────── */
+
+.playlists-view {
+  margin-top: 24px;
+  padding: 20px 22px 22px;
+  border-radius: var(--r-lg);
+  background: linear-gradient(135deg,
+      rgba(59, 48, 119, 0.85),
+      rgba(11, 10, 32, 0.98));
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow muy suave en el fondo */
+.playlists-view::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.12), transparent 55%);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Aseguramos que el contenido vaya por encima del glow */
+.playlists-view>* {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+
+.playlists-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  transition:
-    background 0.18s ease,
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    border-color 0.18s ease;
+  gap: 16px;
 }
 
-.settings-option-card:hover {
-  transform: translateY(-2px);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-  border-color: rgba(255,255,255,0.10);
-}
-
-/* Texto dentro de la opción */
-.settings-option-info h4 {
-  margin: 0;
-  font-size: 14px;
+.playlists-heading h2 {
+  font-size: 20px;
   font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
 }
 
-.settings-option-info p {
-  margin: 2px 0 0;
-  font-size: 12px;
-  opacity: 0.7;
+.playlists-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 380px;
 }
 
-/* Ajuste del toggle para encajar en la card */
-.settings-toggle {
+.playlists-badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+  margin-bottom: 6px;
+  backdrop-filter: blur(10px);
 }
 
-.settings-toggle .toggle-label {
-  display: none; /* ya usamos títulos en la card */
+/* Botón New playlist mejorado */
+
+.primary-btn.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.primary-btn.secondary .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.primary-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Layout columnas */
+
+.playlists-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr);
+  gap: 18px;
+  align-items: flex-start;
+}
+
+/* Columna genérica */
+
+.playlists-column {
+  border-radius: 16px;
+  background: rgba(8, 9, 35, 0.78);
+  padding: 12px 12px 10px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+/* Columna izquierda (lista) */
+
+.playlists-column-header {
+  padding-inline: 4px;
+  margin-bottom: 10px;
+}
+
+.playlists-column-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.playlists-column-caption {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.playlists-list-container {
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.playlists-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Estilo de cada tarjeta de playlist (también funciona con las creadas por JS) */
+
+.playlist-card {
+  position: relative;
+  padding: 10px 11px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.09), rgba(8, 9, 35, 0.92));
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.playlist-card::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.16), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.playlist-card:hover::before {
+  opacity: 1;
+}
+
+.playlist-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+.playlist-card h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.playlist-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Mensaje cuando no hay playlists */
+
+.empty-playlists-message {
+  font-size: 13px;
+  color: var(--muted);
+  padding: 6px 4px;
+}
+
+/* Columna derecha (detalle) */
+
+.playlists-column--detail {
+  padding: 14px 14px 12px;
+}
+
+.playlist-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.playlist-detail-chip {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 0%, #ffe37d, #ff7da1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.65);
+}
+
+.playlist-detail-chip .material-symbols-outlined {
+  color: #1c1028;
+  font-size: 22px;
+}
+
+.playlist-detail-texts h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.playlist-detail-texts p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Pills de meta info (nº canciones, duración...) */
+
+.playlist-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.playlist-detail-pill {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.playlist-detail-pill--muted {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+}
+
+/* Lista de canciones dentro de la playlist */
+
+.playlist-songs-wrapper {
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.playlist-songs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Ya si tienes .playlist-song-row definido, esto lo mejora un poco */
+.playlist-song-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 9px;
+  border-radius: 12px;
+  background: rgba(5, 7, 30, 0.96);
+  font-size: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease,
+    border-color 0.15s ease;
+}
+
+.playlist-song-row:hover {
+  background: rgba(14, 17, 58, 0.98);
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.playlist-song-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.playlist-song-title {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.playlist-song-artist,
+.playlist-song-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .playlists-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .playlists-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .playlists-column--list {
+    order: 2;
+  }
+
+  .playlists-column--detail {
+    order: 1;
+  }
 }
