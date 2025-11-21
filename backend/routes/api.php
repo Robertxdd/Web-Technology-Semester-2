@@ -9,3 +9,7 @@ Route::put('/songs/{id}', [SongController::class, 'update']);
 Route::delete('/songs/{id}', [SongController::class, 'destroy']);
 
 Route::put('/songs/{id}/favorite', [SongController::class, 'toggleFavorite']);
+
+use App\Http\Controllers\StatsController;
+
+Route::get('/stats', [StatsController::class, 'index']);

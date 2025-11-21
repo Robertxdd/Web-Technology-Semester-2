@@ -215,17 +215,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------
   // PLAYER
   // -------------------------------------------------
- function togglePlay() {
-  const audio = document.getElementById('audioPlayer');
+  function togglePlay() {
+    const audio = document.getElementById('audioPlayer');
 
-  if (audio.paused) {
-    audio.play();
-    playBtn.textContent = 'pause';
-  } else {
-    audio.pause();
-    playBtn.textContent = 'play_arrow';
+    if (audio.paused) {
+      audio.play();
+      playBtn.textContent = 'pause';
+    } else {
+      audio.pause();
+      playBtn.textContent = 'play_arrow';
+    }
   }
-}
 
 
   // -------------------------------------------------
@@ -442,3 +442,48 @@ audioElem.addEventListener('timeupdate', () => {
 audioElem.addEventListener('ended', () => {
   nextSong();
 });
+
+async function loadStats() {
+  try {
+    const res = await fetch("/api/stats");
+    const data = await res.json();
+
+    document.getElementById("total-songs").innerText = data.totalSongs;
+    document.getElementById("total-duration").innerText = data.totalDuration + " min";
+    document.getElementById("favorite-songs").innerText = data.favoriteSongs;
+  } catch (e) {
+    console.error("Error loading stats:", e);
+  }
+}
+
+loadStats();
+
+async function loadStats() {
+    try {
+        const response = await fetch("http://localhost:8000/api/songs"); 
+        const songs = await response.json();
+
+        // Total songs
+        document.getElementById("totalSongsCount").textContent = songs.length;
+
+        // Total favorites
+        const favs = songs.filter(song => song.favorite === 1).length;
+        document.getElementById("favoriteSongsCount").textContent = favs;
+
+        // Total duration (sum of seconds)
+        const totalSeconds = songs.reduce((sum, s) => sum + (s.duration || 0), 0);
+        const minutes = Math.floor(totalSeconds / 60);
+        document.getElementById("totalDuration").textContent = minutes + " min";
+
+        // Stats view
+        document.getElementById("statsTotalSongs").textContent = songs.length;
+        document.getElementById("statsFavoriteSongs").textContent = favs;
+        document.getElementById("statsTotalDuration").textContent = minutes + " min";
+
+    } catch (error) {
+        console.error("Error loading stats:", error);
+    }
+}
+
+// Ejecutar al cargar la página
+document.addEventListener("DOMContentLoaded", loadStats);
