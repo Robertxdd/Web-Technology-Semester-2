@@ -256,53 +256,126 @@
 
         <!-- Stats view -->
         <section class="stats-view hidden" id="statsView">
-          <header class="stats-header">
-            <div>
-              <h2>Library stats</h2>
-              <p class="stats-subtitle">
-                Overview of your songs, favorites, genres and artists.
-              </p>
+          <div class="stats-shell">
+            <!-- CABECERA -->
+            <header class="stats-shell-header">
+              <div class="stats-shell-title">
+                <span class="material-symbols-outlined stats-shell-icon">bar_chart_4_bars</span>
+                <div>
+                  <h2>Library stats</h2>
+                  <p>Overview of your songs, favorites, genres and artists.</p>
+                </div>
+              </div>
+
+              <div class="stats-shell-filters">
+                <button class="stats-chip stats-chip-active" type="button">All time</button>
+              </div>
+
+            </header>
+
+            <!-- FILA 1: KPIs PRINCIPALES -->
+            <div class="stats-kpi-row">
+              <article class="stats-kpi-card">
+                <div class="stats-kpi-header">
+                  <span class="material-symbols-outlined kpi-icon">library_music</span>
+                  <span class="kpi-label">Total songs</span>
+                </div>
+                <p class="kpi-number" id="statsTotalSongs">0</p>
+                <div class="kpi-bar">
+                  <div class="kpi-bar-fill" style="width: 45%;"></div>
+                </div>
+                <p class="kpi-caption">Songs in your library</p>
+              </article>
+
+              <article class="stats-kpi-card">
+                <div class="stats-kpi-header">
+                  <span class="material-symbols-outlined kpi-icon">favorite</span>
+                  <span class="kpi-label">Favorite songs</span>
+                </div>
+                <p class="kpi-number" id="statsFavoriteSongs">0</p>
+                <div class="kpi-bar">
+                  <div class="kpi-bar-fill kpi-bar-pink" style="width: 20%;"></div>
+                </div>
+                <p class="kpi-caption">Marked with the heart icon</p>
+              </article>
+
+              <article class="stats-kpi-card">
+                <div class="stats-kpi-header">
+                  <span class="material-symbols-outlined kpi-icon">timelapse</span>
+                  <span class="kpi-label">Total duration</span>
+                </div>
+                <p class="kpi-number" id="statsTotalDuration">0 min</p>
+                <div class="kpi-bar">
+                  <div class="kpi-bar-fill kpi-bar-purple" style="width: 30%;"></div>
+                </div>
+                <p class="kpi-caption">Combined playback time</p>
+              </article>
             </div>
-          </header>
 
-          <!-- TARJETAS PRINCIPALES -->
-          <!-- NUEVAS STATS EXTRA -->
-          <div class="stats-grid stats-grid-extra">
+            <!-- SEPARADOR SUAVE -->
+            <div class="stats-divider"></div>
 
-            <article class="stats-card">
-              <span class="stats-icon material-symbols-outlined">music_note</span>
-              <h3 class="stats-title">Most common genre</h3>
-              <p class="stats-number" id="statsTopGenre">—</p>
-              <p class="stats-caption">Your most frequent music style</p>
-            </article>
+            <!-- FILA 2: DETALLES (GENRE / AVG LENGTH / ARTISTS) -->
+            <div class="stats-detail-row">
+              <!-- Most common genre -->
+              <article class="stats-detail-card">
+                <div class="detail-header">
+                  <span class="material-symbols-outlined detail-icon">music_note</span>
+                  <div>
+                    <h3>Most common genre</h3>
+                    <p>Your most frequent music style.</p>
+                  </div>
+                </div>
 
-            <article class="stats-card">
-              <span class="stats-icon material-symbols-outlined">timelapse</span>
-              <h3 class="stats-title">Average song length</h3>
-              <p class="stats-number" id="statsAvgDuration">0:00</p>
-              <p class="stats-caption">Across all your library</p>
-            </article>
+                <p class="detail-main-value" id="statsTopGenre">—</p>
 
-            <article class="stats-card">
-              <span class="stats-icon material-symbols-outlined">group</span>
-              <h3 class="stats-title">Total artists</h3>
-              <p class="stats-number" id="statsTotalArtists">0</p>
-              <p class="stats-caption">Unique artists in your songs</p>
-            </article>
+                <div class="genre-meter">
+                  <div class="genre-meter-track">
+                    <div class="genre-meter-fill"></div>
+                  </div>
+                  <span class="genre-meter-label">About 60% of your library</span>
+                </div>
 
-          </div>
+                <span class="detail-footer">By genre</span>
+              </article>
 
+              <!-- Average song length -->
+              <article class="stats-detail-card">
+                <div class="detail-header">
+                  <span class="material-symbols-outlined detail-icon">schedule</span>
+                  <div>
+                    <h3>Average song length</h3>
+                    <p>Typical track duration across your songs.</p>
+                  </div>
+                </div>
 
-          <!-- BLOQUES INFERIORES (géneros / artistas) -->
-          <div class="stats-rows">
-            <section class="stats-column">
-              <h3>By genre</h3>
-              <ul class="stats-list" id="statsGenresList"></ul>
-            </section>
-            <section class="stats-column">
-              <h3>Top artists</h3>
-              <ul class="stats-list" id="statsArtistsList"></ul>
-            </section>
+                <div class="avg-ring">
+                  <div class="avg-ring-inner">
+                    <span class="avg-ring-value" id="statsAvgDuration">0:00</span>
+                  </div>
+                </div>
+
+                <span class="detail-footer">Across your library</span>
+              </article>
+
+              <!-- Total artists -->
+              <article class="stats-detail-card">
+                <article class="stats-detail-card">
+                  <div class="detail-header">
+                    <span class="material-symbols-outlined detail-icon">group</span>
+                    <div>
+                      <h3>Total artists</h3>
+                      <p>How many unique artists you listen to.</p>
+                    </div>
+                  </div>
+
+                  <p class="detail-main-value" id="statsTotalArtists">0</p>
+
+                  <span class="detail-footer">Unique artists in your songs</span>
+                </article>
+
+              </article>
+            </div>
           </div>
         </section>
 
@@ -393,70 +466,71 @@
             </div>
           </header>
 
-          <!-- DISPLAY SECTION -->
-          <div class="settings-section">
-            <div class="settings-section-title">
-              <span class="section-icon material-symbols-outlined">monitor</span>
-              <div class="section-title-text">
-                <h3>Display</h3>
-                <p>Customize how items look</p>
-              </div>
-            </div>
-
-            <div class="settings-options-grid">
-              <!-- Compact list -->
-              <div class="settings-option-card">
-                <div class="settings-option-info">
-                  <h4>Compact song list</h4>
-                  <p>Makes rows smaller in your library.</p>
+          <div class="settings-layout">
+            <!-- COLUMNA IZQUIERDA: DISPLAY -->
+            <div class="settings-col">
+              <div class="settings-section-card">
+                <div class="settings-section-header">
+                  <span class="section-icon material-symbols-outlined">monitor</span>
+                  <div>
+                    <h3>Display</h3>
+                    <p>Control how your songs are listed.</p>
+                  </div>
                 </div>
 
-                <label class="settings-toggle">
-                  <input type="checkbox" id="toggleCompactList">
-                  <span class="toggle-switch"></span>
-                </label>
-              </div>
-
-              <!-- Metadata -->
-              <div class="settings-option-card">
-                <div class="settings-option-info">
-                  <h4>Show year &amp; genre</h4>
-                  <p>Show extra columns with year and genre.</p>
+                <!-- Opción: Compact list -->
+                <div class="settings-option-row">
+                  <div class="settings-option-copy">
+                    <h4>Compact song list</h4>
+                    <p>Reduce row height so more tracks fit on screen.</p>
+                  </div>
+                  <label class="settings-toggle">
+                    <input type="checkbox" id="toggleCompactList">
+                    <span class="toggle-switch"></span>
+                  </label>
                 </div>
 
-                <label class="settings-toggle">
-                  <input type="checkbox" id="toggleMetadata" checked>
-                  <span class="toggle-switch"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <!-- THEME SECTION -->
-          <div class="settings-section">
-            <div class="settings-section-title">
-              <span class="section-icon material-symbols-outlined">palette</span>
-              <div class="section-title-text">
-                <h3>Theme</h3>
-                <p>Choose how your app looks</p>
+                <!-- Opción: Metadata -->
+                <div class="settings-option-row">
+                  <div class="settings-option-copy">
+                    <h4>Show year &amp; genre columns</h4>
+                    <p>Display extra metadata next to each track.</p>
+                  </div>
+                  <label class="settings-toggle">
+                    <input type="checkbox" id="toggleMetadata" checked>
+                    <span class="toggle-switch"></span>
+                  </label>
+                </div>
               </div>
             </div>
 
-            <div class="settings-options-grid">
-              <!-- Light mode -->
-              <div class="settings-option-card">
-                <div class="settings-option-info">
-                  <h4>Light mode</h4>
-                  <p>Use a brighter look for MuSix.</p>
+            <!-- COLUMNA DERECHA: THEME + PREVIEW -->
+            <div class="settings-col">
+              <!-- Theme modes -->
+              <div class="settings-section-card">
+                <div class="settings-section-header">
+                  <span class="section-icon material-symbols-outlined">palette</span>
+                  <div>
+                    <h3>Theme</h3>
+                    <p>Choose the mood of your player.</p>
+                  </div>
                 </div>
 
-                <label class="settings-toggle">
-                  <input type="checkbox" id="toggleLightTheme">
-                  <span class="toggle-switch"></span>
-                </label>
+                <div class="theme-mode-row">
+                  <div class="theme-chips">
+                    <button type="button" class="theme-chip active">Dark</button>
+                    <button type="button" class="theme-chip">Light</button>
+                    <button type="button" class="theme-chip disabled">Neon (soon)</button>
+                  </div>
+
+                  <label class="settings-toggle theme-toggle">
+                    <input type="checkbox" id="toggleLightTheme">
+                    <span class="toggle-switch"></span>
+                    <span class="theme-toggle-label">Light mode</span>
+                  </label>
+                </div>
               </div>
-            </div>
-          </div>
+
         </section>
 
 
