@@ -8,20 +8,10 @@ use App\Models\Song;
 class SongController extends Controller
 {
     // Public
-   public function index(Request $request)
-{
-    $q = $request->query('q');
-
-    $songs = Song::query();
-
-    if ($q) {
-        $songs->where('title', 'like', "%$q%")
-              ->orWhere('artist', 'like', "%$q%");
+    public function index()
+    {
+        return Song::all();
     }
-
-    return $songs->get();
-}
-
 
     // Public
     public function show($id)
@@ -31,34 +21,37 @@ class SongController extends Controller
 
     // Admin only (middleware handles admin check)
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title'   => 'required|string|max:255',
-            'artist'  => 'required|string|max:255',
-            'genre'   => 'nullable|string|max:255',
-            'year'    => 'nullable|integer',
-            'duration'=> 'nullable|integer',
-        ]);
+{
+    $validated = $request->validate([
+        'title'   => 'required|string|max:255',
+        'artist'  => 'required|string|max:255',
+        'genre'   => 'nullable|string|max:255',
+        'year'    => 'nullable|integer',
+        'duration'=> 'nullable|integer',
+        'url'     => 'required|url'
+    ]);
 
-        return Song::create($validated);
-    }
+    return Song::create($validated);
+}
 
     // Admin only
     public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'title'   => 'sometimes|string|max:255',
-            'artist'  => 'sometimes|string|max:255',
-            'genre'   => 'sometimes|nullable|string|max:255',
-            'year'    => 'sometimes|nullable|integer',
-            'duration'=> 'sometimes|nullable|integer',
-        ]);
+{
+    $validated = $request->validate([
+        'title'   => 'sometimes|string|max:255',
+        'artist'  => 'sometimes|string|max:255',
+        'genre'   => 'sometimes|nullable|string|max:255',
+        'year'    => 'sometimes|nullable|integer',
+        'duration'=> 'sometimes|nullable|integer',
+        'url'     => 'sometimes|url'
+    ]);
 
-        $song = Song::findOrFail($id);
-        $song->update($validated);
+    $song = Song::findOrFail($id);
+    $song->update($validated);
 
-        return $song;
-    }
+    return $song;
+}
+
 
     // Admin only
     public function destroy($id)
@@ -68,13 +61,4 @@ class SongController extends Controller
 
         return response()->noContent();
     }
-
-    public function toggleFavorite($id)
-{
-    $song = Song::findOrFail($id);
-    $song->favorite = !$song->favorite;
-    $song->save();
-
-    return $song;
-}
 }
