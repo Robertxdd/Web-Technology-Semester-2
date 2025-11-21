@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - MUSIX</title>
+    <title>Register - MUSIX</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
     <style>
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Instrument Sans', sans-serif;
@@ -18,7 +29,7 @@
             justify-content: center;
             padding: 1.5rem;
         }
-        .login-container {
+        .register-container {
             background: rgba(30, 20, 40, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -52,6 +63,7 @@
             font-size: 0.875rem;
             color: #c0c0d0;
         }
+        input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
@@ -71,32 +83,6 @@
         }
         input::placeholder {
             color: #6b7280;
-        }
-        .alert {
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
-        }
-        .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        .remember-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .remember-group input[type="checkbox"] {
-            width: auto;
-            accent-color: #e879f9;
-        }
-        .remember-group label {
-            margin: 0;
-            font-weight: 400;
-            color: #c0c0d0;
         }
         .btn {
             width: 100%;
@@ -132,18 +118,34 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Welcome back</h1>
-        <p class="subtitle">Log in to your MUSIX account</p>
+    <div class="register-container">
+        <h1>Create Account</h1>
+        <p class="subtitle">Sign up to start using MUSIX</p>
 
         @if ($errors->any())
             <div class="alert alert-error">
-                {{ $errors->first() }}
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    @foreach ($errors->all() as $error)
+                        <li style="margin-bottom: 0.5rem;">{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('register') }}">
             @csrf
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Your name"
+                    required 
+                    autofocus
+                >
+            </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
@@ -151,10 +153,8 @@
                     type="email" 
                     id="email" 
                     name="email" 
-                    value="{{ old('email') }}" 
                     placeholder="your@email.com"
-                    required 
-                    autofocus
+                    required
                 >
             </div>
 
@@ -164,25 +164,16 @@
                     type="password" 
                     id="password" 
                     name="password" 
-                    placeholder="Enter your password"
+                    placeholder="Create a password"
                     required
                 >
             </div>
 
-            <div class="remember-group">
-                <input 
-                    type="checkbox" 
-                    id="remember" 
-                    name="remember"
-                >
-                <label for="remember">Remember me</label>
-            </div>
-
-            <button type="submit" class="btn">Log in</button>
+            <button type="submit" class="btn">Create Account</button>
         </form>
 
         <div class="links">
-            Don't have an account? <a href="{{ route('register') }}">Create one</a>
+            Already have an account? <a href="{{ route('login') }}">Log in</a>
         </div>
     </div>
 </body>
