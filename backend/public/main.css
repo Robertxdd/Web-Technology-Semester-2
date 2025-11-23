@@ -3174,3 +3174,31 @@ body.hide-metadata .song {
   transform: scale(0.95);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
 }
+/* Los 5 títulos (TITLE, ARTIST, YEAR, GENRE, DURATION) ocupan lo mismo */
+.songs-panel .tabs-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columnas iguales */
+}
+
+.songs-panel .tabs-list li {
+  text-align: center;
+}
+
+/* Hacer que los 5 datos de cada canción ocupen lo mismo */
+.songs-panel .songs-list .song {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) auto auto; /* 5 columnas iguales + 2 botones */
+  width: 100%;
+}
+
+/* Alineación de texto en las columnas de datos */
+.songs-panel .songs-list .song .song-title {
+  text-align: center; /* o left si lo prefieres: left */
+}
+
+.songs-panel .songs-list .song .song-artist,
+.songs-panel .songs-list .song .song-year,
+.songs-panel .songs-list .song .song-genre,
+.songs-panel .songs-list .song .song-duration {
+  text-align: center;
+} 
