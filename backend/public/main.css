@@ -2656,3 +2656,285 @@ body.hide-metadata .song {
 .songs-list .song > span {
   text-align: center;
 }
+
+/* ============================
+   FAVORITES LIST STYLING
+   ============================ */
+
+/* Un poco de espacio bajo el header de Favorites */
+.favorites-content {
+  padding-top: 18px;
+}
+
+/* Contenedor de la lista de favoritos */
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Cada canción favorita como "pill" centrada */
+.favorite-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 20px;
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.18), transparent 55%),
+    linear-gradient(135deg, #ff5bbd, #8b5cf6);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+
+  color: #ffffff;
+  max-width: 520px;
+  margin-inline: auto; /* centrado dentro del panel */
+}
+
+/* Título — artista */
+.favorite-row .fav-left {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.favorite-row .fav-left strong {
+  font-weight: 600;
+}
+
+.favorite-row .fav-left span {
+  opacity: 0.85;
+}
+
+/* Parte derecha: duración + icono */
+.favorite-row .fav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+}
+
+.favorite-row .fav-right span {
+  min-width: 48px;
+  text-align: right;
+}
+
+/* Botón de "unfavorite" (corazón) */
+.favorite-row .fav-remove {
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.18);
+  color: #ffb3e5;
+  font-size: 20px; /* icono un poco más grande */
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease;
+}
+
+.favorite-row .fav-remove:hover {
+  background: rgba(0, 0, 0, 0.30);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+
+.favorite-row .fav-remove:active {
+  transform: scale(0.95);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55);
+}
+
+/* ============================
+   PLAYLIST DETAIL HEADER
+   ============================ */
+
+.playlist-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.playlist-detail-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.playlist-detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botón "Add songs" */
+.playlist-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background:
+    radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.12), transparent 55%),
+    linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    filter 0.16s ease;
+}
+
+.playlist-add-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.playlist-add-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
+}
+
+.playlist-add-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* Botón borrar playlist */
+.playlist-delete-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ff9aa2;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+  transition:
+    background 0.16s ease,
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    color 0.16s ease;
+}
+
+.playlist-delete-btn .material-symbols-outlined {
+  font-size: 19px;
+}
+
+.playlist-delete-btn:hover {
+  background: rgba(255, 72, 115, 0.24);
+  color: #ffe7ec;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+}
+
+.playlist-delete-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* ============================
+   PLAYLIST SONG ROWS
+   ============================ */
+
+.playlist-songs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.playlist-song-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.08), transparent 55%),
+              linear-gradient(135deg, rgba(148, 163, 255, 0.22), rgba(56, 189, 248, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+  color: #f9f9ff;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.playlist-song-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.playlist-song-main strong {
+  font-weight: 600;
+}
+
+.playlist-song-artist {
+  opacity: 0.82;
+  font-size: 12px;
+}
+
+.playlist-song-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.playlist-song-duration {
+  font-variant-numeric: tabular-nums;
+  min-width: 44px;
+  text-align: right;
+  opacity: 0.9;
+}
+
+/* Botón quitar canción de la playlist */
+.playlist-song-remove {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  color: #ffe2f0;
+  font-size: 18px;
+  transition:
+    background 0.16s ease,
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    color 0.16s ease;
+}
+
+.playlist-song-remove:hover {
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+
+.playlist-song-remove:active {
+  transform: scale(0.95);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}

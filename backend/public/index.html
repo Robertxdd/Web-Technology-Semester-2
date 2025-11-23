@@ -203,12 +203,26 @@
 
             <section class="playlists-column playlists-column--detail" id="playlistDetail">
               <div class="playlist-detail-header">
-                <div class="playlist-detail-chip">
-                  <span class="material-symbols-outlined">library_music</span>
+                <div class="playlist-detail-main">
+                  <div class="playlist-detail-chip">
+                    <span class="material-symbols-outlined">library_music</span>
+                  </div>
+                  <div class="playlist-detail-texts">
+                    <h3 class="playlist-detail-title">Select a playlist</h3>
+                    <p class="playlist-detail-text">
+                      Choose one of your playlists on the left to see its songs here.
+                    </p>
+                  </div>
                 </div>
-                <div class="playlist-detail-texts">
-                  <h3 class="playlist-detail-title">Select a playlist</h3>
-                  <p class="playlist-detail-text">Choose one of your playlists on the left to see its songs here.</p>
+
+                <div class="playlist-detail-actions">
+                  <button type="button" class="playlist-add-btn" id="addSongToPlaylistBtn">
+                    <span class="material-symbols-outlined">add</span>
+                    <span>Add songs</span>
+                  </button>
+                  <button type="button" class="playlist-delete-btn" id="deletePlaylistBtn" aria-label="Delete playlist">
+                    <span class="material-symbols-outlined">delete</span>
+                  </button>
                 </div>
               </div>
 
