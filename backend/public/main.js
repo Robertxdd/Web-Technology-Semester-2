@@ -90,14 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function showFavoritesView() {
-    hideAllViews();
-    if (favoritesView) favoritesView.classList.remove('hidden');
-    clearActiveTabs();
-    if (favoritesTab) favoritesTab.classList.add('active');
+  hideAllViews();
+  favoritesView.classList.remove('hidden');
+  clearActiveTabs();
+  favoritesTab.classList.add('active');
 
-    // Load favorites from API (fresh)
-    await loadFavoritesAndRender();
-  }
+  await loadSongs(); // <-- ENSURE songs[] IS FRESH
+
+  const favs = songs.filter(s =>
+      s.favorite === true ||
+      s.favorite === 1 ||
+      s.favorite === "1"
+  );
+
+  renderFavorites(favs);
+}
+
 
   function showPlaylistsView() {
     hideAllViews();
@@ -137,15 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Note: Controller earlier suggested PATCH; using PATCH here.
-  async function apiToggleFavorite(id) {
+async function apiToggleFavorite(id) {
     const res = await fetch(`${API_BASE}/songs/${id}/favorite`, {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
     });
     if (!res.ok) throw new Error('Failed to toggle favorite');
     return res.json();
-  }
+}
 
   async function apiGetFavorites() {
     // If you have a dedicated endpoint /songs/favorites use it; fallback to filtering client-side
