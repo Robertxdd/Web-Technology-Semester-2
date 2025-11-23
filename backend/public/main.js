@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const audioElem = document.getElementById('audioPlayer');
   const playBtn = document.querySelector('.play-btn');
+  const playIcon = playBtn ? playBtn.querySelector('.material-symbols-outlined') : null;
   const progressFill = document.querySelector('.progress-fill');
   const timeCurrent = document.querySelector('.time-current');
   const timeTotal = document.querySelector('.time-total');
@@ -232,10 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (openCreatePlaylistBtn) {
-  openCreatePlaylistBtn.addEventListener('click', () => {
-    location.hash = 'createPlaylistModal';
-  });
-}
+    openCreatePlaylistBtn.addEventListener('click', () => {
+      location.hash = 'createPlaylistModal';
+    });
+  }
 
   function renderFavorites(list = []) {
     favoritesSongsList.innerHTML = '';
@@ -289,20 +290,22 @@ document.addEventListener('DOMContentLoaded', () => {
     progressFill.style.width = '0%';
 
     if (autoPlay) {
-      audioElem.play().catch(() => {});
+      audioElem.play().catch(() => { });
       playBtn.textContent = 'pause';
       isPlaying = true;
     }
   }
 
   function togglePlay() {
+    if (!audioElem) return;
+
     if (audioElem.paused) {
       audioElem.play();
-      playBtn.textContent = 'pause';
+      if (playIcon) playIcon.textContent = 'pause';
       isPlaying = true;
     } else {
       audioElem.pause();
-      playBtn.textContent = 'play_arrow';
+      if (playIcon) playIcon.textContent = 'play_arrow';
       isPlaying = false;
     }
   }

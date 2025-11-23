@@ -2613,3 +2613,46 @@ body.hide-metadata .song {
   background: linear-gradient(90deg, rgb(255, 112, 255), rgb(130, 80, 255));
   border-radius: inherit;
 }
+
+/* --- Overrides layout songs list para alinear con el header --- */
+
+/* Que la lista no centre las filas, sino que las estire a todo el ancho */
+.songs-list {
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: 16px; /* un poco de aire bajo el header */
+}
+
+/* Cada canción ocupa todo el ancho del panel y se alinea con las columnas */
+.songs-list .song {
+  width: 100%;
+  max-width: 100%;
+  grid-template-columns: 3fr 2fr 1fr 1.2fr 0.8fr auto auto;
+}
+
+/* --- Alinear columnas del header con las canciones --- */
+
+/* Header de la tabla (TITLE / ARTIST / YEAR / GENRE / DURATION) */
+.songs-panel .tabs-list {
+  grid-template-columns: 3fr 2fr 1fr 1.2fr 0.8fr;
+}
+
+/* Lista de canciones: que las filas se estiren a todo el ancho */
+.songs-list {
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: 16px;
+}
+
+/* Cada canción = misma rejilla que el header + mismo padding horizontal */
+.songs-list .song {
+  width: 100%;
+  max-width: 100%;
+  grid-template-columns: 3fr 2fr 1fr 1.2fr 0.8fr auto auto;
+  padding: 8px 18px; /* 18px para que coincida con el header */
+}
+
+/* Centrar el texto de cada columna como en el header */
+.songs-list .song > span {
+  text-align: center;
+}
