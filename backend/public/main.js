@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentSongIndex = -1;
   let isPlaying = false;
   let playlists = [];
+  let userRole = 'user';
 
   function formatDuration(sec) {
     const m = Math.floor(sec / 60);
@@ -160,11 +161,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return res.json();
   }
 
-  async function loadSongs() {
-    songs = await apiGetSongs();
-    renderSongs(songs);
-    if (songs.length > 0 && currentSongIndex < 0) selectSong(0, false);
-    updateStatsFromSongs();
+    async function loadSongs() {
+      songs = await apiGetSongs();
+      if (songs.length > 0 && currentSongIndex < 0) selectSong(0, false);
+      updateStatsFromSongs();
+
+      if (userRole) {
+          renderSongs(songs);
+      }
   }
 
   async function loadPlaylists() {
@@ -196,15 +200,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (idx === currentSongIndex) row.classList.add('active');
       if (s.favorite) row.classList.add('favorite');
 
-      row.innerHTML = `
-        <span class="song-title">${escapeHtml(s.title)}</span>
-        <span class="song-artist">${escapeHtml(s.artist)}</span>
-        <span class="song-year">${s.year ?? ''}</span>
-        <span class="song-genre">${s.genre ?? ''}</span>
-        <span class="song-duration">${formatDuration(durationSeconds)}</span>
-        <button class="fav material-symbols-outlined" data-id="${s.id}">${s.favorite ? 'favorite' : 'favorite_border'}</button>
-        <button class="remove material-symbols-outlined" data-id="${s.id}">close</button>
-      `;
+          const editButtonHtml = userRole === 'admin' 
+      ? `<button class="edit material-symbols-outlined" data-id="${s.id}" aria-label="Edit">edit</button>` 
+      : '';
+
+      console.log('Rendering song, userRole:', userRole, 'showing edit button:', userRole === 'admin');
+
+    row.innerHTML = `
+      <span class="song-title">${escapeHtml(s.title)}</span>
+      <span class="song-artist">${escapeHtml(s.artist)}</span>
+      <span class="song-year">${s.year ?? ''}</span>
+      <span class="song-genre">${s.genre ?? ''}</span>
+      <span class="song-duration">${formatDuration(durationSeconds)}</span>
+      <button class="fav material-symbols-outlined" data-id="${s.id}" aria-label="Toggle favorite">${s.favorite ? 'favorite' : 'favorite_border'}</button>
+      ${editButtonHtml}
+      <button class="remove material-symbols-outlined" data-id="${s.id}" aria-label="Remove">close</button>
+    `;
 
       row.addEventListener('click', (e) => {
         if (e.target.closest('.remove') || e.target.closest('.fav')) return;
@@ -227,6 +238,17 @@ document.addEventListener('DOMContentLoaded', () => {
           renderFavorites(favs);
         }
       });
+
+      if (userRole === 'admin') {
+        const editBtn = row.querySelector('.edit');
+        if (editBtn) {
+          editBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const id = e.currentTarget.dataset.id;
+            alert(`Edit song ${id} - This will open an edit form!`);
+          });
+        }
+      }
 
       songListContainer.appendChild(row);
     });
@@ -496,6 +518,20 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   }
 
+    async function loadUserRole() {
+    try {
+      const res = await fetch(`${API_BASE}/user/role`, { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        userRole = data.role || 'user';
+        console.log('User role loaded:', userRole); 
+        console.log('Is admin?', userRole === 'admin');  
+      }
+    } catch (e) {
+      console.error('Could not load user role', e);
+    }
+  }
+
   function showSettingsView() {
     hideAllViews();
     settingsView.classList.remove('hidden');
@@ -536,6 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   (async function init() {
+    await loadUserRole();
     await loadSongs();
     await renderPlaylistsSidebar();
     showHomeView();

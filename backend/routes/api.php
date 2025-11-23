@@ -24,3 +24,9 @@ Route::delete('/playlists/{id}', [PlaylistController::class, 'destroy']);
 
 Route::post('/playlists/{id}/add-song', [PlaylistController::class, 'addSong']);
 Route::post('/playlists/{id}/remove-song', [PlaylistController::class, 'removeSong']);
+
+Route::get('/user/role', function() {
+    return response()->json([
+        'role' => session('user_role', 'user')
+    ]);
+}); 
