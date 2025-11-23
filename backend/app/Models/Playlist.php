@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Playlist extends Model
 {
+    protected $fillable = ['name'];
+
     public function songs()
-{
-    return $this->belongsToMany(Song::class, 'playlist_song');
-}
+    {
+        return $this->belongsToMany(Song::class, 'playlist_song');
+    }
 }
