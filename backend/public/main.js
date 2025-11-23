@@ -47,6 +47,47 @@ document.addEventListener('DOMContentLoaded', () => {
   let playlists = [];
   let userRole = 'user';
 
+  let selectedPlaylistId = null;
+  document.getElementById("addSongToPlaylistBtn").addEventListener("click", () => {
+  if (!selectedPlaylistId) {
+    alert("Select a playlist first.");
+    return;
+  }
+  location.hash = "addToPlaylistModal";
+  loadSongPickerModal();
+});
+function loadSongPickerModal() {
+  const box = document.getElementById("playlistSelectList");
+  box.innerHTML = "";
+
+  songs.forEach(song => {
+    const div = document.createElement("div");
+    div.className = "playlist-card";
+    div.innerHTML = `
+      <div class="playlist-card-main">
+        <p class="playlist-card-title">${escapeHtml(song.title)}</p>
+        <p class="playlist-card-desc">${escapeHtml(song.artist)}</p>
+      </div>
+      <button class="primary-btn secondary" data-id="${song.id}">Add</button>
+    `;
+
+    div.querySelector("button").onclick = () => addSongToCurrentPlaylist(song.id);
+    box.appendChild(div);
+  });
+}
+
+
+// When clicking a playlist in sidebar:
+async function openPlaylist(id) {
+  selectedPlaylistId = id;
+  const playlist = await apiGetPlaylist(id);
+  renderPlaylistDetail(playlist);
+}
+
+// Hook sidebar playlist buttons to use openPlaylist():
+// (Modify your existing renderPlaylistsSidebar button handler)
+
+
   function formatDuration(sec) {
     const m = Math.floor(sec / 60);
     const s = (sec % 60).toString().padStart(2, '0');
@@ -103,6 +144,40 @@ document.addEventListener('DOMContentLoaded', () => {
     homeTab.classList.add('active');
     renderSongs(songs);
   }
+async function addSongToCurrentPlaylist(songId) {
+  if (!selectedPlaylistId) return;
+
+  await fetch(`${API_BASE}/playlists/${selectedPlaylistId}/add-song`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ song_id: songId })
+  });
+
+  location.hash = ""; // close modal
+
+  await renderPlaylistsSidebar();
+  await openPlaylist(selectedPlaylistId);
+}
+
+document.getElementById("deletePlaylistBtn").addEventListener("click", async () => {
+  if (!selectedPlaylistId) return;
+
+  await fetch(`${API_BASE}/playlists/${selectedPlaylistId}`, {
+    method: "DELETE",
+    credentials: "include"
+  });
+
+  selectedPlaylistId = null;
+
+  // Reset right panel
+  document.querySelector(".playlist-detail-title").textContent = "Select a playlist";
+  document.querySelector(".playlist-detail-text").textContent =
+    "Choose one of your playlists on the left to see its songs here.";
+  playlistSongsList.innerHTML = "";
+
+  await renderPlaylistsSidebar();
+});
 
   async function apiGetSongs() {
     const res = await fetch(`${API_BASE}/songs`, { credentials: 'include' });
@@ -400,11 +475,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     playlistsList.querySelectorAll('.playlist-select').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        const id = e.currentTarget.dataset.id;
-        const p = await apiGetPlaylist(id);
-        renderPlaylistDetail(p);
-      });
+     btn.addEventListener('click', async (e) => {
+  const id = e.currentTarget.dataset.id;
+  await openPlaylist(id);
+});
+
     });
   }
 
@@ -417,14 +492,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    playlist.songs.forEach(id => {
-      const s = songs.find(x => x.id == id);
-      if (!s) return;
-      const div = document.createElement('div');
-      div.className = 'playlist-song-row';
-      div.innerHTML = `<strong>${escapeHtml(s.title)}</strong> — ${escapeHtml(s.artist)} <span class="song-duration">${formatDuration(parseDurationToSeconds(s.duration))}</span>`;
-      playlistSongsList.appendChild(div);
-    });
+    playlist.songs.forEach(s => {
+  const div = document.createElement('div');
+  div.className = 'playlist-song-row';
+  div.innerHTML = `
+    <strong>${escapeHtml(s.title)}</strong>
+    — ${escapeHtml(s.artist)}
+    <span class="song-duration">${formatDuration(parseDurationToSeconds(s.duration))}</span>
+  `;
+  playlistSongsList.appendChild(div);
+});
+
   }
   if (createPlaylistForm) {
     createPlaylistForm.addEventListener('submit', async (e) => {
