@@ -18,6 +18,8 @@ Route::get('/register', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::get('/', function () {
     return redirect('/login');
 });

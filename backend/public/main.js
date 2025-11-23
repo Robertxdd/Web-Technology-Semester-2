@@ -9,12 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const homeTab = document.getElementById('homeTab');
   const favoritesTab = document.getElementById('favoritesTab');
   const playlistsTab = document.getElementById('playlistsTab');
+  const settingsTab = document.getElementById('settingsTab');
 
   const cardsSection = document.querySelector('.cards-section');      // Home stats
   const mainSongsPanel = document.querySelector('.content-columns');  // Home song list
 
   const favoritesView = document.getElementById('favoritesView');
   const playlistsView = document.getElementById('playlistsView');
+  const settingsView = document.getElementById('settingsView');
 
   // UI nodes
   const songListContainer = document.getElementById('songsListContainer'); // main list container
@@ -34,12 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const playerSongArtist = document.getElementById('playerSongArtist');
 
   const statsTab = document.getElementById("statsTab");
-  const settingsTab = document.getElementById("settingsTab");
-
   const statsView = document.getElementById("statsView");
-  const settingsView = document.getElementById("settingsView");
 
   const goToLibraryBtn = document.getElementById('goToLibraryBtn'); // favorites empty CTA
+  const themeChips = document.querySelectorAll('.theme-chip');
+  const logoutButton = document.getElementById('logoutButton');
 
   // State
   let songs = [];
@@ -64,17 +65,54 @@ document.addEventListener('DOMContentLoaded', () => {
     return (parseInt(p[0], 10) || 0) * 60 + (parseInt(p[1], 10) || 0);
   }
 
+  // -------------------------
+  // Theme handling
+  // -------------------------
+  function applyTheme(theme) {
+    const body = document.body;
+    if (!body) return;
+
+    // Normalizamos el valor
+    const normalized = (theme === 'light') ? 'light' : 'dark';
+
+    if (normalized === 'light') {
+      body.classList.add('theme-light');
+      body.classList.remove('theme-dark');
+    } else {
+      body.classList.add('theme-dark');
+      body.classList.remove('theme-light');
+    }
+
+    // Actualizamos el estado visual de los chips
+    if (themeChips && themeChips.length) {
+      themeChips.forEach((chip) => {
+        const label = chip.textContent.trim().toLowerCase();
+        const isLightChip = label === 'light';
+        chip.classList.toggle(
+          'active',
+          (normalized === 'light' && isLightChip) ||
+          (normalized === 'dark' && !isLightChip)
+        );
+      });
+    }
+
+    // Guardamos preferencia en localStorage
+    try {
+      localStorage.setItem('musix-theme', normalized);
+    } catch (e) {
+      // ignoramos si falla
+    }
+  }
   function clearActiveTabs() {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   }
 
   function hideAllViews() {
-   cardsSection?.classList.add('hidden');
-  mainSongsPanel?.classList.add('hidden');
-  favoritesView?.classList.add('hidden');
-  playlistsView?.classList.add('hidden');
-  statsView?.classList.add('hidden');
-  settingsView?.classList.add('hidden');
+    if (cardsSection) cardsSection.classList.add('hidden');
+    if (mainSongsPanel) mainSongsPanel.classList.add('hidden');
+    if (favoritesView) favoritesView.classList.add('hidden');
+    if (playlistsView) playlistsView.classList.add('hidden');
+    if (settingsView) settingsView.classList.add('hidden');
   }
 
   // -------------------------
@@ -108,6 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSelectedPlaylistDetail(); // show detail or empty state
   }
 
+  function showSettingsView() {
+    hideAllViews();
+    if (settingsView) settingsView.classList.remove('hidden');
+    clearActiveTabs();
+    if (settingsTab) settingsTab.classList.add('active');
+  }
   // -------------------------
   // API calls
   // -------------------------
@@ -563,6 +607,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // -------------------------
+  // Theme events
+  // -------------------------
+  if (themeChips && themeChips.length) {
+    // Theme inicial desde localStorage o por defecto dark
+    let storedTheme = 'dark';
+    try {
+      storedTheme = localStorage.getItem('musix-theme') || 'dark';
+    } catch (e) {
+      storedTheme = 'dark';
+    }
+    applyTheme(storedTheme);
+
+    themeChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const label = chip.textContent.trim().toLowerCase();
+        applyTheme(label === 'light' ? 'light' : 'dark');
+      });
+    });
+  } else {
+    applyTheme('dark');
+  }
+
+  // -------------------------
+  // Logout button
+  // -------------------------
+  if (logoutButton) {
+    logoutButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Ruta del backend que hará el logout y redirigirá a login
+      window.location.href = '/logout';
+    });
+  }
+  // -------------------------
   // Utilities
   // -------------------------
   function escapeHtml(str) {
@@ -581,19 +658,13 @@ document.addEventListener('DOMContentLoaded', () => {
     statsTab.classList.add("active");
   }
 
-  function showSettingsView() {
-    hideAllViews();
-    settingsView.classList.remove("hidden");
-    clearActiveTabs();
-    settingsTab.classList.add("active");
-  }
-
   // -------------------------
   // Event wiring for SPA tabs
   // -------------------------
   if (homeTab) homeTab.addEventListener('click', (e) => { e.preventDefault(); showHomeView(); });
   if (favoritesTab) favoritesTab.addEventListener('click', (e) => { e.preventDefault(); showFavoritesView(); });
   if (playlistsTab) playlistsTab.addEventListener('click', (e) => { e.preventDefault(); showPlaylistsView(); });
+  if (settingsTab) settingsTab.addEventListener('click', (e) => { e.preventDefault(); showSettingsView(); });
 
   // -------------------------
   // Initial load
