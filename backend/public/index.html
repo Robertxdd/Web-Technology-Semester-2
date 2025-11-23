@@ -526,35 +526,37 @@
       </div>
 
       <div class="player-controls">
-        <button class="control-btn" aria-label="Previous">
+        <button class="control-btn" id="prevBtn" type="button" aria-label="Previous">
           <span class="material-symbols-outlined">skip_previous</span>
         </button>
-        <button class="control-btn play-btn" aria-label="Play">
-          <span class="material-symbols-outlined">play_arrow</span>
+        <button class="control-btn play-btn" id="playPauseBtn" type="button" aria-label="Play">
+          <span class="material-symbols-outlined" id="playPauseIcon">play_arrow</span>
         </button>
-        <button class="control-btn" aria-label="Next">
+        <button class="control-btn" id="nextBtn" type="button" aria-label="Next">
           <span class="material-symbols-outlined">skip_next</span>
         </button>
       </div>
 
       <div class="progress-section">
-        <span class="time-current">0:00</span>
+        <span class="time-current" id="timeCurrent">0:00</span>
         <div class="progress-bar" id="progressBar">
-          <div class="progress-fill"></div>
+          <div class="progress-fill" id="progressFill"></div>
           <div class="progress-tooltip" id="progressTooltip"></div>
         </div>
         <span class="time-total" id="timeTotal">3:45</span>
       </div>
 
       <div class="volume-section">
-        <button class="volume-btn" aria-label="Volume">
-          <span class="material-symbols-outlined">volume_up</span>
+        <button class="volume-btn" id="volumeBtn" type="button" aria-label="Volume">
+          <span class="material-symbols-outlined" id="volumeIcon">volume_up</span>
         </button>
-        <div class="volume-bar">
-          <div class="volume-fill"></div>
+
+        <div class="volume-bar" id="volumeBar">
+          <div class="volume-fill" id="volumeFill"></div>
         </div>
       </div>
-    </footer>
+  </div>
+  </footer>
 
   </div>
 
