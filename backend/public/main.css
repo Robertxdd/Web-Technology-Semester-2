@@ -2507,4 +2507,34 @@ body.hide-metadata .song {
     scroll-behavior: auto !important;
   }
 }
+<<<<<<< HEAD
 
+=======
+.volume-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 160px;
+}
+
+.volume-btn span {
+  color: white;
+  font-size: 24px;
+}
+
+.volume-bar {
+  position: relative;
+  height: 6px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.volume-fill {
+  height: 100%;
+  width: 60%; /* volumen inicial */
+  background: linear-gradient(90deg, rgb(255, 112, 255), rgb(130, 80, 255));
+  border-radius: inherit;
+}
+>>>>>>> b490f60696c8f399aa0cd7c9e2bd2e48e624afb7

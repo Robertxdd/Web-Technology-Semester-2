@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const playerSongTitle = document.getElementById('playerSongTitle');
   const playerSongArtist = document.getElementById('playerSongArtist');
 
+  const statsTab = document.getElementById("statsTab");
+  const settingsTab = document.getElementById("settingsTab");
+
+  const statsView = document.getElementById("statsView");
+  const settingsView = document.getElementById("settingsView");
+
   const goToLibraryBtn = document.getElementById('goToLibraryBtn'); // favorites empty CTA
 
   // State
@@ -63,10 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function hideAllViews() {
-    if (cardsSection) cardsSection.classList.add('hidden');
-    if (mainSongsPanel) mainSongsPanel.classList.add('hidden');
-    if (favoritesView) favoritesView.classList.add('hidden');
-    if (playlistsView) playlistsView.classList.add('hidden');
+   cardsSection?.classList.add('hidden');
+  mainSongsPanel?.classList.add('hidden');
+  favoritesView?.classList.add('hidden');
+  playlistsView?.classList.add('hidden');
+  statsView?.classList.add('hidden');
+  settingsView?.classList.add('hidden');
   }
 
   // -------------------------
@@ -189,6 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+
+
+
+
     list.forEach((s) => {
       const durationSeconds = parseDurationToSeconds(s.duration);
       const row = document.createElement('div');
@@ -244,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error(err);
         }
       });
+
 
       songListContainer.appendChild(row);
     });
@@ -404,6 +417,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       console.error('updateStats error', e);
     }
+
+
+
   }
 
   // -------------------------
@@ -530,6 +546,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  if (statsTab) statsTab.addEventListener("click", (e) => { e.preventDefault(); showStatsView(); });
+  if (settingsTab) settingsTab.addEventListener("click", (e) => { e.preventDefault(); showSettingsView(); });
+
 
   // -------------------------
   // Favorites empty CTA
@@ -555,6 +574,19 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
   }
+  function showStatsView() {
+    hideAllViews();
+    statsView.classList.remove("hidden");
+    clearActiveTabs();
+    statsTab.classList.add("active");
+  }
+
+  function showSettingsView() {
+    hideAllViews();
+    settingsView.classList.remove("hidden");
+    clearActiveTabs();
+    settingsTab.classList.add("active");
+  }
 
   // -------------------------
   // Event wiring for SPA tabs
@@ -570,6 +602,113 @@ document.addEventListener('DOMContentLoaded', () => {
     await loadSongs();
     renderPlaylistsSidebar();
     showHomeView();
-  })();
+  });
+}
 
+if (favoritesTab) {
+  favoritesTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showFavoritesView();
+  });
+}
+
+if (playlistsTab) {
+  playlistsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showPlaylistsView();
+  });
+}
+
+if (queueTab) {
+  queueTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showQueueView();
+  });
+}
+
+if (statsTab) {
+  statsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showStatsView();
+  });
+}
+
+if (settingsTab) {
+  settingsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showSettingsView();
+  });
+}
+
+// Botón "Go to library" dentro del empty state de favorites
+if (goToLibraryBtn) {
+  goToLibraryBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    showHomeView();
+  });
+}
+
+// Al cargar la página, mostramos Home por defecto
+showHomeView();
+
+const audioElem = document.getElementById('audioPlayer');
+
+audioElem.addEventListener('timeupdate', () => {
+  const total = audioElem.duration;
+  const current = audioElem.currentTime;
+
+  if (!isNaN(total)) {
+    progressFill.style.width = `${(current / total) * 100}%`;
+    timeCurrent.textContent = formatDuration(Math.floor(current));
+    timeTotal.textContent = formatDuration(Math.floor(total));
+  }
 });
+
+audioElem.addEventListener('ended', () => {
+  nextSong();
+});
+
+async function loadStats() {
+  try {
+    const res = await fetch("/api/stats");
+    const data = await res.json();
+
+    document.getElementById("total-songs").innerText = data.totalSongs;
+    document.getElementById("total-duration").innerText = data.totalDuration + " min";
+    document.getElementById("favorite-songs").innerText = data.favoriteSongs;
+  } catch (e) {
+    console.error("Error loading stats:", e);
+  }
+}
+
+loadStats();
+
+async function loadStats() {
+    try {
+        const response = await fetch("http://localhost:8000/api/songs"); 
+        const songs = await response.json();
+
+        // Total songs
+        document.getElementById("totalSongsCount").textContent = songs.length;
+
+        // Total favorites
+        const favs = songs.filter(song => song.favorite === 1).length;
+        document.getElementById("favoriteSongsCount").textContent = favs;
+
+        // Total duration (sum of seconds)
+        const totalSeconds = songs.reduce((sum, s) => sum + (s.duration || 0), 0);
+        const minutes = Math.floor(totalSeconds / 60);
+        document.getElementById("totalDuration").textContent = minutes + " min";
+
+        // Stats view
+        document.getElementById("statsTotalSongs").textContent = songs.length;
+        document.getElementById("statsFavoriteSongs").textContent = favs;
+        document.getElementById("statsTotalDuration").textContent = minutes + " min";
+
+    } catch (error) {
+        console.error("Error loading stats:", error);
+    }
+}
+
+// Ejecutar al cargar la página
+document.addEventListener("DOMContentLoaded", loadStats);
