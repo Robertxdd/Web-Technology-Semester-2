@@ -61,4 +61,15 @@ class SongController extends Controller
 
         return response()->noContent();
     }
+
+    
+    public function toggleFavorite($id)
+{
+    $song = Song::findOrFail($id);
+    $song->favorite = !$song->favorite;
+    $song->save();
+
+    return $song;
+}
+    
 }
