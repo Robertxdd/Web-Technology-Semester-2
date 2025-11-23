@@ -161,11 +161,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return res.json();
   }
 
-  async function loadSongs() {
-    songs = await apiGetSongs();
-    renderSongs(songs);
-    if (songs.length > 0 && currentSongIndex < 0) selectSong(0, false);
-    updateStatsFromSongs();
+    async function loadSongs() {
+      songs = await apiGetSongs();
+      if (songs.length > 0 && currentSongIndex < 0) selectSong(0, false);
+      updateStatsFromSongs();
+
+      if (userRole) {
+          renderSongs(songs);
+      }
   }
 
   async function loadPlaylists() {
@@ -200,6 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
           const editButtonHtml = userRole === 'admin' 
       ? `<button class="edit material-symbols-outlined" data-id="${s.id}" aria-label="Edit">edit</button>` 
       : '';
+
+      console.log('Rendering song, userRole:', userRole, 'showing edit button:', userRole === 'admin');
 
     row.innerHTML = `
       <span class="song-title">${escapeHtml(s.title)}</span>
@@ -513,18 +518,19 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   }
 
-  async function loadUserRole() {
-  try {
-    const res = await fetch(`${API_BASE}/user/role`, { credentials: 'include' });
-    if (res.ok) {
-      const data = await res.json();
-      userRole = data.role || 'user';
-      console.log('User role:', userRole);
+    async function loadUserRole() {
+    try {
+      const res = await fetch(`${API_BASE}/user/role`, { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        userRole = data.role || 'user';
+        console.log('User role loaded:', userRole); 
+        console.log('Is admin?', userRole === 'admin');  
+      }
+    } catch (e) {
+      console.error('Could not load user role', e);
     }
-  } catch (e) {
-    console.error('Could not load user role', e);
   }
-}
 
   function showSettingsView() {
     hideAllViews();

@@ -49,17 +49,15 @@ class AuthController extends Controller
         }
         
         session(['user' => $user]);
+        session(['user_role' => $user->role]);
         return redirect('/index.html');
     }
+
     public function logout(Request $req)
     {
         $req->session()->forget('user');
+        $req->session()->forget('user_role'); 
         $req->session()->invalidate();
         $req->session()->regenerateToken();
-
         return redirect()->route('login');
     }
-}
-
-
-     
