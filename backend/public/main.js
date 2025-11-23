@@ -1,28 +1,24 @@
 // main.js
 document.addEventListener('DOMContentLoaded', () => {
-  // -------------------------
-  // Config
-  // -------------------------
+
   const API_BASE = 'http://127.0.0.1:8000/api';
 
-  // Tabs & views
   const homeTab = document.getElementById('homeTab');
   const favoritesTab = document.getElementById('favoritesTab');
   const playlistsTab = document.getElementById('playlistsTab');
   const settingsTab = document.getElementById('settingsTab');
 
-  const cardsSection = document.querySelector('.cards-section');      // Home stats
-  const mainSongsPanel = document.querySelector('.content-columns');  // Home song list
+  const cardsSection = document.querySelector('.cards-section');
+  const mainSongsPanel = document.querySelector('.content-columns');
 
   const favoritesView = document.getElementById('favoritesView');
   const playlistsView = document.getElementById('playlistsView');
   const settingsView = document.getElementById('settingsView');
 
-  // UI nodes
-  const songListContainer = document.getElementById('songsListContainer'); // main list container
-  const favoritesSongsList = document.getElementById('favoritesSongsList'); // favorites content container
-  const playlistsList = document.getElementById('playlistsList'); // playlists list in sidebar
-  const playlistSongsList = document.getElementById('playlistSongsList'); // selected playlist detail
+  const songListContainer = document.getElementById('songsListContainer');
+  const favoritesSongsList = document.getElementById('favoritesSongsList');
+  const playlistsList = document.getElementById('playlistsList');
+  const playlistSongsList = document.getElementById('playlistSongsList');
 
   const songForm = document.getElementById('songForm');
   const createPlaylistForm = document.getElementById('createPlaylistForm');
@@ -38,19 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const statsTab = document.getElementById("statsTab");
   const statsView = document.getElementById("statsView");
 
-  const goToLibraryBtn = document.getElementById('goToLibraryBtn'); // favorites empty CTA
+  const goToLibraryBtn = document.getElementById('goToLibraryBtn');
   const themeChips = document.querySelectorAll('.theme-chip');
   const logoutButton = document.getElementById('logoutButton');
 
-  // State
   let songs = [];
   let currentSongIndex = -1;
   let isPlaying = false;
-  let playlists = loadPlaylistsFromStorage(); // simple localStorage playlists
+  let playlists = [];
 
-  // -------------------------
-  // Helpers
-  // -------------------------
   function formatDuration(sec) {
     const m = Math.floor(sec / 60);
     const s = (sec % 60).toString().padStart(2, '0');
@@ -65,16 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return (parseInt(p[0], 10) || 0) * 60 + (parseInt(p[1], 10) || 0);
   }
 
-  // -------------------------
-  // Theme handling
-  // -------------------------
   function applyTheme(theme) {
     const body = document.body;
     if (!body) return;
-
-    // Normalizamos el valor
-    const normalized = (theme === 'light') ? 'light' : 'dark';
-
+    const normalized = theme === 'light' ? 'light' : 'dark';
     if (normalized === 'light') {
       body.classList.add('theme-light');
       body.classList.remove('theme-dark');
@@ -82,90 +68,40 @@ document.addEventListener('DOMContentLoaded', () => {
       body.classList.add('theme-dark');
       body.classList.remove('theme-light');
     }
-
-    // Actualizamos el estado visual de los chips
-    if (themeChips && themeChips.length) {
-      themeChips.forEach((chip) => {
-        const label = chip.textContent.trim().toLowerCase();
-        const isLightChip = label === 'light';
-        chip.classList.toggle(
-          'active',
-          (normalized === 'light' && isLightChip) ||
-          (normalized === 'dark' && !isLightChip)
-        );
-      });
-    }
-
-    // Guardamos preferencia en localStorage
-    try {
-      localStorage.setItem('musix-theme', normalized);
-    } catch (e) {
-      // ignoramos si falla
-    }
+    themeChips.forEach((chip) => {
+      const label = chip.textContent.trim().toLowerCase();
+      const isLightChip = label === 'light';
+      chip.classList.toggle('active',
+        (normalized === 'light' && isLightChip) ||
+        (normalized === 'dark' && !isLightChip)
+      );
+    });
+    localStorage.setItem('musix-theme', normalized);
   }
+
   function clearActiveTabs() {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   }
 
   function hideAllViews() {
-    if (cardsSection) cardsSection.classList.add('hidden');
-    if (mainSongsPanel) mainSongsPanel.classList.add('hidden');
-    if (favoritesView) favoritesView.classList.add('hidden');
-    if (playlistsView) playlistsView.classList.add('hidden');
-    if (settingsView) settingsView.classList.add('hidden');
+    cardsSection?.classList.add('hidden');
+    mainSongsPanel?.classList.add('hidden');
+    favoritesView?.classList.add('hidden');
+    playlistsView?.classList.add('hidden');
+    settingsView?.classList.add('hidden');
   }
 
-  // -------------------------
-  // SPA view functions
-  // -------------------------
   function showHomeView() {
     hideAllViews();
-    if (cardsSection) cardsSection.classList.remove('hidden');
-    if (mainSongsPanel) mainSongsPanel.classList.remove('hidden');
+    cardsSection.classList.remove('hidden');
+    mainSongsPanel.classList.remove('hidden');
     clearActiveTabs();
-    if (homeTab) homeTab.classList.add('active');
-    renderSongs(songs); // show full library
+    homeTab.classList.add('active');
+    renderSongs(songs);
   }
 
-  async function showFavoritesView() {
-  hideAllViews();
-  favoritesView.classList.remove('hidden');
-  clearActiveTabs();
-  favoritesTab.classList.add('active');
-
-  await loadSongs(); // <-- ENSURE songs[] IS FRESH
-
-  const favs = songs.filter(s =>
-      s.favorite === true ||
-      s.favorite === 1 ||
-      s.favorite === "1"
-  );
-
-  renderFavorites(favs);
-}
-
-
-  function showPlaylistsView() {
-    hideAllViews();
-    if (playlistsView) playlistsView.classList.remove('hidden');
-    clearActiveTabs();
-    if (playlistsTab) playlistsTab.classList.add('active');
-    renderPlaylistsSidebar();
-    renderSelectedPlaylistDetail(); // show detail or empty state
-  }
-
-  function showSettingsView() {
-    hideAllViews();
-    if (settingsView) settingsView.classList.remove('hidden');
-    clearActiveTabs();
-    if (settingsTab) settingsTab.classList.add('active');
-  }
-  // -------------------------
-  // API calls
-  // -------------------------
   async function apiGetSongs() {
     const res = await fetch(`${API_BASE}/songs`, { credentials: 'include' });
-    if (!res.ok) throw new Error('Failed to fetch songs');
     return res.json();
   }
 
@@ -176,89 +112,83 @@ document.addEventListener('DOMContentLoaded', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to create song');
     return res.json();
   }
 
   async function apiDeleteSong(id) {
-    const res = await fetch(`${API_BASE}/songs/${id}`, {
+    await fetch(`${API_BASE}/songs/${id}`, {
       method: 'DELETE',
       credentials: 'include',
     });
-    if (!res.ok) throw new Error('Failed to delete song');
   }
 
-  // Note: Controller earlier suggested PATCH; using PATCH here.
-async function apiToggleFavorite(id) {
+  async function apiToggleFavorite(id) {
     const res = await fetch(`${API_BASE}/songs/${id}/favorite`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
+      method: 'PUT',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
     });
-    if (!res.ok) throw new Error('Failed to toggle favorite');
     return res.json();
-}
+  }
 
   async function apiGetFavorites() {
-    // If you have a dedicated endpoint /songs/favorites use it; fallback to filtering client-side
-    try {
-      const res = await fetch(`${API_BASE}/songs/favorites`, { credentials: 'include' });
-      if (res.ok) return res.json();
-      // otherwise fallback to full list
-    } catch (e) {
-      // ignore and fall back
-    }
-    // fallback
-    return songs.filter(s => s.favorite === 1 || s.favorite === true || s.favorite === '1');
+    const res = await fetch(`${API_BASE}/songs/favorites`, { credentials: 'include' });
+    if (res.ok) return res.json();
+    return songs.filter(s => s.favorite);
   }
 
-  // -------------------------
-  // Loading data
-  // -------------------------
+  async function apiGetPlaylists() {
+    const res = await fetch(`${API_BASE}/playlists`, { credentials: 'include' });
+    return res.json();
+  }
+
+  async function apiGetPlaylist(id) {
+    const res = await fetch(`${API_BASE}/playlists/${id}`, { credentials: 'include' });
+    return res.json();
+  }
+
+  async function apiCreatePlaylist(data) {
+    const res = await fetch(`${API_BASE}/playlists`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  }
+
   async function loadSongs() {
-    try {
-      songs = await apiGetSongs();
-      renderSongs(songs);
-      if (songs.length > 0 && currentSongIndex < 0) selectSong(0, false);
-      updateStatsFromSongs();
-    } catch (e) {
-      console.error(e);
-      songListContainer.innerHTML = '<p>Error loading songs.</p>';
-    }
+    songs = await apiGetSongs();
+    renderSongs(songs);
+    if (songs.length > 0 && currentSongIndex < 0) selectSong(0, false);
+    updateStatsFromSongs();
   }
 
-  async function loadFavoritesAndRender() {
-    try {
-      const favs = await apiGetFavorites();
-      // ensure empty state handling on favorites view
-      renderFavorites(favs);
-    } catch (e) {
-      console.error('Failed loading favorites', e);
-      favoritesSongsList.innerHTML = '<p>Error loading favorites.</p>';
-    }
+  async function loadPlaylists() {
+    playlists = await apiGetPlaylists();
   }
 
-  // -------------------------
-  // Render functions
-  // -------------------------
+  async function showFavoritesView() {
+    hideAllViews();
+    favoritesView.classList.remove('hidden');
+    clearActiveTabs();
+    favoritesTab.classList.add('active');
+    await loadSongs();
+    const favs = songs.filter(s => s.favorite);
+    renderFavorites(favs);
+  }
   function renderSongs(list = []) {
-    if (!songListContainer) return;
     songListContainer.innerHTML = '';
-    if (!list || list.length === 0) {
+    if (!list.length) {
       songListContainer.innerHTML = '<p class="muted">No songs in your library.</p>';
       return;
     }
-
-
-
-
 
     list.forEach((s) => {
       const durationSeconds = parseDurationToSeconds(s.duration);
       const row = document.createElement('div');
       row.className = 'song';
 
-      // Show active status if this exact song is selected in the main songs list
       const idx = songs.findIndex(x => x.id === s.id);
       if (idx === currentSongIndex) row.classList.add('active');
       if (s.favorite) row.classList.add('favorite');
@@ -269,66 +199,47 @@ async function apiToggleFavorite(id) {
         <span class="song-year">${s.year ?? ''}</span>
         <span class="song-genre">${s.genre ?? ''}</span>
         <span class="song-duration">${formatDuration(durationSeconds)}</span>
-        <button class="fav material-symbols-outlined" data-id="${s.id}" aria-label="Toggle favorite">${s.favorite ? 'favorite' : 'favorite_border'}</button>
-        <button class="remove material-symbols-outlined" data-id="${s.id}" aria-label="Remove">close</button>
+        <button class="fav material-symbols-outlined" data-id="${s.id}">${s.favorite ? 'favorite' : 'favorite_border'}</button>
+        <button class="remove material-symbols-outlined" data-id="${s.id}">close</button>
       `;
 
-      // Select song unless clicking buttons
       row.addEventListener('click', (e) => {
         if (e.target.closest('.remove') || e.target.closest('.fav')) return;
-        // find index in the global songs array and select
         const songIdx = songs.findIndex(x => x.id === s.id);
         if (songIdx >= 0) selectSong(songIdx, true);
       });
 
-      // remove
       row.querySelector('.remove').addEventListener('click', async (e) => {
         e.stopPropagation();
-        const id = e.currentTarget.dataset.id;
-        try {
-          await apiDeleteSong(id);
-          await loadSongs();
-        } catch (err) {
-          alert('Could not delete song');
-          console.error(err);
-        }
+        await apiDeleteSong(e.currentTarget.dataset.id);
+        await loadSongs();
       });
 
-      // favorite
       row.querySelector('.fav').addEventListener('click', async (e) => {
         e.stopPropagation();
-        const id = e.currentTarget.dataset.id;
-        try {
-          await apiToggleFavorite(id);
-          // reload songs and if we are on favorites view also reload favorites
-          await loadSongs();
-          if (favoritesTab && favoritesTab.classList.contains('active')) await loadFavoritesAndRender();
-        } catch (err) {
-          alert('Could not toggle favorite');
-          console.error(err);
+        await apiToggleFavorite(e.currentTarget.dataset.id);
+        await loadSongs();
+        if (favoritesTab.classList.contains('active')) {
+          const favs = songs.filter(x => x.favorite);
+          renderFavorites(favs);
         }
       });
-
 
       songListContainer.appendChild(row);
     });
   }
 
   function renderFavorites(list = []) {
-    if (!favoritesSongsList) return;
     favoritesSongsList.innerHTML = '';
 
     const emptyState = document.getElementById('favoritesEmptyState');
-    if (!list || list.length === 0) {
-      if (emptyState) emptyState.style.display = 'block';
-      favoritesSongsList.innerHTML = ''; // clear any residual
+    if (!list.length) {
+      emptyState.style.display = 'block';
       return;
     }
-
-    if (emptyState) emptyState.style.display = 'none';
+    emptyState.style.display = 'none';
 
     list.forEach(s => {
-      const durationSeconds = parseDurationToSeconds(s.duration);
       const div = document.createElement('div');
       div.className = 'favorite-row';
       div.innerHTML = `
@@ -336,45 +247,32 @@ async function apiToggleFavorite(id) {
           <strong>${escapeHtml(s.title)}</strong> — <span>${escapeHtml(s.artist)}</span>
         </div>
         <div class="fav-right">
-          <span>${formatDuration(durationSeconds)}</span>
-          <button class="fav-remove material-symbols-outlined" data-id="${s.id}" aria-label="Unfavorite">favorite</button>
+          <span>${formatDuration(parseDurationToSeconds(s.duration))}</span>
+          <button class="fav-remove material-symbols-outlined" data-id="${s.id}">favorite</button>
         </div>
       `;
 
-      // un-favorite from favorites view
       div.querySelector('.fav-remove').addEventListener('click', async (e) => {
-        e.stopPropagation();
-        const id = e.currentTarget.dataset.id;
-        try {
-          await apiToggleFavorite(id);
-          await loadFavoritesAndRender();
-          await loadSongs(); // keep library in sync
-        } catch (err) {
-          console.error(err);
-          alert('Could not update favorite');
-        }
+        await apiToggleFavorite(e.currentTarget.dataset.id);
+        const favs = songs.filter(x => x.favorite);
+        renderFavorites(favs);
+        await loadSongs();
       });
 
       favoritesSongsList.appendChild(div);
     });
   }
 
-  // -------------------------
-  // Player logic
-  // -------------------------
   function selectSong(index, autoPlay = true) {
     if (index < 0 || index >= songs.length) return;
     currentSongIndex = index;
     const s = songs[index];
 
-    // highlight correct row in main songs list
     document.querySelectorAll('.song').forEach(el => el.classList.remove('active'));
-    const activeRow = Array.from(document.querySelectorAll('.song')).find(row => {
-      return row.querySelector('.remove')?.dataset.id == s.id;
-    });
-    if (activeRow) activeRow.classList.add('active');
+    const activeRow = Array.from(document.querySelectorAll('.song'))
+      .find(row => row.querySelector('.remove')?.dataset.id == s.id);
+    activeRow?.classList.add('active');
 
-    // update player UI
     audioElem.src = s.url || '';
     playerSongTitle.textContent = s.title || 'No song selected';
     playerSongArtist.textContent = s.artist || '—';
@@ -383,10 +281,7 @@ async function apiToggleFavorite(id) {
     progressFill.style.width = '0%';
 
     if (autoPlay) {
-      audioElem.play().catch(e => {
-        // Autoplay may be blocked by browser; just update icon
-        console.warn('autoplay blocked', e);
-      });
+      audioElem.play().catch(() => {});
       playBtn.textContent = 'pause';
       isPlaying = true;
     }
@@ -405,13 +300,13 @@ async function apiToggleFavorite(id) {
   }
 
   function nextSong() {
-    if (songs.length === 0) return;
+    if (!songs.length) return;
     currentSongIndex = (currentSongIndex + 1) % songs.length;
     selectSong(currentSongIndex, true);
   }
 
   function prevSong() {
-    if (songs.length === 0) return;
+    if (!songs.length) return;
     currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
     selectSong(currentSongIndex, true);
   }
@@ -430,8 +325,8 @@ async function apiToggleFavorite(id) {
     nextSong();
   });
 
-  if (playBtn) playBtn.addEventListener('click', togglePlay);
-  // optional prev/next buttons
+  playBtn?.addEventListener('click', togglePlay);
+
   document.querySelectorAll('.control-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const label = e.currentTarget.getAttribute('aria-label') || '';
@@ -440,101 +335,50 @@ async function apiToggleFavorite(id) {
     });
   });
 
-  // -------------------------
-  // Stats
-  // -------------------------
   function updateStatsFromSongs() {
-    try {
-      const totalSongs = songs.length;
-      const favs = songs.filter(s => s.favorite === 1 || s.favorite === true || s.favorite === '1').length;
-      const totalSeconds = songs.reduce((sum, s) => sum + (parseDurationToSeconds(s.duration) || 0), 0);
-      const minutes = Math.floor(totalSeconds / 60);
+    const totalSongs = songs.length;
+    const favs = songs.filter(s => s.favorite).length;
+    const totalSeconds = songs.reduce((sum, s) => sum + parseDurationToSeconds(s.duration || 0), 0);
+    const minutes = Math.floor(totalSeconds / 60);
 
-      const totalSongsEl = document.getElementById('totalSongsCount');
-      const totalDurationEl = document.getElementById('totalDuration');
-      const favoriteSongsEl = document.getElementById('favoriteSongsCount');
+    document.getElementById('totalSongsCount').textContent = totalSongs;
+    document.getElementById('totalDuration').textContent = minutes + ' min';
+    document.getElementById('favoriteSongsCount').textContent = favs;
 
-      if (totalSongsEl) totalSongsEl.textContent = totalSongs;
-      if (totalDurationEl) totalDurationEl.textContent = minutes + ' min';
-      if (favoriteSongsEl) favoriteSongsEl.textContent = favs;
-
-      // stats view mirrors
-      const statsTotalSongs = document.getElementById('statsTotalSongs');
-      const statsFavoriteSongs = document.getElementById('statsFavoriteSongs');
-      const statsTotalDuration = document.getElementById('statsTotalDuration');
-
-      if (statsTotalSongs) statsTotalSongs.textContent = totalSongs;
-      if (statsFavoriteSongs) statsFavoriteSongs.textContent = favs;
-      if (statsTotalDuration) statsTotalDuration.textContent = minutes + ' min';
-    } catch (e) {
-      console.error('updateStats error', e);
-    }
-
-
-
+    document.getElementById('statsTotalSongs').textContent = totalSongs;
+    document.getElementById('statsFavoriteSongs').textContent = favs;
+    document.getElementById('statsTotalDuration').textContent = minutes + ' min';
   }
 
-  // -------------------------
-  // Playlist (local storage) simple implementation
-  // -------------------------
-  function loadPlaylistsFromStorage() {
-    try {
-      const raw = localStorage.getItem('musix_playlists');
-      if (!raw) return [];
-      return JSON.parse(raw);
-    } catch {
-      return [];
-    }
-  }
-
-  function savePlaylistsToStorage() {
-    try {
-      localStorage.setItem('musix_playlists', JSON.stringify(playlists));
-    } catch (e) {
-      console.error('Could not save playlists', e);
-    }
-  }
-
-  function renderPlaylistsSidebar() {
-    if (!playlistsList) return;
+  async function renderPlaylistsSidebar() {
     playlistsList.innerHTML = '';
-    if (playlists.length === 0) {
+    await loadPlaylists();
+
+    if (!playlists.length) {
       playlistsList.innerHTML = '<p class="empty-playlists-message">You haven’t created any playlists yet.</p>';
       return;
     }
 
-    playlists.forEach((p, i) => {
+    playlists.forEach((p) => {
       const div = document.createElement('div');
       div.className = 'playlist-item';
-      div.innerHTML = `<button class="playlist-select" data-index="${i}">${escapeHtml(p.name)}</button>`;
+      div.innerHTML = `<button class="playlist-select" data-id="${p.id}">${escapeHtml(p.name)}</button>`;
       playlistsList.appendChild(div);
     });
 
-    // add click listeners
     playlistsList.querySelectorAll('.playlist-select').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const idx = Number(e.currentTarget.dataset.index);
-        const p = playlists[idx];
+      btn.addEventListener('click', async (e) => {
+        const id = e.currentTarget.dataset.id;
+        const p = await apiGetPlaylist(id);
         renderPlaylistDetail(p);
       });
     });
   }
 
-  function renderSelectedPlaylistDetail() {
-    // if there is a selected playlist show it, otherwise show empty message
-    const selected = playlists[0];
-    if (!selected) {
-      if (playlistSongsList) playlistSongsList.innerHTML = '<p class="muted">Select a playlist to see songs.</p>';
-      return;
-    }
-    renderPlaylistDetail(selected);
-  }
-
-  function renderPlaylistDetail(playlist) {
-    if (!playlistSongsList) return;
+  async function renderPlaylistDetail(playlist) {
     playlistSongsList.innerHTML = '';
-    const titleEl = document.querySelector('.playlist-detail-title');
-    if (titleEl) titleEl.textContent = playlist.name;
+    document.querySelector('.playlist-detail-title').textContent = playlist.name;
+
     if (!playlist.songs || playlist.songs.length === 0) {
       playlistSongsList.innerHTML = '<p class="muted">This playlist is empty.</p>';
       return;
@@ -549,27 +393,25 @@ async function apiToggleFavorite(id) {
       playlistSongsList.appendChild(div);
     });
   }
-
-  // create playlist form
   if (createPlaylistForm) {
-    createPlaylistForm.addEventListener('submit', (e) => {
+    createPlaylistForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const f = new FormData(createPlaylistForm);
       const name = f.get('name')?.trim();
       const desc = f.get('description')?.trim();
-      if (!name) return alert('Playlist name required');
-      playlists.push({ name, description: desc || '', songs: [] });
-      savePlaylistsToStorage();
-      renderPlaylistsSidebar();
+
+      if (!name) {
+        alert('Playlist name required');
+        return;
+      }
+
+      await apiCreatePlaylist({ name, description: desc || '' });
+      await renderPlaylistsSidebar();
       createPlaylistForm.reset();
-      // close modal by changing hash if you rely on hash modal, otherwise keep open
       location.hash = '';
     });
   }
 
-  // -------------------------
-  // Add song form
-  // -------------------------
   if (songForm) {
     songForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -588,43 +430,32 @@ async function apiToggleFavorite(id) {
         return;
       }
 
-      try {
-        await apiCreateSong(data);
-        songForm.reset();
-        await loadSongs();
-      } catch (err) {
-        alert('Error saving song');
-        console.error(err);
-      }
+      await apiCreateSong(data);
+      songForm.reset();
+      await loadSongs();
     });
   }
-  if (statsTab) statsTab.addEventListener("click", (e) => { e.preventDefault(); showStatsView(); });
-  if (settingsTab) settingsTab.addEventListener("click", (e) => { e.preventDefault(); showSettingsView(); });
 
+  if (statsTab) statsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showStatsView();
+  });
 
-  // -------------------------
-  // Favorites empty CTA
-  // -------------------------
+  if (settingsTab) settingsTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    showSettingsView();
+  });
+
   if (goToLibraryBtn) {
     goToLibraryBtn.addEventListener('click', (e) => {
       e.preventDefault();
       showHomeView();
-      // ensure songs are loaded and rendered
       renderSongs(songs);
     });
   }
 
-  // -------------------------
-  // Theme events
-  // -------------------------
   if (themeChips && themeChips.length) {
-    // Theme inicial desde localStorage o por defecto dark
-    let storedTheme = 'dark';
-    try {
-      storedTheme = localStorage.getItem('musix-theme') || 'dark';
-    } catch (e) {
-      storedTheme = 'dark';
-    }
+    let storedTheme = localStorage.getItem('musix-theme') || 'dark';
     applyTheme(storedTheme);
 
     themeChips.forEach((chip) => {
@@ -637,19 +468,13 @@ async function apiToggleFavorite(id) {
     applyTheme('dark');
   }
 
-  // -------------------------
-  // Logout button
-  // -------------------------
   if (logoutButton) {
     logoutButton.addEventListener('click', (e) => {
       e.preventDefault();
-      // Ruta del backend que hará el logout y redirigirá a login
       window.location.href = '/logout';
     });
   }
-  // -------------------------
-  // Utilities
-  // -------------------------
+
   function escapeHtml(str) {
     if (!str) return '';
     return String(str)
@@ -659,6 +484,14 @@ async function apiToggleFavorite(id) {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
   }
+
+  function showSettingsView() {
+    hideAllViews();
+    settingsView.classList.remove('hidden');
+    clearActiveTabs();
+    settingsTab.classList.add('active');
+  }
+
   function showStatsView() {
     hideAllViews();
     statsView.classList.remove("hidden");
@@ -666,20 +499,34 @@ async function apiToggleFavorite(id) {
     statsTab.classList.add("active");
   }
 
-  // -------------------------
-  // Event wiring for SPA tabs
-  // -------------------------
-  if (homeTab) homeTab.addEventListener('click', (e) => { e.preventDefault(); showHomeView(); });
-  if (favoritesTab) favoritesTab.addEventListener('click', (e) => { e.preventDefault(); showFavoritesView(); });
-  if (playlistsTab) playlistsTab.addEventListener('click', (e) => { e.preventDefault(); showPlaylistsView(); });
-  if (settingsTab) settingsTab.addEventListener('click', (e) => { e.preventDefault(); showSettingsView(); });
+  if (homeTab) homeTab.addEventListener('click', (e) => {
+    e.preventDefault();
+    showHomeView();
+  });
+  if (favoritesTab) favoritesTab.addEventListener('click', (e) => {
+    e.preventDefault();
+    showFavoritesView();
+  });
+  if (playlistsTab) playlistsTab.addEventListener('click', (e) => {
+    e.preventDefault();
+    showPlaylistsView();
+  });
+  if (settingsTab) settingsTab.addEventListener('click', (e) => {
+    e.preventDefault();
+    showSettingsView();
+  });
 
-  // -------------------------
-  // Initial load
-  // -------------------------
+  function showPlaylistsView() {
+    hideAllViews();
+    playlistsView.classList.remove('hidden');
+    clearActiveTabs();
+    playlistsTab.classList.add('active');
+    renderPlaylistsSidebar();
+  }
+
   (async function init() {
     await loadSongs();
-    renderPlaylistsSidebar();
+    await renderPlaylistsSidebar();
     showHomeView();
   })();
 
