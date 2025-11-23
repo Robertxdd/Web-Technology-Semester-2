@@ -7,23 +7,45 @@ use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
-    // Obtener todas las playlists con sus canciones
     public function index()
     {
-        return Playlist::with('songs')->get();
+        return Playlist::with('songs')->get()->map(function($p) {
+            return [
+                "id" => $p->id,
+                "name" => $p->name,
+                "description" => $p->description,
+                "songs" => $p->songs->pluck('id'),
+            ];
+        });
     }
 
-    // Crear una playlist
     public function store(Request $request)
     {
         $playlist = Playlist::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'description' => $request->description ?? null,
         ]);
 
-        return response()->json($playlist, 201);
+        return response()->json([
+            "id" => $playlist->id,
+            "name" => $playlist->name,
+            "description" => $playlist->description,
+            "songs" => [],
+        ], 201);
     }
 
-    // Borrar una playlist
+    public function show($id)
+    {
+        $p = Playlist::with('songs')->findOrFail($id);
+
+        return [
+            "id" => $p->id,
+            "name" => $p->name,
+            "description" => $p->description,
+            "songs" => $p->songs->pluck('id'),
+        ];
+    }
+
     public function destroy($id)
     {
         Playlist::findOrFail($id)->delete();
@@ -31,29 +53,35 @@ class PlaylistController extends Controller
         return response()->json(["message" => "Playlist deleted"]);
     }
 
-    // Añadir canción a la playlist
     public function addSong(Request $request, $playlistId)
     {
         $playlist = Playlist::findOrFail($playlistId);
-
         $playlist->songs()->attach($request->song_id);
 
-        return response()->json([
-            "message" => "Song added to playlist",
-            "playlist" => $playlist->load('songs')
-        ]);
+        return [
+            "message" => "Song added",
+            "playlist" => [
+                "id" => $playlist->id,
+                "name" => $playlist->name,
+                "description" => $playlist->description,
+                "songs" => $playlist->songs->pluck('id'),
+            ],
+        ];
     }
 
-    // Quitar canción de la playlist
     public function removeSong(Request $request, $playlistId)
     {
         $playlist = Playlist::findOrFail($playlistId);
-
         $playlist->songs()->detach($request->song_id);
 
-        return response()->json([
-            "message" => "Song removed from playlist",
-            "playlist" => $playlist->load('songs')
-        ]);
+        return [
+            "message" => "Song removed",
+            "playlist" => [
+                "id" => $playlist->id,
+                "name" => $playlist->name,
+                "description" => $playlist->description,
+                "songs" => $playlist->songs->pluck('id'),
+            ],
+        ];
     }
 }

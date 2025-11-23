@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const cardsSection = document.querySelector('.cards-section');
   const mainSongsPanel = document.querySelector('.content-columns');
+  const openCreatePlaylistBtn = document.getElementById('openCreatePlaylistBtn');
+
 
   const favoritesView = document.getElementById('favoritesView');
   const playlistsView = document.getElementById('playlistsView');
@@ -228,6 +230,12 @@ document.addEventListener('DOMContentLoaded', () => {
       songListContainer.appendChild(row);
     });
   }
+
+  if (openCreatePlaylistBtn) {
+  openCreatePlaylistBtn.addEventListener('click', () => {
+    location.hash = 'createPlaylistModal';
+  });
+}
 
   function renderFavorites(list = []) {
     favoritesSongsList.innerHTML = '';
