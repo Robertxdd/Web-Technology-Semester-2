@@ -2,86 +2,86 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musical Library</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musical Library</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 </head>
 
 <body>
   <div class="app-container">
-      
-    <header class="app-header">
-        <nav class="header-nav">
-            <div class="logo-section">
-              <h1 class="logo">MuSix</h1>
-               <span class="url">Your Musix Library</span>
-            </div>
 
-            <div class="header-actions">   
-                <a href="#addSongModal" class="primary-btn">+ Add Song</a>
-              
-            </div>
-        </nav>
+    <header class="app-header">
+      <nav class="header-nav">
+        <div class="logo-section">
+          <h1 class="logo">MuSix</h1>
+          <span class="url">Your Musix Library</span>
+        </div>
+
+        <div class="header-actions">
+          <a href="#addSongModal" class="primary-btn">+ Add Song</a>
+
+        </div>
+      </nav>
     </header>
 
     <main class="main-layout">
       <aside class="sidebar">
 
         <section class="user-section">
-            <div class="profile-picture">
-                <img src="images/ProfilePicture.jpg" alt="Profile"   height="50">
-            </div>
+          <div class="profile-picture">
+            <img src="images/ProfilePicture.jpg" alt="Profile" height="50">
+          </div>
         </section>
 
         <section class="search-section">
-            <form class="search-form" action="action_page.js"   method="get">
-                <div class="search-container">
-                    <input id="searchInput" class="search-input" type="search" name="searchbar"
-                      placeholder="What do you want to listen to?">
-                    <span class="material-symbols-outlined search-icon">search</span>
-                </div>
-            </form>
+          <form class="search-form" action="action_page.js" method="get">
+            <div class="search-container">
+              <input id="searchInput" class="search-input" type="search" name="searchbar"
+                placeholder="What do you want to listen to?">
+              <span class="material-symbols-outlined search-icon">search</span>
+            </div>
+          </form>
         </section>
 
         <nav class="main-nav">
           <p class="nav-section-label">LIBRARY</p>
           <ul class="nav-menu">
-              <li>
-                <a href="#" class="nav-link active" id="homeTab">
-                    <span class="nav-icon material-symbols-outlined">home</span>
-                    <span class="nav-text">Home</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link" id="favoritesTab">
-                    <span class="nav-icon material-symbols-outlined">favorite</span>
-                    <span class="nav-text">Favorites</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link" id="playlistsTab">
-                    <span class="nav-icon material-symbols-outlined">queue_music</span>
-                    <span class="nav-text">Playlists</span>
-                </a>
-              </li>
+            <li>
+              <a href="#" class="nav-link active" id="homeTab">
+                <span class="nav-icon material-symbols-outlined">home</span>
+                <span class="nav-text">Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" id="favoritesTab">
+                <span class="nav-icon material-symbols-outlined">favorite</span>
+                <span class="nav-text">Favorites</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" id="playlistsTab">
+                <span class="nav-icon material-symbols-outlined">queue_music</span>
+                <span class="nav-text">Playlists</span>
+              </a>
+            </li>
           </ul>
 
           <p class="nav-section-label">ACCOUNT</p>
           <ul class="nav-menu nav-secondary">
-              <li>
-                <a href="#" class="nav-link" id="statsTab">
-                    <span class="nav-icon material-symbols-outlined">bar_chart_4_bars</span>
-                    <span class="nav-text">Stats</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link" id="settingsTab">
-                    <span class="nav-icon material-symbols-outlined">settings</span>
-                    <span class="nav-text">Settings</span>
-                </a>
-              </li>
+            <li>
+              <a href="#" class="nav-link" id="statsTab">
+                <span class="nav-icon material-symbols-outlined">bar_chart_4_bars</span>
+                <span class="nav-text">Stats</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" id="settingsTab">
+                <span class="nav-icon material-symbols-outlined">settings</span>
+                <span class="nav-text">Settings</span>
+              </a>
+            </li>
           </ul>
         </nav>
 
@@ -91,248 +91,249 @@
 
         <section class="cards-section">
           <div class="cards-grid">
-              <article class="card stat-card">
-                  <header class="card-header">
-                      <h2 class="card-title">Total songs</h2>
-                  </header>
-                  <p class="card-value" id="totalSongsCount">0</p>
-                  <p class="card-label">Songs in your library</p>
-              </article>
+            <article class="card stat-card">
+              <header class="card-header">
+                <h2 class="card-title">Total songs</h2>
+              </header>
+              <p class="card-value" id="totalSongsCount">0</p>
+              <p class="card-label">Songs in your library</p>
+            </article>
 
-              <article class="card stat-card">
-                  <header class="card-header">
-                      <h2 class="card-title">Total duration</h2>
-                  </header>
-                  <p class="card-value" id="totalDuration">0 min</p>
-                  <p class="card-label">Combined playback time</p>
-              </article>
+            <article class="card stat-card">
+              <header class="card-header">
+                <h2 class="card-title">Total duration</h2>
+              </header>
+              <p class="card-value" id="totalDuration">0 min</p>
+              <p class="card-label">Combined playback time</p>
+            </article>
 
-              <article class="card stat-card">
-                  <header class="card-header">
-                      <h2 class="card-title">Favorite songs</h2>
-                  </header>
-                  <p class="card-value" id="favoriteSongsCount">0</p>
-                  <p class="card-label">Marked as favorites</p>
-              </article>
+            <article class="card stat-card">
+              <header class="card-header">
+                <h2 class="card-title">Favorite songs</h2>
+              </header>
+              <p class="card-value" id="favoriteSongsCount">0</p>
+              <p class="card-label">Marked as favorites</p>
+            </article>
           </div>
         </section>
 
         <section class="favorites-view hidden" id="favoritesView">
 
-            <header class="favorites-header">
-                <span class="favorites-hero-icon material-symbols-outlined">favorite</span>
+          <header class="favorites-header">
+            <span class="favorites-hero-icon material-symbols-outlined">favorite</span>
 
-                <div class="favorites-header-main">
-                    <div class="favorites-title-block">
-                        <h2>Favorite Songs</h2>
-                        <p class="favorites-subtitle">Your most loved tracks in one place.</p>
-                    </div>
+            <div class="favorites-header-main">
+              <div class="favorites-title-block">
+                <h2>Favorite Songs</h2>
+                <p class="favorites-subtitle">Your most loved tracks in one place.</p>
+              </div>
 
-                    <div class="favorites-subheader">
-                        <div class="favorites-sort">
-                            <span class="favorites-sort-label">Sort by</span>
-                            <button class="favorites-chip active">Recently added</button>
-                            <button class="favorites-chip">Title</button>
-                            <button class="favorites-chip">Artist</button>
-                            <button class="favorites-chip">Year</button>
-                        </div>
-
-                        <div class="favorites-view-toggle" aria-label="View mode">
-                            <button class="view-toggle-btn active" type="button" aria-label="List view">
-                                <span class="material-symbols-outlined">view_list</span>
-                            </button>
-                            <button class="view-toggle-btn" type="button" aria-label="Grid view">
-                                <span class="material-symbols-outlined">grid_view</span>
-                            </button>
-                        </div>
-                    </div>
+              <div class="favorites-subheader">
+                <div class="favorites-sort">
+                  <span class="favorites-sort-label">Sort by</span>
+                  <button class="favorites-chip active">Recently added</button>
+                  <button class="favorites-chip">Title</button>
+                  <button class="favorites-chip">Artist</button>
+                  <button class="favorites-chip">Year</button>
                 </div>
-            </header>
 
-            <div class="favorites-content">
-                <div class="favorites-list" id="favoritesSongsList">
-
-                    <div class="empty-state favorites-empty" id="favoritesEmptyState">
-                        <div class="favorites-empty-illustration">
-                            <div class="favorites-orbit">
-                                <span class="material-symbols-outlined favorites-heart">favorite</span>
-                            </div>
-                            <div class="favorites-glow"></div>
-                        </div>
-
-                        <h3 class="empty-title">No favorite songs yet</h3>
-                        <p class="empty-text">Mark songs with the <strong>heart icon</strong> to save them here.</p>
-                        <a href="#" id="goToLibraryBtn" class="empty-cta">Go to library</a>
-                    </div>
-
+                <div class="favorites-view-toggle" aria-label="View mode">
+                  <button class="view-toggle-btn active" type="button" aria-label="List view">
+                    <span class="material-symbols-outlined">view_list</span>
+                  </button>
+                  <button class="view-toggle-btn" type="button" aria-label="Grid view">
+                    <span class="material-symbols-outlined">grid_view</span>
+                  </button>
                 </div>
+              </div>
             </div>
+          </header>
+
+          <div class="favorites-content">
+            <div class="favorites-list" id="favoritesSongsList">
+
+              <div class="empty-state favorites-empty" id="favoritesEmptyState">
+                <div class="favorites-empty-illustration">
+                  <div class="favorites-orbit">
+                    <span class="material-symbols-outlined favorites-heart">favorite</span>
+                  </div>
+                  <div class="favorites-glow"></div>
+                </div>
+
+                <h3 class="empty-title">No favorite songs yet</h3>
+                <p class="empty-text">Mark songs with the <strong>heart icon</strong> to save them here.</p>
+                <a href="#" id="goToLibraryBtn" class="empty-cta">Go to library</a>
+              </div>
+
+            </div>
+          </div>
 
         </section>
 
         <section class="playlists-view hidden" id="playlistsView">
           <header class="playlists-header">
-              <div class="playlists-heading">
-                  <span class="playlists-badge">Playlists</span>
-                  <h2>Your playlists</h2>
-                  <p class="playlists-subtitle">Create custom playlists and group your favourite tracks by mood, activity or genre.</p>
-              </div>
+            <div class="playlists-heading">
+              <span class="playlists-badge">Playlists</span>
+              <h2>Your playlists</h2>
+              <p class="playlists-subtitle">Create custom playlists and group your favourite tracks by mood, activity or
+                genre.</p>
+            </div>
 
-              <button class="primary-btn secondary" id="openCreatePlaylistBtn" type="button">
-                  <span class="material-symbols-outlined">queue_music</span>
-                  <span>New playlist</span>
-              </button>
+            <button class="primary-btn secondary" id="openCreatePlaylistBtn" type="button">
+              <span class="material-symbols-outlined">queue_music</span>
+              <span>New playlist</span>
+            </button>
           </header>
 
           <div class="playlists-layout">
 
             <aside class="playlists-column playlists-column--list">
-                <div class="playlists-column-header">
-                    <h3 class="playlists-column-title">Collections</h3>
-                    <p class="playlists-column-caption">Choose a playlist to see its songs.</p>
-                </div>
+              <div class="playlists-column-header">
+                <h3 class="playlists-column-title">Collections</h3>
+                <p class="playlists-column-caption">Choose a playlist to see its songs.</p>
+              </div>
 
-                <div class="playlists-list-container">
-                    <div class="playlists-list" id="playlistsList">
-                        <p class="empty-playlists-message">You haven’t created any playlists yet.</p>
-                    </div>
+              <div class="playlists-list-container">
+                <div class="playlists-list" id="playlistsList">
+                  <p class="empty-playlists-message">You haven’t created any playlists yet.</p>
                 </div>
+              </div>
             </aside>
 
             <section class="playlists-column playlists-column--detail" id="playlistDetail">
-                <div class="playlist-detail-header">
-                    <div class="playlist-detail-chip">
-                        <span class="material-symbols-outlined">library_music</span>
-                    </div>
-                    <div class="playlist-detail-texts">
-                        <h3 class="playlist-detail-title">Select a playlist</h3>
-                        <p class="playlist-detail-text">Choose one of your playlists on the left to see its songs here.</p>
-                    </div>
+              <div class="playlist-detail-header">
+                <div class="playlist-detail-chip">
+                  <span class="material-symbols-outlined">library_music</span>
                 </div>
+                <div class="playlist-detail-texts">
+                  <h3 class="playlist-detail-title">Select a playlist</h3>
+                  <p class="playlist-detail-text">Choose one of your playlists on the left to see its songs here.</p>
+                </div>
+              </div>
 
-                <div class="playlist-detail-meta">
-                    <span class="playlist-detail-pill">0 songs</span>
-                    <span class="playlist-detail-pill playlist-detail-pill--muted">No duration</span>
-                </div>
+              <div class="playlist-detail-meta">
+                <span class="playlist-detail-pill">0 songs</span>
+                <span class="playlist-detail-pill playlist-detail-pill--muted">No duration</span>
+              </div>
 
-                <div class="playlist-songs-wrapper">
-                    <div class="playlist-songs-list" id="playlistSongsList"></div>
-                </div>
+              <div class="playlist-songs-wrapper">
+                <div class="playlist-songs-list" id="playlistSongsList"></div>
+              </div>
             </section>
           </div>
         </section>
 
         <section class="stats-view hidden" id="statsView">
-            <div class="stats-shell">
-                <header class="stats-shell-header">
-                    <div class="stats-shell-title">
-                        <span class="material-symbols-outlined stats-shell-icon">bar_chart_4_bars</span>
-                        <div>
-                          <h2>Library stats</h2>
-                          <p>Overview of your songs, favorites, genres and artists.</p>
-                        </div>
-                    </div>
-
-                    <div class="stats-shell-filters">
-                        <button class="stats-chip stats-chip-active" type="button">All time</button>
-                    </div>
-                </header>
-
-                <div class="stats-kpi-row">
-                    <article class="stats-kpi-card">
-                        <div class="stats-kpi-header">
-                            <span class="material-symbols-outlined kpi-icon">library_music</span>
-                            <span class="kpi-label">Total songs</span>
-                        </div>
-                        <p class="kpi-number" id="statsTotalSongs">0</p>
-                        <div class="kpi-bar">
-                            <div class="kpi-bar-fill" style="width:45%"></div>
-                        </div>
-                        <p class="kpi-caption">Songs in your library</p>
-                    </article>
-
-                    <article class="stats-kpi-card">
-                        <div class="stats-kpi-header">
-                            <span class="material-symbols-outlined kpi-icon">favorite</span>
-                            <span class="kpi-label">Favorite songs</span>
-                        </div>
-                        <p class="kpi-number" id="statsFavoriteSongs">0</p>
-                        <div class="kpi-bar">
-                            <div class="kpi-bar-fill kpi-bar-pink" style="width:20%"></div>
-                        </div>
-                        <p class="kpi-caption">Marked with the heart icon</p>
-                    </article>
-
-                    <article class="stats-kpi-card">
-                        <div class="stats-kpi-header">
-                            <span class="material-symbols-outlined kpi-icon">timelapse</span>
-                            <span class="kpi-label">Total duration</span>
-                        </div>
-                        <p class="kpi-number" id="statsTotalDuration">0 min</p>
-                        <div class="kpi-bar">
-                            <div class="kpi-bar-fill kpi-bar-purple" style="width:30%"></div>
-                        </div>
-                        <p class="kpi-caption">Combined playback time</p>
-                    </article>
+          <div class="stats-shell">
+            <header class="stats-shell-header">
+              <div class="stats-shell-title">
+                <span class="material-symbols-outlined stats-shell-icon">bar_chart_4_bars</span>
+                <div>
+                  <h2>Library stats</h2>
+                  <p>Overview of your songs, favorites, genres and artists.</p>
                 </div>
+              </div>
 
-                <div class="stats-divider"></div>
+              <div class="stats-shell-filters">
+                <button class="stats-chip stats-chip-active" type="button">All time</button>
+              </div>
+            </header>
 
-                <div class="stats-detail-row">
-                    <article class="stats-detail-card">
-                        <div class="detail-header">
-                            <span class="material-symbols-outlined detail-icon">music_note</span>
-                            <div>
-                              <h3>Most common genre</h3>
-                              <p>Your most frequent music style.</p>
-                            </div>
-                        </div>
-
-                        <p class="detail-main-value" id="statsTopGenre">—</p>
-
-                        <div class="genre-meter">
-                            <div class="genre-meter-track">
-                                <div class="genre-meter-fill"></div>
-                            </div>
-                            <span class="genre-meter-label">About 60% of your library</span>
-                        </div>
-
-                        <span class="detail-footer">By genre</span>
-                    </article>
-
-                    <article class="stats-detail-card">
-                        <div class="detail-header">
-                            <span class="material-symbols-outlined detail-icon">schedule</span>
-                            <div>
-                              <h3>Average song length</h3>
-                              <p>Typical track duration across your songs.</p>
-                            </div>
-                        </div>
-
-                        <div class="avg-ring">
-                            <div class="avg-ring-inner">
-                                <span class="avg-ring-value" id="statsAvgDuration">0:00</span>
-                            </div>
-                        </div>
-
-                        <span class="detail-footer">Across your library</span>
-                    </article>
-
-                    <article class="stats-detail-card">
-                        <div class="detail-header">
-                            <span class="material-symbols-outlined detail-icon">group</span>
-                            <div>
-                              <h3>Total artists</h3>
-                              <p>How many unique artists you listen to.</p>
-                            </div>
-                        </div>
-
-                        <p class="detail-main-value" id="statsTotalArtists">0</p>
-
-                        <span class="detail-footer">Unique artists in your songs</span>
-                    </article>
+            <div class="stats-kpi-row">
+              <article class="stats-kpi-card">
+                <div class="stats-kpi-header">
+                  <span class="material-symbols-outlined kpi-icon">library_music</span>
+                  <span class="kpi-label">Total songs</span>
                 </div>
+                <p class="kpi-number" id="statsTotalSongs">0</p>
+                <div class="kpi-bar">
+                  <div class="kpi-bar-fill" style="width:45%"></div>
+                </div>
+                <p class="kpi-caption">Songs in your library</p>
+              </article>
+
+              <article class="stats-kpi-card">
+                <div class="stats-kpi-header">
+                  <span class="material-symbols-outlined kpi-icon">favorite</span>
+                  <span class="kpi-label">Favorite songs</span>
+                </div>
+                <p class="kpi-number" id="statsFavoriteSongs">0</p>
+                <div class="kpi-bar">
+                  <div class="kpi-bar-fill kpi-bar-pink" style="width:20%"></div>
+                </div>
+                <p class="kpi-caption">Marked with the heart icon</p>
+              </article>
+
+              <article class="stats-kpi-card">
+                <div class="stats-kpi-header">
+                  <span class="material-symbols-outlined kpi-icon">timelapse</span>
+                  <span class="kpi-label">Total duration</span>
+                </div>
+                <p class="kpi-number" id="statsTotalDuration">0 min</p>
+                <div class="kpi-bar">
+                  <div class="kpi-bar-fill kpi-bar-purple" style="width:30%"></div>
+                </div>
+                <p class="kpi-caption">Combined playback time</p>
+              </article>
             </div>
+
+            <div class="stats-divider"></div>
+
+            <div class="stats-detail-row">
+              <article class="stats-detail-card">
+                <div class="detail-header">
+                  <span class="material-symbols-outlined detail-icon">music_note</span>
+                  <div>
+                    <h3>Most common genre</h3>
+                    <p>Your most frequent music style.</p>
+                  </div>
+                </div>
+
+                <p class="detail-main-value" id="statsTopGenre">—</p>
+
+                <div class="genre-meter">
+                  <div class="genre-meter-track">
+                    <div class="genre-meter-fill"></div>
+                  </div>
+                  <span class="genre-meter-label">About 60% of your library</span>
+                </div>
+
+                <span class="detail-footer">By genre</span>
+              </article>
+
+              <article class="stats-detail-card">
+                <div class="detail-header">
+                  <span class="material-symbols-outlined detail-icon">schedule</span>
+                  <div>
+                    <h3>Average song length</h3>
+                    <p>Typical track duration across your songs.</p>
+                  </div>
+                </div>
+
+                <div class="avg-ring">
+                  <div class="avg-ring-inner">
+                    <span class="avg-ring-value" id="statsAvgDuration">0:00</span>
+                  </div>
+                </div>
+
+                <span class="detail-footer">Across your library</span>
+              </article>
+
+              <article class="stats-detail-card">
+                <div class="detail-header">
+                  <span class="material-symbols-outlined detail-icon">group</span>
+                  <div>
+                    <h3>Total artists</h3>
+                    <p>How many unique artists you listen to.</p>
+                  </div>
+                </div>
+
+                <p class="detail-main-value" id="statsTotalArtists">0</p>
+
+                <span class="detail-footer">Unique artists in your songs</span>
+              </article>
+            </div>
+          </div>
         </section>
 
         <section class="settings-view hidden" id="settingsView">
@@ -392,7 +393,7 @@
                   <div class="theme-chips">
                     <button type="button" class="theme-chip active">Dark</button>
                     <button type="button" class="theme-chip">Light</button>
-                    
+
                   </div>
 
                   <label class="settings-toggle theme-toggle">
@@ -418,9 +419,9 @@
             </nav>
 
             <div class="songs-list" id="songsListContainer"></div>
-
           </section>
         </div>
+
 
       </div>
     </main>
@@ -458,7 +459,7 @@
                 <label for="yearInput">Year</label>
                 <input type="number" id="yearInput" name="year" min="1900" max="2100">
               </div>
-             
+
             </div>
 
             <div class="form-row mp3-row">
@@ -468,7 +469,8 @@
               </div>
 
               <div class="mp3-helper-box">
-                <p class="mp3-helper-text">To find MP3 links click <a href="https://www.soundhelix.com/audio-examples" target="_blank" class="mp3-link">here</a>.</p>
+                <p class="mp3-helper-text">To find MP3 links click <a href="https://www.soundhelix.com/audio-examples"
+                    target="_blank" class="mp3-link">here</a>.</p>
               </div>
             </div>
 
@@ -534,35 +536,38 @@
       </div>
 
       <div class="player-controls">
-        <button class="control-btn" aria-label="Previous">
+        <button class="control-btn" id="prevBtn" type="button" aria-label="Previous">
           <span class="material-symbols-outlined">skip_previous</span>
         </button>
-        <button class="control-btn play-btn" aria-label="Play">
-          <span class="material-symbols-outlined">play_arrow</span>
+        <button class="control-btn play-btn" id="playPauseBtn" type="button" aria-label="Play">
+          <span class="material-symbols-outlined" id="playPauseIcon">play_arrow</span>
         </button>
-        <button class="control-btn" aria-label="Next">
+        <button class="control-btn" id="nextBtn" type="button" aria-label="Next">
           <span class="material-symbols-outlined">skip_next</span>
         </button>
       </div>
 
       <div class="progress-section">
-        <span class="time-current">0:00</span>
+        <span class="time-current" id="timeCurrent">0:00</span>
         <div class="progress-bar" id="progressBar">
-          <div class="progress-fill"></div>
+          <div class="progress-fill" id="progressFill"></div>
           <div class="progress-tooltip" id="progressTooltip"></div>
         </div>
         <span class="time-total" id="timeTotal">3:45</span>
       </div>
 
       <div class="volume-section">
-        <button class="volume-btn" aria-label="Volume">
-          <span class="material-symbols-outlined">volume_up</span>
+        <button class="volume-btn" id="volumeBtn" type="button" aria-label="Volume">
+          <span class="material-symbols-outlined" id="volumeIcon">volume_up</span>
         </button>
-        <div class="volume-bar">
-          <div class="volume-fill"></div>
+
+        <div class="volume-bar" id="volumeBar">
+          <div class="volume-fill" id="volumeFill"></div>
         </div>
       </div>
+
     </footer>
+
 
   </div>
 

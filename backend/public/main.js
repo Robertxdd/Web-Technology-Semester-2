@@ -487,3 +487,106 @@ async function loadStats() {
 
 // Ejecutar al cargar la página
 document.addEventListener("DOMContentLoaded", loadStats);
+const audio = document.getElementById("audioPlayer");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const playPauseIcon = document.getElementById("playPauseIcon");
+
+audio.volume = 1; // volumen inicial
+
+// OJO: asegúrate de haber puesto algún src al audio en algún momento:
+// audio.src = "ruta/al/mp3";  // lo que ya tengas en tu lógica
+
+playPauseBtn.addEventListener("click", () => {
+  if (!audio.src) return; // por si aún no hay canción cargada
+
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+});
+
+audio.addEventListener("play", () => {
+  playPauseIcon.textContent = "pause";
+  playPauseBtn.setAttribute("aria-label", "Pause");
+});
+
+audio.addEventListener("pause", () => {
+  playPauseIcon.textContent = "play_arrow";
+  playPauseBtn.setAttribute("aria-label", "Play");
+});
+const volumeBar = document.getElementById("volumeBar");
+const volumeFill = document.getElementById("volumeFill");
+const volumeBtn = document.getElementById("volumeBtn");
+const volumeIcon = document.getElementById("volumeIcon");
+
+let lastVolume = 1;
+
+function setVolumeFromRatio(ratio) {
+  const clamped = Math.min(Math.max(ratio, 0), 1);
+  audio.volume = clamped;
+  volumeFill.style.width = (clamped * 100) + "%";
+  if (clamped === 0) {
+    volumeIcon.textContent = "volume_off";
+  } else if (clamped < 0.5) {
+    volumeIcon.textContent = "volume_down";
+  } else {
+    volumeIcon.textContent = "volume_up";
+  }
+}
+
+volumeBar.addEventListener("click", (e) => {
+  const rect = volumeBar.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const ratio = x / rect.width;
+  setVolumeFromRatio(ratio);
+});
+
+// Mute / unmute al pulsar el icono
+volumeBtn.addEventListener("click", () => {
+  if (audio.volume > 0) {
+    lastVolume = audio.volume;
+    setVolumeFromRatio(0);
+  } else {
+    setVolumeFromRatio(lastVolume || 1);
+  }
+});
+
+// estado inicial visual
+setVolumeFromRatio(1);
+const audio = document.getElementById("audioPlayer");
+const volumeBar = document.getElementById("volumeBar");
+const volumeFill = document.getElementById("volumeFill");
+const volumeBtn = document.getElementById("volumeBtn");
+const volumeIcon = document.getElementById("volumeIcon");
+
+let lastVolume = 1;
+
+function setVolume(ratio) {
+  ratio = Math.max(0, Math.min(ratio, 1));
+  audio.volume = ratio;
+  volumeFill.style.width = (ratio * 100) + "%";
+
+  if (ratio === 0) {
+    volumeIcon.textContent = "volume_off";
+  } else if (ratio < 0.5) {
+    volumeIcon.textContent = "volume_down";
+  } else {
+    volumeIcon.textContent = "volume_up";
+  }
+}
+
+volumeBar.addEventListener("click", (e) => {
+  const rect = volumeBar.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  setVolume(x / rect.width);
+});
+
+volumeBtn.addEventListener("click", () => {
+  if (audio.volume > 0) {
+    lastVolume = audio.volume;
+    setVolume(0);
+  } else {
+    setVolume(lastVolume || 1);
+  }
+});
