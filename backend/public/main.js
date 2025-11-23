@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const playerSongTitle = document.getElementById('playerSongTitle');
   const playerSongArtist = document.getElementById('playerSongArtist');
 
+  const statsTab = document.getElementById("statsTab");
+  const settingsTab = document.getElementById("settingsTab");
+
+  const statsView = document.getElementById("statsView");
+  const settingsView = document.getElementById("settingsView");
+
   const goToLibraryBtn = document.getElementById('goToLibraryBtn'); // favorites empty CTA
 
   // State
@@ -63,10 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function hideAllViews() {
-    if (cardsSection) cardsSection.classList.add('hidden');
-    if (mainSongsPanel) mainSongsPanel.classList.add('hidden');
-    if (favoritesView) favoritesView.classList.add('hidden');
-    if (playlistsView) playlistsView.classList.add('hidden');
+   cardsSection?.classList.add('hidden');
+  mainSongsPanel?.classList.add('hidden');
+  favoritesView?.classList.add('hidden');
+  playlistsView?.classList.add('hidden');
+  statsView?.classList.add('hidden');
+  settingsView?.classList.add('hidden');
   }
 
   // -------------------------
@@ -189,6 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+
+
+
+
     list.forEach((s) => {
       const durationSeconds = parseDurationToSeconds(s.duration);
       const row = document.createElement('div');
@@ -244,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error(err);
         }
       });
+
 
       songListContainer.appendChild(row);
     });
@@ -404,6 +417,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       console.error('updateStats error', e);
     }
+
+
+
   }
 
   // -------------------------
@@ -530,6 +546,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  if (statsTab) statsTab.addEventListener("click", (e) => { e.preventDefault(); showStatsView(); });
+  if (settingsTab) settingsTab.addEventListener("click", (e) => { e.preventDefault(); showSettingsView(); });
+
 
   // -------------------------
   // Favorites empty CTA
@@ -554,6 +573,19 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+  function showStatsView() {
+    hideAllViews();
+    statsView.classList.remove("hidden");
+    clearActiveTabs();
+    statsTab.classList.add("active");
+  }
+
+  function showSettingsView() {
+    hideAllViews();
+    settingsView.classList.remove("hidden");
+    clearActiveTabs();
+    settingsTab.classList.add("active");
   }
 
   // -------------------------
