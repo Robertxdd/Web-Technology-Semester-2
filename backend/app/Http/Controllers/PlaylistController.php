@@ -11,10 +11,10 @@ class PlaylistController extends Controller
     {
         return Playlist::with('songs')->get()->map(function($p) {
             return [
-                "id" => $p->id,
-                "name" => $p->name,
+                "id"          => $p->id,
+                "name"        => $p->name,
                 "description" => $p->description,
-                "songs" => $p->songs->pluck('id'),
+                "songs"       => $p->songs,  // full song objects
             ];
         });
     }
@@ -22,15 +22,15 @@ class PlaylistController extends Controller
     public function store(Request $request)
     {
         $playlist = Playlist::create([
-            'name' => $request->name,
-            'description' => $request->description ?? null,
+            'name'        => $request->name,
+            'description' => $request->description ?? null
         ]);
 
         return response()->json([
-            "id" => $playlist->id,
-            "name" => $playlist->name,
+            "id"          => $playlist->id,
+            "name"        => $playlist->name,
             "description" => $playlist->description,
-            "songs" => [],
+            "songs"       => [], // correct
         ], 201);
     }
 
@@ -39,10 +39,10 @@ class PlaylistController extends Controller
         $p = Playlist::with('songs')->findOrFail($id);
 
         return [
-            "id" => $p->id,
-            "name" => $p->name,
+            "id"          => $p->id,
+            "name"        => $p->name,
             "description" => $p->description,
-            "songs" => $p->songs->pluck('id'),
+            "songs"       => $p->songs, // full objects
         ];
     }
 
@@ -57,14 +57,15 @@ class PlaylistController extends Controller
     {
         $playlist = Playlist::findOrFail($playlistId);
         $playlist->songs()->attach($request->song_id);
+        $playlist->load('songs');
 
         return [
-            "message" => "Song added",
+            "message"  => "Song added",
             "playlist" => [
-                "id" => $playlist->id,
-                "name" => $playlist->name,
+                "id"          => $playlist->id,
+                "name"        => $playlist->name,
                 "description" => $playlist->description,
-                "songs" => $playlist->songs->pluck('id'),
+                "songs"       => $playlist->songs, // full objects
             ],
         ];
     }
@@ -73,14 +74,15 @@ class PlaylistController extends Controller
     {
         $playlist = Playlist::findOrFail($playlistId);
         $playlist->songs()->detach($request->song_id);
+        $playlist->load('songs');
 
         return [
-            "message" => "Song removed",
+            "message"  => "Song removed",
             "playlist" => [
-                "id" => $playlist->id,
-                "name" => $playlist->name,
+                "id"          => $playlist->id,
+                "name"        => $playlist->name,
                 "description" => $playlist->description,
-                "songs" => $playlist->songs->pluck('id'),
+                "songs"       => $playlist->songs, // full objects
             ],
         ];
     }
