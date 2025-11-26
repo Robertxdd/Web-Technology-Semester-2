@@ -613,13 +613,19 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
   if (logoutButton) {
     logoutButton.addEventListener('click', async (e) => {
       e.preventDefault();
+      console.log('Logout button clicked');
       try {
         const res = await fetch('/logout', {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' }
         });
-        if (res.ok) {
+        console.log('Logout response:', res.status, res.ok);
+        if (res.ok || res.status === 302 || res.status === 200) {
+          console.log('Logout successful, redirecting to /login');
+          window.location.href = '/login';
+        } else {
+          console.warn('Unexpected logout response:', res.status);
           window.location.href = '/login';
         }
       } catch (err) {
@@ -627,6 +633,8 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
         window.location.href = '/login';
       }
     });
+  } else {
+    console.warn('logoutButton not found');
   }
 
   function escapeHtml(str) {
