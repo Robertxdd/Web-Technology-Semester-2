@@ -191,7 +191,8 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    return res.json();
+    const json = await res.json();
+    return { ok: res.ok, status: res.status, data: json };
   }
 
   async function apiDeleteSong(id) {
@@ -527,23 +528,52 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
     songForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const f = new FormData(songForm);
+
+      const duration = Number(f.get('duration'));
+      if (!duration || isNaN(duration) || duration < 1) {
+        alert('Duration must be a positive number of seconds');
+        return;
+      }
       const data = {
         title: (f.get('title') || '').trim(),
         artist: (f.get('artist') || '').trim(),
         genre: (f.get('genre') || '').trim() || null,
         year: f.get('year') ? Number(f.get('year')) : null,
-        duration: f.get('duration') ? Number(f.get('duration')) : null,
+        duration: duration,
         url: (f.get('url') || '').trim(),
       };
 
-      if (!data.title || !data.artist || !data.url) {
-        alert('Title, artist and url required');
+      if (!data.title || !data.artist || !data.url || !data.duration) {
+        alert('Title, artist, duration and url required');
         return;
       }
 
-      await apiCreateSong(data);
-      songForm.reset();
-      await loadSongs();
+      try {
+        const res = await apiCreateSong(data);
+        if (!res.ok) {
+          if (res.data && res.data.errors) {
+            const errors = Object.entries(res.data.errors)
+              .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
+              .join('\n');
+            alert('Validation Error:\n' + errors);
+          } else if (res.data && res.data.message) {
+            alert('Error: ' + res.data.message);
+          } else {
+            alert('Error: Could not add song (Status ' + res.status + ')');
+          }
+          return;
+        }
+        if (res.data && res.data.id) {
+          songForm.reset();
+          location.hash = '';
+          await loadSongs();
+        } else {
+          alert('Could not add song. Please check your data.');
+        }
+      } catch (err) {
+        alert('Error adding song: ' + err.message);
+        console.error(err);
+      }
     });
   }
 
@@ -580,9 +610,21 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
   }
 
   if (logoutButton) {
-    logoutButton.addEventListener('click', (e) => {
+    logoutButton.addEventListener('click', async (e) => {
       e.preventDefault();
-      window.location.href = '/logout';
+      try {
+        const res = await fetch('/logout', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (res.ok) {
+          window.location.href = '/login';
+        }
+      } catch (err) {
+        console.error('Logout error:', err);
+        window.location.href = '/login';
+      }
     });
   }
 

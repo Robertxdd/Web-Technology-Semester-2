@@ -8,8 +8,8 @@ use Illuminate\Validation\Rules\Password;
 class AuthController extends Controller
 {
     public function register(Request $req)
-{
-    $validated = $req->validate([
+    {
+        $validated = $req->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
         'password' => [
@@ -38,7 +38,7 @@ class AuthController extends Controller
     ]);
     
     return redirect()->route('login')->with('success', 'Account created! Please log in.');
-}
+    }
 
     public function login(Request $req)
     {
@@ -61,3 +61,4 @@ class AuthController extends Controller
         $req->session()->regenerateToken();
         return redirect()->route('login');
     }
+}
