@@ -360,10 +360,11 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
       `;
 
       div.querySelector('.fav-remove').addEventListener('click', async (e) => {
+        e.stopPropagation();
         await apiToggleFavorite(e.currentTarget.dataset.id);
+        await loadSongs();
         const favs = songs.filter(x => x.favorite);
         renderFavorites(favs);
-        await loadSongs();
       });
 
       favoritesSongsList.appendChild(div);
