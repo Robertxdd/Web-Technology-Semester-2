@@ -204,7 +204,7 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
 
   async function apiToggleFavorite(id) {
     const res = await fetch(`${API_BASE}/songs/${id}/favorite`, {
-      method: 'PUT',
+      method: 'PATCH',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' }
     });
@@ -355,7 +355,7 @@ document.getElementById("deletePlaylistBtn").addEventListener("click", async () 
         </div>
         <div class="fav-right">
           <span>${formatDuration(parseDurationToSeconds(s.duration))}</span>
-          <button class="fav-remove material-symbols-outlined" data-id="${s.id}">favorite</button>
+          <button class="fav-remove material-symbols-outlined" data-id="${s.id}" aria-label="Remove from favorites">close</button>
         </div>
       `;
 
